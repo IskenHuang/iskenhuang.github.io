@@ -84,6 +84,8 @@
                 margin-top: 1rem;
                 margin-right: 1rem;
                 float: right;
+                height: 1.5rem;
+                line-height: 1.5rem;
             }
             .firstScreen {
                 width: 100%;
@@ -170,6 +172,7 @@
                 <div class="change-lang">
                     <a href="javascript:window.L10N.updateLang('EN-US')" data-i18n="lang-en-us"></a>
                     <a href="javascript:window.L10N.updateLang('ZH-TW')" data-i18n="lang-zh-tw"></a>
+                    <a href="javascript:window.L10N.updateLang('ZH-CN')" data-i18n="lang-zh-cn"></a>
                 </div>
                 <div class="nameGrid row">
                     <img class="avatar floatLeft" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABkAGQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAEI/8QAHxABAAMAAgIDAQAAAAAAAAAAABGBkQFBUXEhMWHw/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/ANRYYqWBRhwcAYYSSBhioBBigJhip9gYKAlKmmgacGmgqUaaBpqQugcmmmgommgUFAEEGmgqQqaBBBpoEEGmgdEGmgQQaaBAaAWf30qdgWWqcAWWoCWWoCWWqeQLLUBLFASSyzALLMLBUs+fJgFllnz5Assn0WBZZPon0BYWAqdqAJwoAJCgAAnJ5UAEhQQUBFADvgAE6UAEAD9OQA8HQAoAP//Z" width="5rem" height="auto" data-i18n="__alt__name" />
@@ -308,6 +311,7 @@
                     pm: 'Project Management',
                     'lang-en-us': 'English',
                     'lang-zh-tw': '正體中文',
+                    'lang-zh-cn': '简体中文',
                     'job-alibaba-company': 'Alibaba Group - Tmall',
                     'job-alibaba-date': 'Web Developer/iOS Developer/Android Developer 2014~',
                     'job-alibaba-description': '+ Tmall portal front-end Developer<br />+ Global Shopping Festival portal PM and Developer<br />+ Tmall iPad/Android Pad portal PM and Developer<br />+ Leading Tmall native dynamic solution React Naive and Weex<br />+ Tmall CMS support Web/Naitve on the same code base',
@@ -354,6 +358,7 @@
                     pm: '專案管理',
                     'lang-en-us': 'English',
                     'lang-zh-tw': '正體中文',
+                    'lang-zh-cn': '简体中文',
                     'job-alibaba-company': '阿里巴巴集團 - 天貓',
                     'job-alibaba-date': '前端/iOS/Android 工程師 - 2014~',
                     'job-alibaba-description': '+ 天貓首頁前端工程師<br />+ 天貓雙11首頁前端 PM/開發人員<br />+ 天貓 iPad/Android Pad 首頁 PM/開發人員<br />+ 天貓前端動態化 Native 主要負責人，主要包含 React Naive 和 Weex<br />+ 天貓頁面 CMS 搭建系統，建立 Web/Native 架構，讓多端頁面可以同時產出',
@@ -364,11 +369,11 @@
                     'job-coevo-date': '經理 - 2010~2012',
                     'job-coevo-description': '+ 訂製化品牌官方首頁、活動頁 <br />+ iPhone, iPad, Android, Windows Phone app 設計、開發<br />+ 擴增實境應用於 PC/MAC, iOS, Android.<br />+ 移動設備廣告平台<br />+ 社群網站(Facebook, Twitter)功能整合入應用中<br />+ 企業 CRM, EIP, EDM, EC 整合訂製<br />+ E-Marketing 全套整合方案',
                     'projects-tm-dp-dashboard': '趨勢科技 DirectPass dashboard',
-                    'projects-tm-dp-dashboard-desc': '提供晚整的監控報表，包含搜索、分類等功能，並提供出 REST API 給內部其他應用接入，將此想法計畫並實作出，使用 Nodejs + mongodb',
+                    'projects-tm-dp-dashboard-desc': '提供完整的監控報表，包含搜索、分類等功能，並提供出 REST API 給內部其他應用接入，將此想法計畫並實作出，使用 Nodejs + mongodb',
                     'projects-tm-slidenote': 'Slidenote',
                     'projects-tm-slidenote-desc': '個人興趣做的服務，因為我們都很喜歡 markdown 這撰寫方式，並且喜歡用 markdown 來寫文件，但常常會有寫完文件後必須要開分享給團隊或對外分享，但分享的時候使用文件是很不方變得，還是必須使用簡報的方式可以更便利，這就是為什麼我們做了這服務，提供你線上直接將 markdown 文件轉換為簡報，只要有瀏覽器就可以幫助你完成這件事，不再需要安裝任何東西。<br />+ Nodejs (sailsjs) 後端及提供 REST API<br>+ 以產品經理方式來企劃、管理需求走向<br>+ 使用 Mongodb 作為資料庫<br>+ 使用 Nginx 作為 proxy 管理分流到後端的 nodejs 應用<br>+ 將整個網站放在 digitalocean，使用 ubuntu server<br>+ 使用 reveal.js 作為簡報展示主要架構<br>+ 用 Phantomjs + mocha 完成所有測試並且將 markdown 轉換為簡報後產出截圖',
                     'projects-tm-dp20': 'DirectPass 2.0',
-                    'projects-tm-dp20-desc': '+ 瀏覽器兼容: IE8+, Chrome, Safari, Firefox, Opera, iOS Safari, Android<br/>+ Responsive design<br/>+ 單頁式應用，使用 requirejs 作為 loader<br/>+ 自動化產出所有說明文件，並且有目前 source code 健康狀態報表<br/>+ 使用 git 並且在 pre-commit 做 jslint 檢查團隊代碼一致性<br/>+ 每次提交 commit 在服務端檢查、測試當前狀況，確保服務穩定性<br/>+ 用 bower 管理第三方 js<br/>+ 建立自動化服務端 API 測試，保障前端使用 API 穩定性<br/>+ 使用 yeoman 建立前端統一腳手架，並分享給全事業群中<br/>+ Livereload 接入，讓開發效率提昇<br/>+ 自動化 build 流程，並在 build 同時對 javascript, images, css, html 進行最佳化壓縮<br/>+ 使用 Less 管理 CSS<br/>+ 用 jasmine 作為自動化測試框架<br/>+ 建立多語系化架構，讓前後端耦合、分離狀態下都可以簡單的完成 i18n 設計<br/>+ 與 UI、視覺設計是合作，並起同研究該如何讓使用者經驗更好<br/>+ 與後端合作讓效能最佳化<br/>+ 負責所有前端相關計畫、架構設計',
+                    'projects-tm-dp20-desc': '+ 瀏覽器兼容: IE8+, Chrome, Safari, Firefox, Opera, iOS Safari, Android<br/>+ Responsive design<br/>+ 單頁式應用，使用 requirejs 作為 loader<br/>+ 自動化產出所有說明文件，並且有目前 source code 健康狀態報表<br/>+ 使用 git 並且在 pre-commit 做 jslint 檢查團隊撰寫風格一致性<br/>+ 每次提交 commit 在服務端檢查、測試當前狀況，確保服務穩定性<br/>+ 用 bower 管理第三方 js<br/>+ 建立自動化服務端 API 測試，保障前端使用 API 穩定性<br/>+ 使用 yeoman 建立前端統一腳手架，並分享給全事業群中<br/>+ Livereload 接入，讓開發效率提昇<br/>+ 自動化 build 流程，並在 build 同時對 javascript, images, css, html 進行最佳化壓縮<br/>+ 使用 Less 管理 CSS<br/>+ 用 jasmine 作為自動化測試框架<br/>+ 建立多語系化架構，讓前後端耦合、分離狀態下都可以簡單的完成 i18n 設計<br/>+ 與 UI、視覺設計合作，並一同研究該如何讓使用者經驗更好<br/>+ 與後端合作讓效能最佳化<br/>+ 負責所有前端相關計畫、架構設計',
                     'projects-tm-liveall': 'LiveAll',
                     'projects-tm-liveall-desc': '+ Shared Album(iOS App)開發者、產品規劃<br />+ 參與、主導後端 PHP & Mail Parser & Google Apps Script feedback system',
                     'projects-tmall-portal': '天貓首頁',
@@ -377,9 +382,62 @@
                     'projects-tmall-1111-desc': '+ 2014 天貓雙11 Web 首頁 PM、主要開發者<br />+ 2015 天貓雙11高效能方案，讓頁面上滿足所有需求狀況下達到 1 秒內渲染完成、 60fps 動畫',
                     'projects-tmall-fashion': '天貓新風尚',
                     'projects-tmall-fashion-desc': '+ 天貓時裝秀現場邊看邊買，讓看秀同時可以知道模特兒身上所穿的所有商品並購買<br />+ 邊看邊買線上版，讓線上看影片同時可以購買影片當前出現的商品',
+                },
+                'ZH-CN': {
+                    name: 'Tai Cheng Huang',
+                    title: '交互设计师 / UI 工程师',
+                    about: '简介',
+                    aboutDescription: '跨端人机介面工程师/交互设计师，专精于介面设计、资讯架构、用户体验。近期大多在做跨端统一介面架构，希望能够让跨端都能有最简单的方式达到最好的用户体验，并将此方案推广给所有人，让未来不管用什么服务都能够有好的体验。',
+                    education: '教育背景',
+                    lastEducationTitle: '台湾 国立云林科技大学',
+                    lastEducationSubtitle: '数位媒体设计系 本科',
+                    lastEducationDate: '2005-2009',
+                    career: '工作经历',
+                    more: '更多...',
+                    skill: '专业技能',
+                    contact: '联络方式',
+                    projects: '执行项目',
+                    frontend: '前端',
+                    backend: '后端',
+                    ios: 'iOS',
+                    android: 'Android',
+                    ui: '交互设计',
+                    pm: '项目管理',
+                    'lang-en-us': 'English',
+                    'lang-zh-tw': '正體中文',
+                    'lang-zh-cn': '简体中文',
+                    'job-alibaba-company': '阿里巴巴集团 - 天猫',
+                    'job-alibaba-date': '前端/iOS/Android 工程师 - 2014~',
+                    'job-alibaba-description': '+ 天猫首页前端工程师<br />+ 天猫双11首页前端 P</开发人员<br />+ 天猫 iPad/Android Pad 首页 PM/开发人员<br />+ 天猫前端动态化 Native 主要负责人，包含 React Naive 和 Weex<br />+ 天猫页面 CMS 搭建系统，建立 Web/Native 架构，让多端可以同时产出',
+                    'job-trendmicro-company': '趋势科技',
+                    'job-trendmicro-date': 'iOS 工程师、前端工程师 - 2012~2014',
+                    'job-trendmicro-description': '+ LiveAll 后端维护、开发 - http://www.liveall.com<br />+ Sharedablum iOS App - https://www.youtube.com/watch?v=AKIm9Dc_De4<br />+ DirectPass Web 版前端 - https://www.DirectPass.com<br />',
+                    'job-coevo-company': '共赢科技',
+                    'job-coevo-date': '经理 - 2010~2012',
+                    'job-coevo-description': '+ 客制化品牌官方首页、活动页 <br />+ iPhone, iPad, Android, Windows Phone app 设计、开发<br />+ 增强实境应用于 PC/MAC, iOS, Android.<br />+ 移动广告平台<br />+ 社群网站(Facebook, Twitter)功能集成入应用中<br />+ 企业 CRM, EIP, EDM, EC 整合订制<br />+ E-Marketing 全套整合方案',
+                    'projects-tm-dp-dashboard': '趋势科技 DirectPass dashboard',
+                    'projects-tm-dp-dashboard-desc': '提供完整的监控报表，包含搜索、分类等功能，并同时产出 REST API 给内部其他应用接入，将此想法企划并完成，使用 Nodejs + mongodb',
+                    'projects-tm-slidenote': 'Slidenote',
+                    'projects-tm-slidenote-desc': '业馀做的应用，因为平常都洗换用 markdown 撰写文档，但常常会有写完文档后必须要开分享给团队或对外分享，但分享的时候使用使用 markdown 是非常不方便的，还是必须重写一份简报，这就是为什么做了这服务，提供给线上直接将 markdown 文档转换为简报，只要有浏览器就可以帮助你完成这件事，不再需要安装任何软件。<br />+ Nodejs (sailsjs) 后端及提供 REST API<br>+ 以产品经理方式来企划、管理需求走向<br>+ 使用 Mongodb 作数据库<br>+ 使用 Nginx 作 proxy 管理分流到后端的 nodejs 应用<br>+ 将应用放在 digitalocean，使用 ubuntu server<br>+ 使用 reveal.js 作为简报展示主要架构<br>+ 用 Phantomjs + mocha 完成所有的测试并且将 markdown 转换为简报后产出截屏',
+                    'projects-tm-dp20': 'DirectPass 2.0',
+                    'projects-tm-dp20-desc': '+ 浏览器兼容: IE8+, Chrome, Safari, Firefox, Opera, iOS Safari, Android<br/>+ Responsive design<br/>+ 但页式应用，使用 requirejs 作為 loader<br/>+ 自动化产出所有说明文档，并且同步产出代码健康状态报表<br/>+ 使用 git 並且在 pre-commit 做 jslint 检查团队代码一致性<br/>+ 每次提交 commit 在服务端检查、测试当前状况，确保服务稳定性<br/>+ 用 bower 管理第三方 js<br/>+ 建立自动化服务端 API 测试，保障前端使用 API 稳定性<br/>+ 使用 yeoman 建立前端统一脚手架，并分享给全公司使用<br/>+ Livereload 免安装接入，提供开发效率提升<br/>+ 自动化 build 流程，并在 build 同时对 javascript, images, css, html 进行最佳化压缩<br/>+ 使用 Less 管理 CSS<br/>+ 用 jasmine 作为自动化测试框架<br/>+ 建立多语系化架构，让前后端耦合、分离状态下都可以简单的完成 i18n 设计<br/>+ 与 UI、视觉设计合作，并一同研究该如何让用户体验更好<br/>+ 与后端合作让性能最佳化<br/>+ 负责所有前端相关计画、架构设计',
+                    'projects-tm-liveall': 'LiveAll',
+                    'projects-tm-liveall-desc': '+ Shared Album(iOS App)开发者、产品规划<br />+ 参与、主导后端 PHP & Mail Parser & Google Apps Script feedback system',
+                    'projects-tmall-portal': '天猫首页',
+                    'projects-tmall-portal-desc': '+ 跨终端首页(Web/iPad/Android Pad) 维护并参与相关营销活动<br />+ 增加首页导购率',
+                    'projects-tmall-1111': '天猫双11',
+                    'projects-tmall-1111-desc': '+ 2014 天猫双11 Web 首页 PM、主要开发者<br />+ 2015 天猫双11高效能方案，让页面上满足所有需求状况下达到 1 内渲染完成、 60fps 动画',
+                    'projects-tmall-fashion': '天猫新风尚',
+                    'projects-tmall-fashion-desc': '+ 天猫时装秀现场边看边买，让看秀同时可以知道模特儿身上所穿的商品并即时购买<br />+ 边看边买线上版，让线上看视频同时可以购买影片当前出现的商品',
                 }
             };
-            window.i18n = l10n['EN-US'];
+
+            var hash = window.location.hash.replace(/^\#/, '');
+            if(l10n[hash]) {
+                window.i18n = l10n[hash];
+            }else {
+                window.i18n = l10n['EN-US'];
+            }
 
             /* i18n */
             !function(){var t=function(){};t.prototype.lng=t.prototype.lang=function(){var t=document.querySelector("html").getAttribute("lang");return t?t.toUpperCase():"EN-US"},t.prototype.setLang=function(t){return t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.I18N.translateAll()),this},t.prototype.t=t.prototype.translate=function(t){if(!t)throw"Can not find key: "+t;var e=RegExp("^\\_\\_\\S*\\_\\_","i"),n=t.match(e),r="";r=n?t.replace(e,""):t;var o=document.querySelectorAll("[data-i18n="+t+"]"),a=window.i18n[r]||r;if(n){n=n[0].substr(2,n[0].length-4);for(var i=0;i<o.length;i++){var l=o[i];l.setAttribute(n,a)}}else for(var i=0;i<o.length;i++){var l=o[i];l.innerHTML=a}return this},t.prototype.translateAll=function(t){for(var e="string"==typeof t?document.querySelector(t)||document:document,n=e.querySelectorAll("[data-i18n]"),r=0;r<n.length;r++){var o=n[r],a=o.getAttribute("data-i18n");this.t(a)}return this},window.i18n=window.i18n||{},window.I18N=(new t).translateAll()}();
