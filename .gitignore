@@ -1,2 +1,3 @@
 *.log
 git-author.sh
+node_modules

@@ -1,0 +1,19 @@
+{
+  "name": "iskenhuang.github.io",
+  "version": "1.0.0",
+  "description": "Isken's lab",
+  "scripts": {
+    "build": ". ./build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IskenHuang/iskenhuang.github.io.git"
+  },
+  "keywords": [
+    "isken",
+    "iskenhuang"
+  ],
+  "author": "Isken Huang",
+  "license": "ISC",
+  "homepage": "https://iskenhuang.github.io"
+}
