@@ -13,7 +13,7 @@ const normalHtml = FS.readFileSync(templateName).toString()
 var result = ''
 
 labFolder.map(function(item) {
-    if(item.indexOf('.') !== 0) {
+    if(item.indexOf('.') < 0) {
         bodyTemplate += templateItem.replace(/\{\{name\}\}/g, item)
         labs.push(item)
     }
