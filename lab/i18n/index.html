@@ -41,14 +41,17 @@
 
     </head>
     <body>
-        <div class="row">
-            <select id="selection" onChange="resetLang()">
+        <div class="row cell-inner">
+            <a href="https://github.com/IskenHuang/i18n">I18N repo on github</a>
+        </div>
+        <div class="row cell-inner" style="margin-top: 1rem;">
+            <select id="selection" class="row cell-inner" onChange="resetLang()">
                 <option value="EN-US">English</option>
                 <option value="ZH-TW">正體中文</option>
                 <option value="ZH-CN">简体中文</option>
             </select>
         </div>
-        <div id="translate" class="row" style="margin-top: 1rem;">
+        <div id="translate" class="row cell-inner" style="margin-top: 1rem;">
             <p data-i18n="name"> </p>
             <p data-i18n="lang"> </p>
             <p data-i18n="job"> </p>
