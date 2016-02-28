@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="EN-US" style="font-size: 62.5%; font-family: sans-serif; font-weight: lighter;">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>i18n example</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+            /* common css */
+            html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
+            body { margin: 0; }
+            a { text-decoration: none; }
+            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
+            h1 { font-size: xx-large; margin-top: 1rem; margin-bottom: 1rem; }
+            h2 { font-size: x-large; margin-top: 0.6rem; margin-bottom: 0.6rem; }
+            h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
+            h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
+            p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            .row { width: 100%; display: block; overflow: hidden; }
+            .float-left, .cell-2-1, .cell-4-1 { float: left; }
+            .float-right { float: right; }
+            .cell-2-1, .cell-4-1 { margin-bottom: 2rem; box-sizing: border-box; }
+            .cell-2-1 { width: 50%; }
+            .cell-4-1 { width: 25%; padding-left: 1rem; }
+            .cell-center { margin: 0 auto; }
+            .cell-inner { padding-left: 1rem; padding-right: 1rem; }
+            .tab-1 { padding-left: 1.5rem; }
+            .tab-2 { padding-left: 3rem; }
+            .text-center { text-align: center; }
+            .text-right { text-align: right; }
+            .text-bold { text-align: bold; }
+            @media (max-width: 600px) {
+                .cell-2-1 { width: 100%; }
+                .cell-4-1 { width: 50%; }
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="row">
+            <select id="selection" onChange="resetLang()">
+                <option value="EN-US">English</option>
+                <option value="ZH-TW">正體中文</option>
+                <option value="ZH-CN">简体中文</option>
+            </select>
+        </div>
+        <div id="translate" class="row" style="margin-top: 1rem;">
+            <p data-i18n="name"> </p>
+            <p data-i18n="lang"> </p>
+            <p data-i18n="job"> </p>
+        </div>
+        <script type="text/javascript">
+            window.l10n = {
+                'EN-US': {
+                    name: 'Isken Huang',
+                    lang: 'English',
+                    job: 'UI Engineer'
+                },
+                'ZH-TW': {
+                    name: 'Isken Huang',
+                    lang: '正體中文',
+                    job: '介面工程師'
+                },
+                'ZH-CN': {
+                    name: 'Isken Huang',
+                    lang: '简体中文',
+                    job: '介面工程师'
+                }
+            }
+
+            var hash = window.location.hash.replace(/^\#/, '');
+            if(l10n[hash]) {
+                window.i18n = l10n[hash];
+            }else {
+                window.i18n = l10n['EN-US'];
+            }
+
+            window.resetLang = function() {
+                var selection = document.querySelector('#selection');
+                console.log('update lang to ', selection.value);
+                L10N.updateLang(selection.value);
+                I18N.translateAll();
+            }
+        </script>
+        <script type="text/javascript">
+            !function(){var t=function(){};t.prototype.lng=t.prototype.lang=function(){var t=document.querySelector("html").getAttribute("lang");return t?t.toUpperCase():"EN-US"},t.prototype.setLang=function(t){return t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.I18N.translateAll()),this},t.prototype.t=t.prototype.translate=function(t){if(!t)throw"Can not find key: "+t;var e=RegExp("^\\_\\_\\S*\\_\\_","i"),n=t.match(e),r="";r=n?t.replace(e,""):t;var o=document.querySelectorAll("[data-i18n="+t+"]"),a=window.i18n[r]||r;if(n){n=n[0].substr(2,n[0].length-4);for(var i=0;i<o.length;i++){var l=o[i];l.setAttribute(n,a)}}else for(var i=0;i<o.length;i++){var l=o[i];l.innerHTML=a}return this},t.prototype.translateAll=function(t){for(var e="string"==typeof t?document.querySelector(t)||document:document,n=e.querySelectorAll("[data-i18n]"),r=0;r<n.length;r++){var o=n[r],a=o.getAttribute("data-i18n");this.t(a)}return this},window.i18n=window.i18n||{},window.I18N=(new t).translateAll()}();
+            !function(){var t=function(){};t.prototype.updateLang=function(t){t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.i18n=window.l10n[t]||{},window.I18N&&window.I18N.translateAll())},window.l10n=window.l10n||{},window.L10N=new t}();
+        </script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-3392989-7','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
