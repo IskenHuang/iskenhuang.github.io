@@ -20,6 +20,7 @@
             h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
             h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
             p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            .borderbox { box-sizing: border-box; }
             .row { width: 100%; display: block; overflow: hidden; }
             .float-left, .cell-2-1, .cell-4-1 { float: left; }
             .float-right { float: right; }
@@ -33,6 +34,13 @@
             .text-center { text-align: center; }
             .text-right { text-align: right; }
             .text-bold { text-align: bold; }
+            .button { box-sizing: border-box; padding: 0.5rem 1rem; background: #666; color: #FFF; display: table; }
+            .button.full { display: block; }
+            .button.green { background: #32AB6B; }
+            .button.blue { background: #296DCC; }
+            .button.red { background: #BF0000; }
+            .button.yellow { background: #DEBE00; }
+            .button.orange { background: #F59A01; }
             @media (max-width: 600px) {
                 .cell-2-1 { width: 100%; }
                 .cell-4-1 { width: 50%; }
