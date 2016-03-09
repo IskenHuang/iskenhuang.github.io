@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Isken's lab",
   "scripts": {
-    "build": ". ./build.sh"
+    "build": ". ./build.sh",
+    "git": "git config user.name \"Isken Huang\" && git config user.email \"iskenhuang@gmail.com\""
   },
   "repository": {
     "type": "git",
