@@ -1,0 +1,559 @@
+<!doctype html>
+<html class="no-js" lang="EN-US" style="font-size: 62.5%; font-family: sans-serif; font-weight: lighter;">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Full screen slider</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://iskenhuang.github.io" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://iskenhuang.github.io/me.jpg" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link type="text/css" rel="stylesheet" href="./lightGallery.min.css" />
+        <link type="text/css" rel="stylesheet" href="./lg-transitions.css" />
+        Place favicon.ico in the root directory
+        <style>
+            /* common css */
+            html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
+            body { margin: 0; }
+            a { text-decoration: none; }
+            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
+            h1 { font-size: xx-large; margin-top: 1rem; margin-bottom: 1rem; }
+            h2 { font-size: x-large; margin-top: 0.6rem; margin-bottom: 0.6rem; }
+            h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
+            h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
+            p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            .borderbox { box-sizing: border-box; }
+            .row { width: 100%; display: block; overflow: hidden; }
+            .float-left, .cell-2-1, .cell-4-1 { float: left; }
+            .float-right { float: right; }
+            .cell-2-1, .cell-4-1 { margin-bottom: 2rem; box-sizing: border-box; }
+            .cell-2-1 { width: 50%; }
+            .cell-4-1 { width: 25%; padding-left: 1rem; }
+            .cell-center { margin: 0 auto; }
+            .cell-inner { padding-left: 1rem; padding-right: 1rem; }
+            .tab-1 { padding-left: 1.5rem; }
+            .tab-2 { padding-left: 3rem; }
+            .text-center { text-align: center; }
+            .text-right { text-align: right; }
+            .text-bold { text-align: bold; }
+            .button { box-sizing: border-box; padding: 0.5rem 1rem; background: #666; color: #FFF; display: table; }
+            .button.full { display: block; }
+            .button.green { background: #32AB6B; }
+            .button.blue { background: #296DCC; }
+            .button.red { background: #BF0000; }
+            .button.yellow { background: #DEBE00; }
+            .button.orange { background: #F59A01; }
+            @media (max-width: 600px) {
+                .cell-2-1 { width: 100%; }
+                .cell-4-1 { width: 50%; }
+            }
+        </style>
+        <style type="text/css">
+            h1, h2, h3, h4, p, span, #sliderData { color: #FAFAFA !important; }
+            .lg-icon, .lg-toolbar.group{
+                display: none !important;
+            }
+            .lg-sub-html {
+                background: rgba(255,255,255,0.75) !important;
+            }
+            .lg-sub-html {
+                bottom: 50px !important;
+            }
+            .wrapper {
+                padding-bottom: 3rem;
+            }
+            .section {
+                margin-top: 3rem;
+            }
+            h2 {
+                margin-top: 2rem;
+            }
+            h4 {
+                margin-top: 0.5rem;
+            }
+            .inputDefaultImg {
+                width: 100%;
+                height: 10rem;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100%;
+                background-color: transparent;
+            }
+            .inputDefaultSubject {
+                width: 100%;
+                word-break: break-word;
+                margin: 0.5rem 0;
+                overflow: hidden;
+                height: 3rem;
+            }
+            .defaultItem {
+                min-height: 4rem;
+            }
+            .edit {
+                float: left;
+                margin-right: 1rem;
+            }
+            .inputDisable {
+                background: #EEE;
+                color: #CCC;
+            }
+        </style>
+    </head>
+    <body style="background: #353535;">
+        <div class="row cell-inner borderbox wrapper">
+            <h1>Full screen slider</h1>
+            <h3>This slider will needs your facebook permission. If you just needs static slider please close facebook login window. If you want to custom this slider feel free to <a href="mailto:iskenhuang@gmail.com" style="color: red">contact me</a> :)</h3>
+            <div id="fb-root"></div>
+            <div class="fb-like" data-href="https://iskenhuang.github.io" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+            <div id="startSlider" class="button red full" style="margin: 2rem;">Start Slider</div>
+            <h2>Facebook Config</h2>
+            <div class="row cell-inner borderbox">
+                <h4>Facebook event id</h4>
+                <input id="configFbId" class="row borderbox" type="text" placeholder="Facebook event id" value="449068591884355" />
+                <h4>Fetch count(fetch last from facebook event)</h4>
+                <input id="configFbFetchCount" class="row borderbox" type="number" placeholder="10" value="10" />
+            </div>
+            <h2>Slider Config</h2>
+            <div class="row cell-inner borderbox">
+                <h4>Default slides subject</h4>
+                <input id="configSliderDefaultSubject" class="row borderbox" type="text" placeholder="default subject..." value="Uploaded your photo to facebook event will display on screen." />
+                <h4>Default slides from</h4>
+                <input id="configSliderDefaultFrom" class="row borderbox" type="text" placeholder="default from..." value="Unknow" />
+                <h4>Slider speed</h4>
+                <input id="configSliderSpeed" class="row borderbox" type="number" placeholder="4000ms" value="4000" />
+                <h4>Display thumbnail</h4>
+                <input id="configSliderDisplayThumbnail" type="checkbox" placeholder="true" checked="true" /><span>isDisplay?</span>
+                <h4>Thumbnail height</h4>
+                <input id="configSliderThumbnailHeight" class="row borderbox jThumbnailConfig" type="number" placeholder="50" value="50" />
+                <h4>Thumbnail width</h4>
+                <input id="configSliderThumbnailWidth" class="row borderbox jThumbnailConfig" type="number" placeholder="50" value="50" />
+                <h4>Slide transform mode</h4>
+                <select id="configSliderAnimationType" class="row borderbox">
+                    <option value="lg-slide">slide</option>
+                    <option value="lg-fade">fade</option>
+                    <option value="lg-zoom-in">zoom-in</option>
+                    <option value="lg-zoom-in-big">zoom-in-big</option>
+                    <option value="lg-zoom-out">zoom-out</option>
+                    <option value="lg-zoom-out-big">zoom-out-big</option>
+                    <option value="lg-zoom-out-in">zoom-out-in</option>
+                    <option value="lg-zoom-in-out">zoom-in-out</option>
+                    <option value="lg-soft-zoom">soft-zoom</option>
+                    <option value="lg-scale-up">scale-up</option>
+                    <option value="lg-slide-circular">slide-circular</option>
+                    <option value="lg-slide-circular-vertical">slide-circular-vertical</option>
+                    <option value="lg-slide-vertical">slide-vertical</option>
+                    <option value="lg-slide-vertical-growth">slide-vertical-growth</option>
+                    <option value="lg-slide-skew-only">slide-skew-only</option>
+                    <option value="lg-slide-skew-only-rev">slide-skew-only-rev</option>
+                    <option value="lg-slide-skew-only-y">slide-skew-only-y</option>
+                    <option value="lg-slide-skew-only-y-rev">slide-skew-only-y-rev</option>
+                    <option value="lg-slide-skew">slide-skew</option>
+                    <option value="lg-slide-skew-rev">slide-skew-rev</option>
+                    <option value="lg-slide-skew-cross">slide-skew-cross</option>
+                    <option value="lg-slide-skew-cross-rev">slide-skew-cross-rev</option>
+                    <option value="lg-slide-skew-ver">slide-skew-ver</option>
+                    <option value="lg-slide-skew-ver-rev">slide-skew-ver-rev</option>
+                    <option value="lg-slide-skew-ver-cross">slide-skew-ver-cross</option>
+                    <option value="lg-slide-skew-ver-cross-rev">slide-skew-ver-cross-rev</option>
+                    <option value="lg-lollipop">lollipop</option>
+                    <option value="lg-lollipop-rev">lollipop-rev</option>
+                    <option value="lg-rotate">rotate</option>
+                    <option value="lg-rotate-rev">rotate-rev</option>
+                    <option value="lg-tube">tube</option>
+                </select>
+            </div>
+
+            <h2 class="section">Append default data</h2>
+            <div class="row cell-inner borderbox">
+                <h4>Image url</h4>
+                <input id="inputImgUrl" class="row borderbox" type="text" placeholder="" value="" />
+                <!--
+                <h4>Thumbnail image url</h4>
+                <input id="inputThumbnailImgUrl" class="row borderbox" type="text" placeholder="" value="" />
+                -->
+                <h4>From</h4>
+                <input id="inputFrom" class="row borderbox" type="text" placeholder="name" value="" />
+                <h4>Subject</h4>
+                <input id="inputSubject" class="row borderbox" type="text" placeholder="subject" value="" />
+                <div id="inputSubmit" class="button blue" style="margin-top: 1rem;">Append new data</div>
+            </div>
+
+            <h2 class="section">Default data(data will save on your browser)</h2>
+            <div id="sliderData" class="row cell-inner borderbox">no data</div>
+        </div>
+        <div id="slides"></div>
+
+        <!-- GET jquery from google CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- lightgallery plugins -->
+        <!-- http://sachinchoolur.github.io/lightGallery/docs/api.html -->
+        <script src="./lightgallery-all.min.js"></script>
+
+        <!-- liteTemplate -->
+        <script type="text/javascript">
+            (function(){self.liteTemplate=function(template,obj,options){template+="";options=options||{};obj=Object.prototype.toString.call(obj)==="[object Object]"?obj:{};var open=options.open||"{{",close=options.close||"}}",reg=new RegExp(getSyntax(open)+"\\ *\\w*\\ *"+getSyntax(close),"g"),matchString=template.match(reg);function getString(v){var _type=Object.prototype.toString.call(v),result="";_type=_type.substring(8,_type.length-1).toLowerCase();switch(_type){case"string":result=v;break;case"number":result=v+"";break;case"object":case"array":result=JSON.stringify(v);break}return result}function getSyntax(s){return s.replace(/\[/g,"\\[").replace(/\]/g,"\\]").replace(/\#/g,"\\#")}if(matchString){for(var i=0;i<matchString.length;i++){var ms=matchString[i],key=ms.replace(open,"").replace(close,"").trim(),val=getString(obj[key]).replace(/\>/g,"&gt;").replace(/\</g,"&lt;"),_regex=new RegExp(getSyntax(ms),"g");template=template.replace(_regex,val)}}return template}})();
+        </script>
+        <script id="inputDefaultTemplate" type="text/template">
+            <div class="defaultItem cell-4-1" subject="{{subject}}" from="{{from}}" imgUrl="{{imgUrl}}" thumbnail="{{thumbnail}}">
+                <div class="inputDefaultImg" style="background-image: url({{imgUrl}})"></div>
+                <p class="inputDefaultSubject">{{subject}} by {{from}}</p>
+                <!-- <div class="button blue edit jEdit">edit</div> -->
+                <div class="button red jDelete">delete</div>
+            </div>
+        </script>
+        <!-- facebook -->
+        <script type="text/javascript">
+            window.fbAsyncInit = function() {
+                console.log('fbAsyncInit begin');
+                FB.init({ appId: '503781899800760', xfbml: true, version: 'v2.5' });
+
+                // FB login
+                FB.getLoginStatus(function(response) {
+                    console.log('fb getLoginStatus = ', response);
+                    if (response.status === 'connected') {
+                        var uid = response.authResponse.userID;
+                        var accessToken = response.authResponse.accessToken;
+
+                        window.fetchData();
+                    } else {
+                        window.resetData();
+                        throw response.status;
+                    }
+                });
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <!-- utils -->
+        <script type="text/javascript">
+            (function() {
+                self._ = {};
+                _.typeof = function(obj) {
+                    var type = Object.prototype.toString.call(obj);
+                    return type.slice(8, type.length-1).toLowerCase();
+                }
+                _.extend = function(a, b) {
+                    if(_.typeof(a) !== 'object' || _.typeof(b) !== 'object') return a;
+                    if(Object.assign) return Object.assign(a, b);
+                    for(var i in b) { a[i] = b[i]; }
+                    return a;
+                }
+                _.clone = function(obj) {
+                    if (typeof(obj) !== 'object') return obj;
+                    return _.typeof(obj) === 'array' ? obj.slice() : _.extend({}, obj);
+                }
+                _.random = function(min, max) {
+                    if (max == null) { max = min; min = 0; }
+                    return min + Math.floor(Math.random() * (max - min + 1));
+                }
+                _.sample = function(ary, n) {
+                    if(_.typeof(ary) !== 'array') return [];
+                    n = _.typeof(n) === 'number' ? n : 0;
+                    n = Math.max(Math.min(n, ary.length), 0);
+                    var result = _.clone(ary);
+                    var last = ary.length - 1;
+                    for (var i = 0; i < n; i++) {
+                        var rand = _.random(i, last);
+                        var temp = result[i];
+                        result[i] = result[rand];
+                        result[rand] = temp;
+                    }
+                    return result.slice(0, n);
+                };
+                _.shuffle = function(obj) { return _.sample(obj, Infinity); };
+            })();
+        </script>
+        <!-- biz logic -->
+        <script type="text/javascript">
+            $(function() {
+                var $startSlider = $('#startSlider'),
+                    $configSliderSpeed = $('#configSliderSpeed'),
+                    $configFbId = $('#configFbId'),
+                    $configFbFetchCount = $('#configFbFetchCount'),
+                    $configSliderDefaultSubject = $('#configSliderDefaultSubject'),
+                    $configSliderDefaultFrom = $('#configSliderDefaultFrom'),
+                    $configSliderDisplayThumbnail = $('#configSliderDisplayThumbnail'),
+                    $configSliderThumbnailHeight = $('#configSliderThumbnailHeight'),
+                    $configSliderThumbnailWidth = $('#configSliderThumbnailWidth'),
+                    $configSliderAnimationType = $('#configSliderAnimationType'),
+                    $inputImgUrl = $('#inputImgUrl'),
+                    // $inputThumbnailImgUrl = $('#inputThumbnailImgUrl'),
+                    $inputFrom = $('#inputFrom'),
+                    $inputSubject = $('#inputSubject'),
+                    $inputSubmit = $('#inputSubmit'),
+                    $sliderData = $('#sliderData'),
+                    $inputDefaultTemplate = $('#inputDefaultTemplate'),
+                    SUBJECT_TEMPLATE = '<h2>{{subject}} by {{from}}</h2>',
+                    options = {
+                        templateDefaultSubject: liteTemplate(SUBJECT_TEMPLATE, {
+                            subject: $configSliderDefaultSubject.val(),
+                            from: $configSliderDefaultFrom.val(),
+                        }),
+                        localStorageKey: 'isken-lab-full-screen-slider',
+                    };
+
+                function startSlider() {
+                    var data = getSliderData();
+
+                    if(data.length < 1 && !$configFbId.val()) {
+                        alert('Please input data or input facebook event');
+                        return;
+                    }
+
+                    $('#slides').data('lightGallery') && $('#slides').data('lightGallery').destroy(true);
+
+                    setTimeout(function(){
+                        $('#slides').lightGallery({
+                            thumbnail: $configSliderDisplayThumbnail.is(':checked'),
+                            autoplay: true,
+                            fourceAutoplay: true,
+                            pause: getSliderSpeed(),
+                            mode: $configSliderAnimationType.val(),
+                            // hideBarsDelay: 99999990,
+                            // preload: 2,
+                            thumbContHeight: parseInt($configSliderThumbnailHeight.val(), 10),
+                            thumbWidth: parseInt($configSliderThumbnailWidth.val(), 10),
+                            controls: false,
+                            mousewheel: false,
+                            download: false,
+                            hash: false,
+                            dynamic: true,
+                            dynamicEl: getAllData(),
+                        })
+                        .off('onBeforeSlide.lg')
+                        .on('onBeforeSlide.lg', function(e, prev, index) {
+                            console.log('onBeforeSlide.lg = ', arguments);
+                            if(index === 0 && prev !== 0) {
+                                window.fetchData();
+                            }
+                        });
+                    }, 500);
+                }
+                function insertSliderData() {
+                    if($inputImgUrl.val().length < 1) {
+                        alert('Image url can not empty!')
+                        return;
+                    }
+
+                    var obj = {
+                            imgUrl: $inputImgUrl.val(),
+                            thumbnail: $inputImgUrl.val(),
+                            from: $inputFrom.val(),
+                            subject: $inputSubject.val()
+                        },
+                        data = getSliderData();
+
+                    if(data.length < 1) {
+                        $sliderData.html('');
+                    }
+
+                    saveLocalStorage(obj);
+                    insertSliderDataHtml(obj);
+                }
+                function insertSliderDataHtml(obj) {
+                    if(_.typeof(obj) !== 'object') {
+                        return;
+                    }
+                    var template = liteTemplate($inputDefaultTemplate.text(), obj);
+                    $sliderData.append(template)
+                }
+                function getSliderData() {
+                    var $data = $sliderData.find('.defaultItem'),
+                        result = [];
+
+                    $data.each(function(index, el) {
+                        var $el = $(el);
+                        result.push({
+                            imgUrl: $el.attr('imgUrl'),
+                            thumbnail: $el.attr('imgUrl'),
+                            subject: $el.attr('subject'),
+                            from: $el.attr('from')
+                        });
+                    });
+
+                    return result;
+                }
+                function getAllData() {
+                    // var samples = _.clone(getSliderData()),
+                    //     sampleCount = getFetchTotal() - window.lastFetchData.length;
+
+                    // samples = _.sample(samples, sampleCount);
+                    var objs = getSliderData();
+                    for(var i = 0; i < objs.length; i++) {
+                        var obj = objs[i];
+                        obj.src = obj.imgUrl;
+                        obj.thumb = obj.imgUrl;
+                        obj.subHtml = liteTemplate(SUBJECT_TEMPLATE, {
+                            subject: obj.subject || '',
+                            from: obj.from || '',
+                        });
+                    }
+
+                    return _.shuffle(objs.concat(window.lastFetchData));
+                }
+                function getFetchLimit() {
+                    return parseInt($configFbFetchCount.val(), 10);
+                }
+                function getFetchTotal() {
+                    return getFetchLimit() + getSliderData().length;
+                }
+                function getSliderSpeed() {
+                    return parseInt($configSliderSpeed.val(), 10);
+                }
+                function saveLocalStorage(obj) {
+                    try {
+                        var ary = getLocalStorage();
+                        if(_.typeof(obj) !== 'array') {
+                            ary = ary.concat(obj);
+                        }else {
+                            ary = ary.push(obj);
+                        }
+                        localStorage.setItem(options.localStorageKey, JSON.stringify(ary));
+                    }catch(e) {
+                        throw e;
+                    }
+                }
+                function getLocalStorage() {
+                    var result = [];
+                    try {
+                        var str = localStorage.getItem(options.localStorageKey),
+                            obj = JSON.parse(str);
+                        result = result.concat(obj);
+                    }catch(e) {
+                        throw e;
+                    }
+                    return result;
+                }
+                function cleanLocalStorage() {
+                    try {
+                        localStorage.removeItem(options.localStorageKey);
+                    }catch(e) {
+                        throw e;
+                    }
+                }
+
+                $inputSubmit.on('click', function() {
+                    insertSliderData();
+
+                    // clear input
+                    $inputImgUrl.val('');
+                    // $inputThumbnailImgUrl.val('');
+                    $inputFrom.val('');
+                    $inputSubject.val('');
+                });
+                $sliderData.delegate('.jDelete', 'click', function(e) {
+                    var $el = $(this).parent();
+                    $el.remove();
+
+                    var data = getSliderData();
+                    if(data.length < 1) {
+                        $sliderData.text('no data');
+                    }
+                });
+                $startSlider.on('click', function() {
+                    startSlider();
+                });
+                $configSliderDisplayThumbnail.on('change', function(e) {
+                    var $el = $(this),
+                        isChecked = $el.is(':checked'),
+                        $thumbs = $('.jThumbnailConfig');
+
+                    if(isChecked) {
+                        $thumbs.removeClass('inputDisable');
+                        $thumbs.removeAttr('disabled');
+                    }else {
+                        $thumbs.addClass('inputDisable');
+                        $thumbs.attr('disabled', true);
+                    }
+                });
+                $configFbId.on('keyup', function(e) {
+                    var $el = $(this);
+
+                    if($el.val() < 1) {
+                        $configFbFetchCount.addClass('inputDisable');
+                        $configFbFetchCount.attr('disabled', true);
+                    }else {
+                        $configFbFetchCount.removeClass('inputDisable');
+                        $configFbFetchCount.removeAttr('disabled');
+                    }
+                });
+
+                window.lastFetchData = [];
+
+                // init default data from local storage
+                var defaultData = getLocalStorage();
+                if(defaultData.length > 0) {
+                    $sliderData.html('');
+                    for(var i = 0; i < defaultData.length; i++) {
+                        insertSliderDataHtml(defaultData[i]);
+                    }
+                }
+
+                window.resetData = function() {
+                    startSlider();
+                }
+
+                window.fetchData = function() {
+                    console.log('begin fetch ', new Date());
+
+                    if(!window.FB) {
+                        throw 'FB not init'; return;
+                    }
+
+                    var _event = $configFbId.val() + '/photos?fields=images,name,from&limit=' + parseInt($configFbFetchCount.val(), 10);
+                    FB.api(_event, function (response) {
+                        console.log('response = ', response);
+                        if (response && !response.error) {
+                            /* handle the result */
+                            var data = response.data || [],
+                                result = [];
+
+                            for(var i = 0; i < data.length; i++) {
+                                var obj = data[i],
+                                    imgs = obj.images;
+
+                                result.push({
+                                    src: imgs[0].source,
+                                    thumb: imgs[0].source,
+                                    subHtml: liteTemplate(TEMPLATE, {
+                                        subject: obj.name || '',
+                                        from: obj.from.name || '',
+                                    })
+                                });
+                            }
+
+                            window.lastFetchData = result;
+
+                            window.resetData();
+                        }else {
+                            window.resetData();
+                            throw response.error;
+                        }
+                    });
+                }
+            });
+        </script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-3392989-7','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
