@@ -12,10 +12,11 @@
         <meta property="og:description"   content="demo, testing and blog" />
         <meta property="og:image"         content="https://iskenhuang.github.io/me.jpg" />
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico?v=1.1">
 
         <link type="text/css" rel="stylesheet" href="./lightGallery.min.css" />
         <link type="text/css" rel="stylesheet" href="./lg-transitions.css" />
-        Place favicon.ico in the root directory
+
         <style>
             /* common css */
             html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
@@ -102,14 +103,26 @@
                 background: #EEE;
                 color: #CCC;
             }
+            .textRed {
+                color: red !important;
+            }
+            .textWhite {
+                color: #FAFAFA;
+            }
         </style>
     </head>
     <body style="background: #353535;">
         <div class="row cell-inner borderbox wrapper">
             <h1>Full screen slider</h1>
-            <h3>This slider will needs your facebook permission. If you just needs static slider please close facebook login window. If you want to custom this slider feel free to <a href="mailto:iskenhuang@gmail.com" style="color: red">contact me</a> :)</h3>
+            <ul class="textWhite">
+                <li>This slider will needs your facebook permission. If you just needs static slider please close facebook login window.</li>
+                <li>If you want to use this slider with facebook. Please create a new facebook event and make sure the event is <span class="textRed">PUBLIC</span>.</li>
+                <li>If your can't access facebook (i.e. China). Please using default data play slider (I can't help you...)</li>
+                <li>If you want to custom this slider feel free to <a href="mailto:iskenhuang@gmail.com" class="textRed">contact me</a> :)</li>
+            </ul>
             <div id="fb-root"></div>
             <div class="fb-like" data-href="https://iskenhuang.github.io" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+            <div class="fb-login-button"></div>
             <div id="startSlider" class="button red full" style="margin: 2rem;">Start Slider</div>
             <h2>Facebook Config</h2>
             <div class="row cell-inner borderbox">
@@ -222,6 +235,7 @@
 
                         window.fetchData();
                     } else {
+                        alert('Facebook Login fail!\nWe need login facebook for fetch event`s photo');
                         window.resetData();
                         throw response.status;
                     }
@@ -307,8 +321,8 @@
                 function startSlider() {
                     var data = getSliderData();
 
-                    if(data.length < 1 && !$configFbId.val()) {
-                        alert('Please input data or input facebook event');
+                    if(data.length < 1) {
+                        alert('NO DATA TO PLAY SLIDER!! \nPlease input defualt data or upload photos to facebook event');
                         return;
                     }
 
@@ -359,7 +373,7 @@
                         $sliderData.html('');
                     }
 
-                    saveLocalStorage(obj);
+                    addItemLocalStorage(obj);
                     insertSliderDataHtml(obj);
                 }
                 function insertSliderDataHtml(obj) {
@@ -386,10 +400,6 @@
                     return result;
                 }
                 function getAllData() {
-                    // var samples = _.clone(getSliderData()),
-                    //     sampleCount = getFetchTotal() - window.lastFetchData.length;
-
-                    // samples = _.sample(samples, sampleCount);
                     var objs = getSliderData();
                     for(var i = 0; i < objs.length; i++) {
                         var obj = objs[i];
@@ -412,13 +422,30 @@
                 function getSliderSpeed() {
                     return parseInt($configSliderSpeed.val(), 10);
                 }
-                function saveLocalStorage(obj) {
+                function addItemLocalStorage(obj) {
                     try {
                         var ary = getLocalStorage();
-                        if(_.typeof(obj) !== 'array') {
+                        if(_.typeof(obj) === 'array') {
                             ary = ary.concat(obj);
                         }else {
                             ary = ary.push(obj);
+                        }
+                        localStorage.setItem(options.localStorageKey, JSON.stringify(ary));
+                    }catch(e) {
+                        throw e;
+                    }
+                }
+                function removeItemLocalStorage(imgUrl) {
+                    try {
+                        var ary = getLocalStorage();
+                        console.log('ary = ', ary);
+                        for(var i = 0; i < ary.length; i++) {
+                            var obj = ary[i];
+
+                            if(obj.imgUrl === imgUrl) {
+                                ary.splice(i, 1);
+                                break;
+                            }
                         }
                         localStorage.setItem(options.localStorageKey, JSON.stringify(ary));
                     }catch(e) {
@@ -433,6 +460,11 @@
                         result = result.concat(obj);
                     }catch(e) {
                         throw e;
+                    }
+                    for(var i = 0; i < result.length; i++) {
+                        if(!result[i]) {
+                            result.splice(i, 1);
+                        }
                     }
                     return result;
                 }
@@ -455,6 +487,8 @@
                 });
                 $sliderData.delegate('.jDelete', 'click', function(e) {
                     var $el = $(this).parent();
+                    console.log('$el = ', $el.attr('imgUrl'));
+                    removeItemLocalStorage($el.attr('imgUrl'));
                     $el.remove();
 
                     var data = getSliderData();
@@ -513,6 +547,8 @@
                     }
 
                     var _event = $configFbId.val() + '/photos?fields=images,name,from&limit=' + parseInt($configFbFetchCount.val(), 10);
+                    // https://developers.facebook.com/docs/graph-api/reference/event
+                    // Any access token can be used to retrieve events with privacy set to OPEN.
                     FB.api(_event, function (response) {
                         console.log('response = ', response);
                         if (response && !response.error) {
