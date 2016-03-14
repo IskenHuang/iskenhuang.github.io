@@ -58,7 +58,12 @@
             <h4>qrcode library from <a href="https://github.com/jeromeetienne/jquery-qrcode">https://github.com/jeromeetienne/jquery-qrcode</a></h4>
 
             <h3>Text or Url</h3>
-            <input id="inputText" class="row" type="text" placeholder="input some text or url here" />
+            <input id="inputText" class="row" type="text" placeholder="input some text or url here" autofocus/>
+
+            <h3>QRCode is square?</h3>
+            <div class="row">
+                <input id="inputIsSquare" class="" type="checkbox" /><span> is square?</span>
+            </div>
 
             <h3>QRCode width</h3>
             <input id="inputWidth" class="row" type="number" placeholder="input some text or url here" value="200" />
@@ -74,6 +79,7 @@
         <script type="text/javascript">
             $(function() {
                 var $inputText = $('#inputText'),
+                    $inputIsSquare = $('#inputIsSquare'),
                     $inputWidth = $('#inputWidth'),
                     $inputHeight = $('#inputHeight'),
                     $qrcode = $('#qrcode'),
@@ -90,7 +96,21 @@
                 $inputText.on('change', function(e) {
                     refreshQRCode();
                 });
+                $inputIsSquare.on('change', function(e) {
+                    if(!!e.currentTarget.checked) {
+                        $inputHeight[0].setAttribute('disabled', true)
+                        $inputHeight.val($inputWidth.val())
+                    }else {
+                        $inputHeight[0].removeAttribute('disabled')
+                    }
+
+                    refreshQRCode();
+                });
                 $inputWidth.on('change', function(e) {
+                    if(!!$inputIsSquare[0].checked) {
+                        $inputHeight.val(e.currentTarget.value)
+                    }
+
                     refreshQRCode();
                 });
                 $inputHeight.on('change', function(e) {
