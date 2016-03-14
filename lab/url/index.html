@@ -117,10 +117,10 @@
                     var url = $url.value,
                         parseObj = urlParse(url);
 
-                    $encode.setAttribute('src', window.encodeURIComponent(url));
+                    $encode.setAttribute('href', window.encodeURIComponent(url));
                     $encode.innerHTML = window.encodeURIComponent(url);
 
-                    $decode.setAttribute('src', window.decodeURIComponent(url));
+                    $decode.setAttribute('href', window.decodeURIComponent(url));
                     $decode.innerHTML = window.decodeURIComponent(url);
 
                     $protocol.innerHTML = parseObj.protocol || '';
