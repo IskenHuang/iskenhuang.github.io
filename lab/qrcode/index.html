@@ -76,15 +76,25 @@
                 var $inputText = $('#inputText'),
                     $inputWidth = $('#inputWidth'),
                     $inputHeight = $('#inputHeight'),
-                    $qrcode = $('#qrcode');
+                    $qrcode = $('#qrcode'),
+                    refreshQRCode = function () {
+                        console && console.log && console.log('begin generate new qrcode!');
+                        $qrcode.html('');
+                        $qrcode.qrcode({
+                            width: parseInt($inputWidth.val(), 10),
+                            height: parseInt($inputHeight.val(), 10),
+                            text: $inputText.val()
+                        });
+                    };
 
                 $inputText.on('change', function(e) {
-                    $qrcode.html('');
-                    $qrcode.qrcode({
-                        width: parseInt($inputWidth.val(), 10),
-                        height: parseInt($inputHeight.val(), 10),
-                        text: $inputText.val()
-                    });
+                    refreshQRCode();
+                });
+                $inputWidth.on('change', function(e) {
+                    refreshQRCode();
+                });
+                $inputHeight.on('change', function(e) {
+                    refreshQRCode();
                 });
             });
         </script>
