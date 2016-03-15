@@ -25,6 +25,7 @@
             h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
             h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
             p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            input:disabled { background-color: #EEE; }
             .borderbox { box-sizing: border-box; }
             .row { width: 100%; display: block; overflow: hidden; }
             .float-left, .cell-2-1, .cell-4-1 { float: left; }
@@ -56,9 +57,43 @@
         <div class="row cell-inner borderbox">
             <h1>QRCode Generator</h1>
             <h4>qrcode library from <a href="https://github.com/jeromeetienne/jquery-qrcode">https://github.com/jeromeetienne/jquery-qrcode</a></h4>
+            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&width=300&isSquare=true">https://iskenhuang.github.io/lab/qrcode?text=balabala&width=300&isSquare=true</a></h4>
+            <h3>Url Params</h3>
+            <table class="row borderbox" style="margin-bottom: 2rem;">
+                <tr style="background: #EEE;">
+                    <td>name</td>
+                    <td>type</td>
+                    <td>default</td>
+                    <td>note</td>
+                </tr>
+                <tr>
+                    <td>text</td>
+                    <td>string</td>
+                    <td>https://iskenhuang.github.io</td>
+                    <td>qrcode text</td>
+                </tr>
+                <tr>
+                    <td>isSquare</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                    <td>make qrcode square</td>
+                </tr>
+                <tr>
+                    <td>width</td>
+                    <td>number</td>
+                    <td>200</td>
+                    <td>qrcode width</td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>number</td>
+                    <td>200</td>
+                    <td>qrcode height</td>
+                </tr>
+            </table>
 
             <h3>Text or Url</h3>
-            <input id="inputText" class="row" type="text" placeholder="input some text or url here" autofocus/>
+            <input id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://iskenhuang.github.io" autofocus />
 
             <h3>QRCode is square?</h3>
             <div class="row">
@@ -85,13 +120,58 @@
                     $qrcode = $('#qrcode'),
                     refreshQRCode = function () {
                         console && console.log && console.log('begin generate new qrcode!');
-                        $qrcode.html('');
+                        $qrcode.html('')
                         $qrcode.qrcode({
                             width: parseInt($inputWidth.val(), 10),
                             height: parseInt($inputHeight.val(), 10),
                             text: $inputText.val()
-                        });
+                        })
                     };
+
+                // url input
+                var queryString = window.location.search || ''
+                if(queryString) {
+                    queryString = queryString.replace(/^\?/, '')
+                    var querys = queryString.split(/&/),
+                        result = {}
+                    for(var i = 0; i < querys.length; i++) {
+                        var s = querys[i],
+                            eqIndex = s.indexOf('=')
+                            key = '',
+                            val = ''
+
+                        if(eqIndex >= 0) {
+                            key = s.substr(0, eqIndex)
+                            val = s.substr(eqIndex+1, s.length)
+                        }
+
+                        if(key) {
+                            if(key.toLowerCase() === 'issquare') {
+                                result[key] = val === 'true' ? true : false
+                            }else{
+                                result[key] = val
+                            }
+                        }
+                    }
+
+                    if(result.width) {
+                        $inputWidth.val(result.width)
+                    }
+                    if(result.height) {
+                        $inputHeight.val(result.height)
+                    }
+                    if(result.isSquare) {
+                        $inputIsSquare[0].checked = true
+                        $inputHeight.val($inputWidth.val())
+                        $inputHeight[0].setAttribute('disabled', true)
+                    }
+                    if(result.text) {
+                        $inputText.val(result.text)
+                    }
+                }
+
+                // when loaded this page auto gen
+                refreshQRCode()
 
                 $inputText.on('change', function(e) {
                     refreshQRCode();
@@ -104,17 +184,17 @@
                         $inputHeight[0].removeAttribute('disabled')
                     }
 
-                    refreshQRCode();
+                    refreshQRCode()
                 });
                 $inputWidth.on('change', function(e) {
                     if(!!$inputIsSquare[0].checked) {
                         $inputHeight.val(e.currentTarget.value)
                     }
 
-                    refreshQRCode();
+                    refreshQRCode()
                 });
                 $inputHeight.on('change', function(e) {
-                    refreshQRCode();
+                    refreshQRCode()
                 });
             });
         </script>
