@@ -4,7 +4,7 @@ var FS = require('fs')
 const labFolderName = 'lab'
 const labName = 'Lab index'
 const templateItem = '<h3><a href="/' + labFolderName + '/{{name}}">{{name}}</a></h3>'
-const templateName = 'template.html'
+const templateName = __dirname + '/template.html'
 const indexName = 'index.html'
 const labFolder = FS.readdirSync(labFolderName)
 var labs = []
