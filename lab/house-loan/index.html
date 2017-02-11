@@ -93,9 +93,9 @@
                 }
 
                 function calc($loanMoney, $rate, $year) {
-                    $loanMoney = parseInt($loanMoney, 10) || 0
-                    $rate = parseFloat($rate, 10) || 0
-                    $year = parseFloat($year, 10) || 0
+                    $loanMoney = parseInt($loanMoney, 10) || 10000
+                    $rate = parseFloat($rate, 10) || 5.0
+                    $year = parseFloat($year, 10) || 10
 
                     var oneyear = 12;
                     var interest = $rate / (oneyear * 100);
