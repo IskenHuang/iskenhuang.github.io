@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Isken's lab",
   "scripts": {
-    "build": ". ./build.sh",
+    "build": "node ./lab-index-generator.js",
     "git": "git config user.name \"Isken Huang\" && git config user.email \"iskenhuang@gmail.com\""
   },
   "repository": {
