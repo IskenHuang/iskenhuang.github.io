@@ -87,21 +87,16 @@
                         _rate = parseFloat($rate.value, 10) || 0,
                         _year = parseFloat($year.value, 10) || 0,
                         _result = calc(_base, _rate, _year);
-console.log('_result = ', _result)
+
                     $repaymentOfMonth.innerHTML = _result.monthRepayment || 'unknow';
                     $totalRepayment.innerHTML = _result.totalRepayment || 'unknow';
                 }
 
                 function calc($loanMoney, $rate, $year) {
-console.log('before _base = ', $loanMoney)
-console.log('before _rate = ', $rate)
-console.log('before _year = ', $year)
                     $loanMoney = parseInt($loanMoney, 10) || 0
                     $rate = parseFloat($rate, 10) || 0
                     $year = parseFloat($year, 10) || 0
-console.log('after _base = ', $loanMoney)
-console.log('after _rate = ', $rate)
-console.log('after _year = ', $year)
+
                     var oneyear = 12;
                     var interest = $rate / (oneyear * 100);
                     var periods = $year * oneyear;
