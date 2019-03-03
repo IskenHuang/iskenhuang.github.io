@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js" lang="EN-US" style="font-size: 62.5%; font-family: sans-serif; font-weight: lighter;">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Qrcode</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://iskenhuang.github.io" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://iskenhuang.github.io/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+            /* common css */
+            html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
+            body { margin: 0; }
+            a { text-decoration: none; }
+            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
+            h1 { font-size: xx-large; margin-top: 1rem; margin-bottom: 1rem; }
+            h2 { font-size: x-large; margin-top: 0.6rem; margin-bottom: 0.6rem; }
+            h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
+            h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
+            p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            input:disabled { background-color: #EEE; }
+            .borderbox { box-sizing: border-box; }
+            .row { width: 100%; display: block; overflow: hidden; }
+            .float-left, .cell-2-1, .cell-4-1 { float: left; }
+            .float-right { float: right; }
+            .cell-2-1, .cell-4-1 { margin-bottom: 2rem; box-sizing: border-box; }
+            .cell-2-1 { width: 50%; }
+            .cell-4-1 { width: 25%; padding-left: 1rem; }
+            .cell-center { margin: 0 auto; }
+            .cell-inner { padding-left: 1rem; padding-right: 1rem; }
+            .tab-1 { padding-left: 1.5rem; }
+            .tab-2 { padding-left: 3rem; }
+            .text-center { text-align: center; }
+            .text-right { text-align: right; }
+            .text-bold { text-align: bold; }
+            .button { box-sizing: border-box; padding: 0.5rem 1rem; background: #666; color: #FFF; display: table; }
+            .button.full { display: block; }
+            .button.green { background: #32AB6B; }
+            .button.blue { background: #296DCC; }
+            .button.red { background: #BF0000; }
+            .button.yellow { background: #DEBE00; }
+            .button.orange { background: #F59A01; }
+            @media (max-width: 600px) {
+                .cell-2-1 { width: 100%; }
+                .cell-4-1 { width: 50%; }
+            }
+
+            #output {
+                text-align: left;
+                font-size: medium;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row cell-inner borderbox">
+            <h1>Shaodowsocks URL Generator</h1>
+            <h2>Inputs</h2>
+            <h3>Encrypt method</h3>
+            <input id="inputMethod" class="row" type="text" placeholder="input method here" value="AES-256-CFB" autofocus />
+
+            <h3>Password</h3>
+            <input id="inputPW" class="row" type="password" placeholder="input password here" value="PASSWORD" />
+
+            <h3>Server (includes port)</h3>
+            <input id="inputServer" class="row" type="text" placeholder="123.123.123.123:12312" value="123.123.123.123:12312" />
+
+            <h3>Plugins</h3>
+            <input id="inputPlugins" class="row" type="text" placeholder="simple-obfs;obfs=http;obfs-host=;obfs-uri=" value="simple-obfs;obfs=http;obfs-host=;obfs-uri=" />
+
+            <h3>Teg (name)</h3>
+            <input id="inputTag" class="row" type="text" placeholder="Display tag name here" value="Hello" />
+
+            <h2>Output</h2>
+            <div id="output" class="row text-center borderbox"></div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script>
+        <script type="text/javascript" src="./jquery.qrcode.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var $inputMethod = $('#inputMethod')
+                var $inputPW = $('#inputPW')
+                var $inputServer = $('#inputServer')
+                var $inputPlugins = $('#inputPlugins')
+                var $inputTag = $('#inputTag')
+                var $output = $('#output')
+
+                function generatorOutput() {
+                    console && console.log && console.log('begin generate new output!')
+                    var _scheme = 'ss://'
+                    var _method = $inputMethod.val().toLowerCase()
+                    var _pw = $inputPW.val()
+                    var _server = $inputServer.val()
+                    var _plugins = '?plugin=' + $inputPlugins.val()
+                    var _tag = $inputTag.val()
+
+                    // SS-URI = "ss://" userinfo "@" hostname ":" port [ "/" ] [ "?" plugin ] [ "#" tag ]
+                    var _userinfo = btoa(`${_method}:${_pw}`)
+                    var result = `${_scheme}${_userinfo}@${_server}/${_plugins}/${_tag}`
+
+                    $output.text(result)
+                }
+
+                function refreshOutput() {
+                    console && console.log && console.log('begin refresh output!')
+                    $output.html('')
+                    generatorOutput()
+                }
+
+                // when loaded this page auto gen
+                refreshOutput()
+
+                $inputMethod.on('change', refreshOutput)
+                $inputPW.on('change', refreshOutput)
+                $inputServer.on('change', refreshOutput)
+                $inputPlugins.on('change', refreshOutput)
+                $inputTag.on('change', refreshOutput)
+            })
+        </script>
+
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-3392989-7','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
