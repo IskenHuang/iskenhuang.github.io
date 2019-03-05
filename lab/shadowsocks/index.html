@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Qrcode</title>
+        <title>Shaodowsocks URL Generator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:url"           content="https://iskenhuang.github.io" />
@@ -81,48 +81,46 @@
             <div id="output" class="row text-center borderbox"></div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script>
-        <script type="text/javascript" src="./jquery.qrcode.min.js"></script>
         <script type="text/javascript">
-            $(function() {
-                var $inputMethod = $('#inputMethod')
-                var $inputPW = $('#inputPW')
-                var $inputServer = $('#inputServer')
-                var $inputPlugins = $('#inputPlugins')
-                var $inputTag = $('#inputTag')
-                var $output = $('#output')
+            (function() {
+                var $inputMethod = document.querySelector('#inputMethod')
+                var $inputPW = document.querySelector('#inputPW')
+                var $inputServer = document.querySelector('#inputServer')
+                var $inputPlugins = document.querySelector('#inputPlugins')
+                var $inputTag = document.querySelector('#inputTag')
+                var $output = document.querySelector('#output')
 
                 function generatorOutput() {
                     console && console.log && console.log('begin generate new output!')
                     var _scheme = 'ss://'
-                    var _method = $inputMethod.val().toLowerCase()
-                    var _pw = $inputPW.val()
-                    var _server = $inputServer.val()
-                    var _plugins = '?plugin=' + $inputPlugins.val()
-                    var _tag = $inputTag.val()
+                    var _method = $inputMethod.value.toLowerCase()
+                    var _pw = $inputPW.value
+                    var _server = $inputServer.value
+                    var _plugins = $inputPlugins.value ? '?plugin=' + $inputPlugins.value + '/' : ''
+                    var _tag = $inputTag.value ? '#' + $inputTag.value : ''
 
                     // SS-URI = "ss://" userinfo "@" hostname ":" port [ "/" ] [ "?" plugin ] [ "#" tag ]
                     var _userinfo = btoa(`${_method}:${_pw}`)
-                    var result = `${_scheme}${_userinfo}@${_server}/${_plugins}/${_tag}`
+                    var result = `${_scheme}${_userinfo}@${_server}/${_plugins}${_tag}`
 
-                    $output.text(result)
+                    $output.innerText = result
                 }
 
                 function refreshOutput() {
                     console && console.log && console.log('begin refresh output!')
-                    $output.html('')
+                    $output.innerHTML = ''
                     generatorOutput()
                 }
 
                 // when loaded this page auto gen
                 refreshOutput()
 
-                $inputMethod.on('change', refreshOutput)
-                $inputPW.on('change', refreshOutput)
-                $inputServer.on('change', refreshOutput)
-                $inputPlugins.on('change', refreshOutput)
-                $inputTag.on('change', refreshOutput)
-            })
+                $inputMethod.addEventListener('change', refreshOutput)
+                $inputPW.addEventListener('change', refreshOutput)
+                $inputServer.addEventListener('change', refreshOutput)
+                $inputPlugins.addEventListener('change', refreshOutput)
+                $inputTag.addEventListener('change', refreshOutput)
+            })()
         </script>
 
 
