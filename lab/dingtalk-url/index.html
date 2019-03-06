@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Lab index</title>
+        <title>Dingtalk URl parse</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:url"           content="https://iskenhuang.github.io" />
@@ -25,6 +25,7 @@
             h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
             h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
             p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            input:disabled { background-color: #EEE; }
             .borderbox { box-sizing: border-box; }
             .row { width: 100%; display: block; overflow: hidden; }
             .float-left, .cell-2-1, .cell-4-1 { float: left; }
@@ -50,10 +51,56 @@
                 .cell-2-1 { width: 100%; }
                 .cell-4-1 { width: 50%; }
             }
+
+            #output {
+                text-align: left;
+                font-size: medium;
+            }
         </style>
     </head>
     <body>
-        <style>h3 {padding: 0.8rem 0;} h3:nth-child(2n) { background-color: #fafafa;}</style><div class="cell-inner row borderbox"><h3><a href="/lab/dingtalk-url">dingtalk-url</a></h3><h3><a href="/lab/editor">editor</a></h3><h3><a href="/lab/full-screen-slider">full-screen-slider</a></h3><h3><a href="/lab/google-calendar">google-calendar</a></h3><h3><a href="/lab/house-loan">house-loan</a></h3><h3><a href="/lab/i18n">i18n</a></h3><h3><a href="/lab/qrcode">qrcode</a></h3><h3><a href="/lab/shadowsocks">shadowsocks</a></h3><h3><a href="/lab/url">url</a></h3></div>
+        <div class="row cell-inner borderbox">
+            <h1>Dingtalk URl parse</h1>
+            <h2>Inputs</h2>
+            <h3>Redirect</h3>
+            <input id="redirect" class="row" type="text" placeholder="dingtalk://xxx" value="" autofocus />
+
+            <h2>Output</h2>
+            <div id="output" class="row text-center borderbox"></div>
+        </div>
+
+        <script type="text/javascript">
+            (function() {
+                var $inputRedirect = document.querySelector('#redirect')
+                var $output = document.querySelector('#output')
+
+                function generatorOutput() {
+                    console && console.log && console.log('begin generate new output!')
+                    let _uri = $inputRedirect.value || ''
+                    const _search = _uri.slice(_uri.indexOf('?')+1)
+                                        .split('&')
+                                        .find((s) => s.indexOf('redirect_url') >= 0) || ''
+
+                    const resultUrl = decodeURIComponent(_search.replace('redirect_url=', ''))
+                    console.log('redirect_url = ', resultUrl)
+                    var result = `<a href="${resultUrl}" target="_blank">${resultUrl}</a>`
+
+                    $output.innerHTML = result
+                }
+
+                function refreshOutput() {
+                    console && console.log && console.log('begin refresh output!')
+                    $output.innerHTML = ''
+                    generatorOutput()
+                }
+
+                // when loaded this page auto gen
+                refreshOutput()
+
+                $inputRedirect.addEventListener('change', refreshOutput)
+            })()
+        </script>
+
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
