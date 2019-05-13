@@ -21,8 +21,52 @@
         <meta property="og:description" content="計算中國薪資稅率">
         <meta property="og:site_name" content="計算中國薪資稅率">
         <meta property="og:type" content="product">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <style>
+            /* common css */
+            html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
+            body { margin: 0; }
+            a { text-decoration: none; }
+            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
+            h1 { font-size: xx-large; margin-top: 1rem; margin-bottom: 1rem; }
+            h2 { font-size: x-large; margin-top: 0.6rem; margin-bottom: 0.6rem; }
+            h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
+            h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
+            p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
+            .borderbox { box-sizing: border-box; }
+            .row { width: 100%; display: block; overflow: hidden; }
+            .float-left, .cell-2-1, .cell-4-1 { float: left; }
+            .float-right { float: right; }
+            .cell-2-1, .cell-4-1 { margin-bottom: 2rem; box-sizing: border-box; }
+            .cell-2-1 { width: 50%; }
+            .cell-3-1 { width: 33%; }
+            .cell-3-2 { width: 66%; }
+            .cell-4-1 { width: 25%; padding-left: 1rem; }
+            .cell-center { margin: 0 auto; }
+            .cell-inner { padding-left: 1rem; padding-right: 1rem; }
+            .tab-1 { padding-left: 1.5rem; }
+            .tab-2 { padding-left: 3rem; }
+            .text-center { text-align: center; }
+            .text-right { text-align: right; }
+            .text-bold { text-align: bold; }
+            .button { box-sizing: border-box; padding: 0.5rem 1rem; background: #666; color: #FFF; display: table; }
+            .button.full { display: block; }
+            .button.green { background: #32AB6B; }
+            .button.blue { background: #296DCC; }
+            .button.red { background: #BF0000; }
+            .button.yellow { background: #DEBE00; }
+            .button.orange { background: #F59A01; }
+            @media (max-width: 600px) {
+                .cell-2-1 { width: 100%; }
+                .cell-4-1 { width: 50%; }
+            }
+            table {
+                display: table;
+                width: 100%;
+                font-size: 1rem;
+            }
+            tr {
+                width: 100%;
+            }
             .input-title {
                 padding-top: 5px;
             }
@@ -34,57 +78,54 @@
     <body>
         <div class="container">
             <div class="row">
-                <h1 class="col-12">計算中國薪資稅率</h1>
-                <p class="col-12">
-                    <a href="//github.com/IskenHuang/chinaSalary">Source</a>
-                    Last update: 2018-09
-                </p>
+                <h1 class="row">計算中國薪資稅率</h1>
+                <p class="row">Last update: 2018-09</p>
             </div>
             <div>
                 <div class="row">
-                    <span class="input-title col-3">每月薪資(RMB 稅前)</span>
-                    <input type="number" class="js-salary col-9" placeholder="10000" value="10000">
+                    <h3 class="cell-3-1">每月薪資(RMB 稅前)</h3>
+                    <input type="number" class="js-salary cell-3-2" placeholder="10000" value="10000">
                 </div>
                 <div class="row">
-                    <span class="input-title col-3">年薪幾個月</span>
-                    <input type="number" class="js-month col-9" placeholder="12" value="12">
+                    <h3 class="input-title cell-3-1">年薪幾個月</h3>
+                    <input type="number" class="js-month cell-3-2" placeholder="12" value="12">
                 </div>
                 <div class="row">
-                    <span class="input-title col-3">當前匯率</span>
-                    <input type="number" class="js-rate col-9" value="5">
+                    <h3 class="input-title cell-3-1">當前匯率</h3>
+                    <input type="number" class="js-rate cell-3-2" value="5">
                 </div>
             </div>
-            <div class="table-responsive row mt-15">
-                <table class="js-table table table-borderless table-hover">
-                    <thead class="thead-light">
+            <div class="row mt-15">
+                <table class="js-table">
+                    <thead class="">
                         <tr class="js-currencies">
-                            <td class="" scope="col">&nbsp;</td>
+                            <td class="cell-3-1" scope="col">&nbsp;</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="">
                         <tr class="js-salary-withtax-month">
-                            <td class="" scope="row">稅前（月）</td>
+                            <td class="cell-3-1" scope="row">稅前（月）</td>
                         </tr>
                         <tr class="js-salary-withtax-year">
-                            <td class="" scope="row">稅前（年）</td>
+                            <td class="cell-3-1" scope="row">稅前（年）</td>
                         </tr>
                         <tr class="js-tax-month">
-                            <td class="" scope="row">稅（月）</td>
+                            <td class="cell-3-1" scope="row">稅（月）</td>
                         </tr>
                         <tr class="js-tax-year">
-                            <td class="" scope="row">稅（年）</td>
+                            <td class="cell-3-1" scope="row">稅（年）</td>
                         </tr>
                         <tr class="js-tax-rate">
-                            <td class="" scope="row">稅率</td>
+                            <td class="cell-3-1" scope="row">稅率</td>
                         </tr>
                         <tr class="js-tax-off">
-                            <td class="" scope="row">稅減免</td>
+                            <td class="cell-3-1" scope="row">稅減免</td>
                         </tr>
                         <tr class="js-salary-withouttax-month">
-                            <td class="" scope="row">稅後（月）</td>
+                            <td class="cell-3-1" scope="row">稅後（月）</td>
                         </tr>
                         <tr class="js-salary-withouttax-year">
-                            <td class="" scope="row">稅後（年）</td>
+                            <td class="cell-3-1" scope="row">稅後（年）</td>
                         </tr>
                     </tbody>
                 </table>
@@ -92,12 +133,14 @@
         </div>
 
         <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-3392989-5', 'iskenhuang.github.io');
-            ga('send', 'pageview');
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-3392989-7','auto');ga('send','pageview');
+            // old
+            // ga('create', 'UA-3392989-5', 'iskenhuang.github.io');
         </script>
         <script type="text/javascript">
             // https://gist.github.com/IskenHuang/9318189
@@ -114,6 +157,9 @@
             $salary.addEventListener('change', inputEventBind, false)
             $month.addEventListener('change', inputEventBind, false)
             $rate.addEventListener('change', inputEventBind, false)
+
+            // when start calc once
+            cal()
 
             getCurrency().then(function(r) {
                 $rate.value = r
