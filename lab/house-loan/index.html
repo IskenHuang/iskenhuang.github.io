@@ -70,7 +70,9 @@
 
             <h2>Result</h2>
             <h3>Repayment per month: <span id="repaymentOfMonth"></span></h3>
+            <h3>Interest per month: <span id="interestOfMonth"></span></h3>
             <h3>Total repayment: <span id="totalRepayment"></span></h3>
+            <h3>Total Interest: <span id="totalInterest"></span></h3>
         </div>
 
         <script type="text/javascript">
@@ -80,37 +82,44 @@
                     $rate = document.querySelector('#rate'),
                     $year = document.querySelector('#year'),
                     $repaymentOfMonth = document.querySelector('#repaymentOfMonth'),
-                    $totalRepayment = document.querySelector('#totalRepayment');
+                    $interestOfMonth = document.querySelector('#interestOfMonth'),
+                    $totalRepayment = document.querySelector('#totalRepayment')
+                    $totalInterest = document.querySelector('#totalInterest')
 
                 window.updateResult = function() {
                     var _base = parseInt($base.value, 10) || 0,
                         _rate = parseFloat($rate.value, 10) || 0,
                         _year = parseFloat($year.value, 10) || 0,
-                        _result = calc(_base, _rate, _year);
+                        _result = calc(_base, _rate, _year)
 
-                    $repaymentOfMonth.innerHTML = _result.monthRepayment || 'unknow';
-                    $totalRepayment.innerHTML = _result.totalRepayment || 'unknow';
+                    $repaymentOfMonth.innerHTML = _result.monthRepayment || 'unknow'
+                    $interestOfMonth.innerHTML = _result.monthInterest || 'unknow'
+                    $totalRepayment.innerHTML = _result.totalRepayment || 'unknow'
+                    $totalInterest.innerHTML = _result.totalInterest || 'unknow'
                 }
 
                 function calc($loanMoney, $rate, $year) {
+                    var oneyear = 12
                     $loanMoney = parseInt($loanMoney, 10) || 10000
                     $rate = parseFloat($rate, 10) || 5.0
                     $year = parseFloat($year, 10) || 10
 
-                    var oneyear = 12;
-                    var interest = $rate / (oneyear * 100);
-                    var periods = $year * oneyear;
-                    var periodpayment = ( $loanMoney * ( interest / ( 1 - Math.pow( (1 + interest) , (0 - periods) ) ) ) );
-                    periods = 0 - ( Math.log( 1 - (interest * $loanMoney / periodpayment) ) / Math.log(1 + interest) );
-                    var interest_total = (periodpayment * periods) - $loanMoney;
+                    var interest = $rate * (10 / oneyear)
+                    var periods = $year * oneyear
+                    var periodpayment = $loanMoney * interest * 0.001 * Math.pow(( 1 + parseFloat(interest * 0.001)), parseFloat(periods))/(Math.pow((1+parseFloat(interest * 0.001)), parseFloat(periods)) -1)
+                    var totalRepayment = periodpayment * periods
+                    var totalInterest = totalRepayment - $loanMoney
+                    var monthInterest = totalInterest / periods
                     return {
-                        monthRepayment: Math.round(periodpayment*100)/100,
-                        totalRepayment: Math.round(interest_total*100)/100
+                        monthRepayment: Math.round(periodpayment * 100) / 100,
+                        monthInterest: Math.round(monthInterest * 100) / 100,
+                        totalRepayment: Math.round(totalRepayment * 100) / 100,
+                        totalInterest: Math.round(totalInterest * 100) / 100,
                     }
                 }
 
                 updateResult()
-            })(window);
+            })(window)
         </script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
