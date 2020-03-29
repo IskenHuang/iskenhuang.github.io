@@ -16,84 +16,82 @@
         <!-- Place favicon.ico in the root directory -->
         <style>
             /* common css */
-            html, body { font-size: 62.5%; font-family: sans-serif; font-weight: lighter; }
+            html, body { font-family: sans-serif; font-weight: lighter; }
             body { margin: 0; }
             a { text-decoration: none; }
             h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
-            h1 { font-size: xx-large; margin-top: 1rem; margin-bottom: 1rem; }
-            h2 { font-size: x-large; margin-top: 0.6rem; margin-bottom: 0.6rem; }
-            h3 { font-size: medium; margin-top: 0.4rem; margin-bottom: 0.4rem; }
-            h4 { font-size: small; margin-top: 0.2rem; margin-bottom: 0.2rem; }
-            p { font-size: small; color: #666; margin: 0; line-height: 1.3; }
-            input:disabled { background-color: #EEE; }
-            .borderbox { box-sizing: border-box; }
-            .row { width: 100%; display: block; overflow: hidden; }
-            .float-left, .cell-2-1, .cell-4-1 { float: left; }
-            .float-right { float: right; }
-            .cell-2-1, .cell-4-1 { margin-bottom: 2rem; box-sizing: border-box; }
-            .cell-2-1 { width: 50%; }
-            .cell-4-1 { width: 25%; padding-left: 1rem; }
-            .cell-center { margin: 0 auto; }
-            .cell-inner { padding-left: 1rem; padding-right: 1rem; }
-            .tab-1 { padding-left: 1.5rem; }
-            .tab-2 { padding-left: 3rem; }
-            .text-center { text-align: center; }
-            .text-right { text-align: right; }
-            .text-bold { text-align: bold; }
-            .button { box-sizing: border-box; padding: 0.5rem 1rem; background: #666; color: #FFF; display: table; }
+            h1 { font-size: 9vw; margin: 4vw 0 0.5vw 0; }
+            h2 { font-size: 7vw; margin: 3vw 0 0.5vw 0; }
+            h3 { font-size: 5vw; margin: 2vw 0 0.5vw 0; }
+            h4 { font-size: 3vw; margin: 1vw 0 0.5vw 0; }
+            p { font-size: 3vw; color: #333; margin: 0; line-height: 1.3; }
+            input, select { font-size: 5vw; border: solid 0.25vw #ccc }
+            .row { width: 100%; display: flex; overflow: hidden; box-sizing: border-box; }
+            .fd-col { flex-direction: column; }
+            .fbox { display: flex; }
+            .f1 { flex: 1; } .f2 { flex: 2; } .f3 { flex: 3; }
+            .fcc { justify-content: center; align-items: center; }
+            .tab-1 { padding-left: 1.5vw; }
+            .tab-2 { padding-left: 3vw; }
+            .button { box-sizing: border-box; padding: 0.5vw 1vw; background: #666; color: #FFF; display: table; }
             .button.full { display: block; }
             .button.green { background: #32AB6B; }
             .button.blue { background: #296DCC; }
             .button.red { background: #BF0000; }
             .button.yellow { background: #DEBE00; }
             .button.orange { background: #F59A01; }
-            @media (max-width: 600px) {
-                .cell-2-1 { width: 100%; }
-                .cell-4-1 { width: 50%; }
+
+            td {
+                flex: 1;
+            }
+            tbody {
+                font-size: 2.5vw;
             }
         </style>
     </head>
     <body>
-        <div class="row cell-inner borderbox">
+        <div class="row fd-col">
             <h1>QRCode Generator</h1>
             <h4>qrcode library from <a href="https://github.com/jeromeetienne/jquery-qrcode">https://github.com/jeromeetienne/jquery-qrcode</a></h4>
-            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&width=300&isSquare=true">https://iskenhuang.github.io/lab/qrcode?text=balabala&width=300&isSquare=true</a></h4>
+            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&width=300&isSquare=true">https://isken.me/lab/qrcode?text=balabala&width=300&isSquare=true</a></h4>
             <h3>Url Params</h3>
-            <table class="row borderbox" style="margin-bottom: 2rem;">
-                <tr style="background: #EEE;">
-                    <td>name</td>
-                    <td>type</td>
-                    <td>default</td>
-                    <td>note</td>
-                </tr>
-                <tr>
-                    <td>text</td>
-                    <td>string</td>
-                    <td>https://iskenhuang.github.io</td>
-                    <td>qrcode text</td>
-                </tr>
-                <tr>
-                    <td>isSquare</td>
-                    <td>boolean</td>
-                    <td>false</td>
-                    <td>make qrcode square</td>
-                </tr>
-                <tr>
-                    <td>width</td>
-                    <td>number</td>
-                    <td>200</td>
-                    <td>qrcode width</td>
-                </tr>
-                <tr>
-                    <td>height</td>
-                    <td>number</td>
-                    <td>200</td>
-                    <td>qrcode height</td>
-                </tr>
+            <table class="row" style="margin-bottom: 4vw;">
+                <tbody class="row fd-col">
+                    <tr class="row" style="background: #EEE;">
+                        <td>name</td>
+                        <td>type</td>
+                        <td>default</td>
+                        <td>note</td>
+                    </tr>
+                    <tr class="row">
+                        <td>text</td>
+                        <td>string</td>
+                        <td>https://isken.me</td>
+                        <td>qrcode text</td>
+                    </tr>
+                    <tr class="row">
+                        <td>isSquare</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>make qrcode square</td>
+                    </tr>
+                    <tr class="row">
+                        <td>width</td>
+                        <td>number</td>
+                        <td>200</td>
+                        <td>qrcode width</td>
+                    </tr>
+                    <tr class="row">
+                        <td>height</td>
+                        <td>number</td>
+                        <td>200</td>
+                        <td>qrcode height</td>
+                    </tr>
+                </tbody>
             </table>
 
             <h3>Text or Url</h3>
-            <input id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://iskenhuang.github.io" autofocus />
+            <input id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://isken.me" autofocus />
 
             <h3>QRCode is square?</h3>
             <div class="row">
@@ -106,7 +104,7 @@
             <h3>QRCode height</h3>
             <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="200" />
 
-            <div id="qrcode" class="row text-center borderbox" style="padding-top: 2rem;"></div>
+            <div id="qrcode" class="row text-center borderbox" style="padding-top: 4rem;"></div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
