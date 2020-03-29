@@ -8,7 +8,7 @@ const templateName = __dirname + '/template.html'
 const indexName = 'index.html'
 const labFolder = FS.readdirSync(labFolderName)
 var labs = []
-var bodyTemplate = '<style>h3 {padding: 0.8rem 0;} h3:nth-child(2n) { background-color: #fafafa;}</style><div class="cell-inner row borderbox">'
+var bodyTemplate = '<style>h3 {padding: 1.5vw 2vw; box-sizing: border-box;} h3:nth-child(2n) { background-color: #fafafa; }</style><div class="row fd-col">'
 
 const normalHtml = FS.readFileSync(templateName).toString()
 var result = ''
@@ -30,3 +30,5 @@ result = normalHtml.replace(/\{\{title\}\}/g, labName)
                         .replace(/\{\{body\}\}/g, bodyTemplate)
 
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
+
+console.log('build success')
