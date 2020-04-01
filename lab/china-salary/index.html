@@ -63,7 +63,7 @@
         <div class="container">
             <div class="row fd-col">
                 <h1 class="row">計算中國薪資稅率</h1>
-                <p class="row">Last update: 2018-09</p>
+                <p class="row">Last update: 2020-04</p>
             </div>
             <div>
                 <div class="row fd-col">
@@ -159,45 +159,45 @@
                         r1: {
                             off: 0,
                             tax: 3,
-                            range: 3000
+                            range: 36000
                         },
                         r2: {
-                            off: 210,
+                            off: 2520,
                             tax: 10,
-                            range: 12000
+                            range: 144000
                         },
                         r3: {
-                            off: 1410,
+                            off: 16920,
                             tax: 20,
-                            range: 25000
+                            range: 300000
                         },
                         r4: {
-                            off: 2660,
+                            off: 31920,
                             tax: 25,
-                            range: 35000
+                            range: 420000
                         },
                         r5: {
-                            off: 4410,
+                            off: 52920,
                             tax: 30,
-                            range: 55000
+                            range: 660000
                         },
                         r6: {
-                            off: 7160,
+                            off: 85920,
                             tax: 35,
-                            range: 80000
+                            range: 960000
                         },
                         r7: {
-                            off: 15160,
+                            off: 181910,
                             tax: 45,
-                            range: 80001
+                            range: 960001
                         }
                     },
-                    basic = 4800,
                     _off = 0,
                     _tax = 0,
                     _taxTotal = 0,
                     _realGet = 0,
                     _mo = mo || 12,
+                    _normalYearSalary = _mo * salary,
                     result = {},
                     generateObj = function (cName, _rate) {
                         var _rate = typeof(_rate) === 'string' ? parseFloat(_rate, 10) : 1
@@ -210,8 +210,8 @@
                             name: name,
                             taxMonth: round2((_taxTotal * _rate) / _mo),
                             taxYear: round2(_taxTotal * _rate),
-                            realMonth: round2(_realGet * _rate),
-                            realYear: round2(_realGet * _rate * _mo),
+                            realMonth: round2(_realGet * _rate / _mo),
+                            realYear: round2(_realGet * _rate),
                             salaryMonth: round2(salary * _rate),
                             salaryYear: round2(salary * _rate * _mo),
                             taxRate: round2(_tax) + '%',
@@ -219,31 +219,23 @@
                         }
                     };
 
-                if(salary < range.r1.range) {
-                    _off = range.r1.off;
-                    _tax = range.r1.tax;
-                }else if(salary < range.r2.range) {
-                    _off = range.r2.off;
-                    _tax = range.r2.tax;
-                }else if(salary < range.r3.range) {
-                    _off = range.r3.off;
-                    _tax = range.r3.tax;
-                }else if(salary < range.r4.range) {
-                    _off = range.r4.off;
-                    _tax = range.r4.tax;
-                }else if(salary < range.r5.range) {
-                    _off = range.r5.off;
-                    _tax = range.r5.tax;
-                }else if(salary < range.r6.range){
-                    _off = range.r6.off;
-                    _tax = range.r6.tax;
-                }else{
-                    _off = range.r7.off;
-                    _tax = range.r7.tax;
+                if (_normalYearSalary > range.r7.range) {
+                    _off = range.r7.off
+                    _tax = range.r7.tax
+                } else {
+                    for (var i = 1; i <= 6; i++) {
+                        var _range = range['r'+i]
+                        
+                        if (_normalYearSalary < _range.range) {
+                            _off = _range.off
+                            _tax = _range.tax
+                            break
+                        }
+                    }
                 }
 
-                _taxTotal = (( salary - basic ) * (_tax / 100) ) - _off
-                _realGet = salary - _taxTotal
+                _taxTotal = ( _normalYearSalary * (_tax / 100) ) - _off
+                _realGet = _normalYearSalary - _taxTotal
 
                 // set default for CNY
                 result['CNY'] = generateObj('CNY', 1)
