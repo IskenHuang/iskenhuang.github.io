@@ -23,3 +23,7 @@ input, select { font-size: 5vw; border: solid 0.25vw #ccc }
 .button.red { background: #BF0000; }
 .button.yellow { background: #DEBE00; }
 .button.orange { background: #F59A01; }
+@media (prefers-color-scheme: dark) {
+    body { background: #333; }
+    h1, h2, h3, h4, p, a { color: #fafafa; }
+}
