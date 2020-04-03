@@ -3,7 +3,6 @@ var FS = require('fs')
 // create lab index
 const labFolderName = 'lab'
 const labName = 'Lab index'
-const templateItem = `<h3><a href="/${labFolderName}/{{name}}">{{name}}</a></h3>`
 const templateName = `${__dirname}/template.html`
 const indexName = 'index.html'
 const labFolder = FS.readdirSync(labFolderName)
@@ -29,23 +28,73 @@ labFolder.map(function(item) {
         console.log('item = ', item)
         const hasIndex = FS.readFileSync(_name)
         if(hasIndex) {
-            bodyTemplate += templateItem.replace(/\{\{name\}\}/g, item)
+            bodyTemplate += `<h3><a href="/${labFolderName}/${item}">${item}</a></h3>`
             labs.push(item)
         }
     }
 })
 
-bodyTemplate += '</div>'
-
-result = normalHtml.replace(/\{\{title\}\}/g, labName)
-                        .replace(/\{\{commoncss\}\}/g, commonCss)
-                        .replace(/\{\{body\}\}/g, bodyTemplate)
+result = liteTemplate(normalHtml, {
+    title: labName,
+    commoncss: commonCss,
+    body: `${bodyTemplate}</div>`
+})
 
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
 
 console.log('build success')
 
-// -------------------------------------
+// -----------------------------------------------------------
 function removeLineBreak(s) {
     return s.replace(/\n|\ \ \ \ /g, '')
+}
+
+function liteTemplate(template, obj, options) {
+    template += '';
+    options = options || {};
+    obj = Object.prototype.toString.call(obj) === '[object Object]' ? obj : {};
+
+    var open = options.open || '{{',
+        close = options.close || '}}',
+        isEncode = !!options.isEncode,
+        reg = new RegExp(getSyntax(open) + '\\ *\\w*\\ *' + getSyntax(close), 'g'),
+        matchString = template.match(reg);
+
+    function getString(v) {
+        var _type = Object.prototype.toString.call(v),
+            result = '';
+        _type = _type.substring(8, _type.length-1).toLowerCase();
+
+        switch(_type) {
+            case 'string':
+                result = v;
+                break;
+            case 'number':
+                result = v + '';
+                break;
+            case 'object':
+            case 'array':
+                result = JSON.stringify(v);
+                break;
+        }
+
+        return result;
+    }
+
+    function getSyntax(s) {
+        return s.replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/\#/g, '\\#');
+    }
+
+    if(matchString) {
+        for(var i = 0; i < matchString.length; i++) {
+            var ms = matchString[i],
+                key = ms.replace(open, '').replace(close, '').trim(),
+                val = isEncode ? getString(obj[key]).replace(/\>/g, '&gt;').replace(/\</g, '&lt;') : getString(obj[key]),
+                _regex = new RegExp(getSyntax(ms), 'g');
+
+            template = template.replace(_regex, val);
+        }
+    }
+
+    return template;
 }
