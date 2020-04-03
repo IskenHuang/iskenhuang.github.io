@@ -47,5 +47,5 @@ console.log('build success')
 
 // -------------------------------------
 function removeLineBreak(s) {
-    return s.replace(/\n/g, '')
+    return s.replace(/\n|\ \ \ \ /g, '')
 }
