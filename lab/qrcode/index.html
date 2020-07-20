@@ -95,7 +95,7 @@
 
             <h3>QRCode is square?</h3>
             <div class="row">
-                <input id="inputIsSquare" class="" type="checkbox" /><span> is square?</span>
+                <input id="inputIsSquare" class="" type="checkbox" checked /><span> is square?</span>
             </div>
 
             <h3>QRCode width</h3>
@@ -104,7 +104,7 @@
             <h3>QRCode height</h3>
             <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="200" />
 
-            <div id="qrcode" class="row text-center borderbox" style="padding: 4rem;"></div>
+            <div id="qrcode" class="row text-center borderbox" style="padding: 4rem 0 4rem 0; display: flex; justify-content: center;"></div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -124,6 +124,10 @@
                             height: parseInt($inputHeight.val(), 10),
                             text: $inputText.val()
                         })
+                    },
+                    makeSquare = function() {
+                        $inputHeight.val($inputWidth.val())
+                        $inputHeight[0].setAttribute('disabled', true)
                     };
 
                 // url input
@@ -160,13 +164,14 @@
                     }
                     if(result.isSquare) {
                         $inputIsSquare[0].checked = true
-                        $inputHeight.val($inputWidth.val())
-                        $inputHeight[0].setAttribute('disabled', true)
+                        makeSquare()
                     }
                     if(result.text) {
                         $inputText.val(result.text)
                     }
                 }
+
+                makeSquare()
 
                 // when loaded this page auto gen
                 refreshQRCode()
@@ -176,8 +181,7 @@
                 });
                 $inputIsSquare.on('change', function(e) {
                     if(!!e.currentTarget.checked) {
-                        $inputHeight[0].setAttribute('disabled', true)
-                        $inputHeight.val($inputWidth.val())
+                        makeSquare()
                     }else {
                         $inputHeight[0].removeAttribute('disabled')
                     }
