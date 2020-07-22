@@ -52,46 +52,21 @@
     <body>
         <div class="row fd-col">
             <h1>QRCode Generator</h1>
-            <h4>qrcode library from <a href="https://github.com/jeromeetienne/jquery-qrcode">https://github.com/jeromeetienne/jquery-qrcode</a></h4>
-            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&width=300&isSquare=true">https://isken.me/lab/qrcode?text=balabala&width=300&isSquare=true</a></h4>
-            <h3>Url Params</h3>
-            <table class="row" style="margin-bottom: 4vw;">
-                <tbody class="row fd-col">
-                    <tr class="row" style="background: #EEE;">
-                        <td>name</td>
-                        <td>type</td>
-                        <td>default</td>
-                        <td>note</td>
-                    </tr>
-                    <tr class="row">
-                        <td>text</td>
-                        <td>string</td>
-                        <td>https://isken.me</td>
-                        <td>qrcode text</td>
-                    </tr>
-                    <tr class="row">
-                        <td>isSquare</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                        <td>make qrcode square</td>
-                    </tr>
-                    <tr class="row">
-                        <td>width</td>
-                        <td>number</td>
-                        <td>200</td>
-                        <td>qrcode width</td>
-                    </tr>
-                    <tr class="row">
-                        <td>height</td>
-                        <td>number</td>
-                        <td>200</td>
-                        <td>qrcode height</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h4>qrcode library from <a href="//github.com/kazuhikoarase/qrcode-generator/">https://github.com/kazuhikoarase/qrcode-generator/</a></h4>
+            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&size=300">https://isken.me/lab/qrcode?text=balabala&size=300</a></h4>
 
             <h3>Text or Url</h3>
-            <input id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://isken.me" autofocus />
+            <textarea id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://isken.me" autofocus></textarea>
+
+            <h3>Error correction level</h3>
+            <div class="row">
+                <select id="errCorrectionLevel">
+                    <option value="L">Low(7%)</option>
+                    <option value="M" selected>Medium(15%)</option>
+                    <option value="Q">Q(25%)</option>
+                    <option value="H">High(30%)</option>
+                </select>
+            </div>
 
             <h3>QRCode is square?</h3>
             <div class="row">
@@ -104,40 +79,52 @@
             <h3>QRCode height</h3>
             <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="200" />
 
-            <div id="qrcode" class="row text-center borderbox" style="padding: 4rem 0 4rem 0; display: flex; justify-content: center;"></div>
+            <div id="qrcode" class="row text-center borderbox" style="padding: 10vw 0 10vw 0; display: flex; justify-content: center;"></div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script type="text/javascript" src="./jquery.qrcode.min.js"></script>
+        <script type="text/javascript" src="./qrcode.min.js"></script>
         <script type="text/javascript">
-            $(function() {
-                var $inputText = $('#inputText'),
-                    $inputIsSquare = $('#inputIsSquare'),
-                    $inputWidth = $('#inputWidth'),
-                    $inputHeight = $('#inputHeight'),
-                    $qrcode = $('#qrcode'),
+            ;(function() {
+                let $inputText = document.querySelector('#inputText'),
+                    $inputIsSquare = document.querySelector('#inputIsSquare'),
+                    $inputWidth = document.querySelector('#inputWidth'),
+                    $inputHeight = document.querySelector('#inputHeight'),
+                    $errCorrectionLevel = document.querySelector('#errCorrectionLevel'),
+                    $qrcode = document.querySelector('#qrcode'),
                     refreshQRCode = function () {
                         console && console.log && console.log('begin generate new qrcode!');
-                        $qrcode.html('')
-                        $qrcode.qrcode({
-                            width: parseInt($inputWidth.val(), 10),
-                            height: parseInt($inputHeight.val(), 10),
-                            text: $inputText.val()
-                        })
+                        $qrcode.innerHTML = ''
+
+                        try {
+                            // https://github.com/kazuhikoarase/qrcode-generator/tree/master/js
+                            const typeNumber = -1
+                            const errorCorrectionLevel = $errCorrectionLevel.value
+                            const qr = qrcode(typeNumber, errorCorrectionLevel)
+                            qr.addData($inputText.value)
+                            qr.make()
+                            const svg = qr.createSvgTag()
+                            $qrcode.innerHTML = qr.createSvgTag()
+                            const $svg = $qrcode.querySelector('svg')
+                            $svg.setAttribute('width', $inputWidth.value)
+                            $svg.setAttribute('height', $inputHeight.value)
+                        }catch(e) {
+                            $qrcode.innerHTML = '<p style="color:red; font-size: 9vw">' + e + '</p>'
+                        }
+                        
                     },
                     makeSquare = function() {
-                        $inputHeight.val($inputWidth.val())
-                        $inputHeight[0].setAttribute('disabled', true)
-                    };
+                        $inputHeight.value = $inputWidth.value
+                        $inputHeight.setAttribute('disabled', true)
+                    }
 
                 // url input
-                var queryString = window.location.search || ''
+                let queryString = window.location.search || ''
                 if(queryString) {
                     queryString = queryString.replace(/^\?/, '')
-                    var querys = queryString.split(/&/),
+                    const querys = queryString.split(/&/),
                         result = {}
-                    for(var i = 0; i < querys.length; i++) {
-                        var s = querys[i],
+                    for(let i = 0; i < querys.length; i++) {
+                        const s = querys[i],
                             eqIndex = s.indexOf('=')
                             key = '',
                             val = ''
@@ -148,26 +135,16 @@
                         }
 
                         if(key) {
-                            if(key.toLowerCase() === 'issquare') {
-                                result[key] = val === 'true' ? true : false
-                            }else{
-                                result[key] = val
-                            }
+                            result[key] = val
                         }
                     }
 
-                    if(result.width) {
-                        $inputWidth.val(result.width)
-                    }
-                    if(result.height) {
-                        $inputHeight.val(result.height)
-                    }
-                    if(result.isSquare) {
-                        $inputIsSquare[0].checked = true
-                        makeSquare()
+                    if(result.size) {
+                        $inputWidth.value = result.size
+                        $inputHeight.value = result.size
                     }
                     if(result.text) {
-                        $inputText.val(result.text)
+                        $inputText.value = result.text
                     }
                 }
 
@@ -176,29 +153,32 @@
                 // when loaded this page auto gen
                 refreshQRCode()
 
-                $inputText.on('change', function(e) {
-                    refreshQRCode();
-                });
-                $inputIsSquare.on('change', function(e) {
+                $inputText.addEventListener('change', function(e) {
+                    refreshQRCode()
+                })
+                $inputIsSquare.addEventListener('change', function(e) {
                     if(!!e.currentTarget.checked) {
                         makeSquare()
                     }else {
-                        $inputHeight[0].removeAttribute('disabled')
+                        $inputHeight.removeAttribute('disabled')
                     }
 
                     refreshQRCode()
-                });
-                $inputWidth.on('change', function(e) {
-                    if(!!$inputIsSquare[0].checked) {
-                        $inputHeight.val(e.currentTarget.value)
+                })
+                $inputWidth.addEventListener('change', function(e) {
+                    if(!!$inputIsSquare.checked) {
+                        $inputHeight.value = e.currentTarget.value
                     }
 
                     refreshQRCode()
-                });
-                $inputHeight.on('change', function(e) {
+                })
+                $inputHeight.addEventListener('change', function(e) {
                     refreshQRCode()
-                });
-            });
+                })
+                $errCorrectionLevel.addEventListener('change', function(e) {
+                    refreshQRCode()
+                })
+            })();
         </script>
 
 
