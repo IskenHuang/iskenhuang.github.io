@@ -47,6 +47,9 @@
             tbody {
                 font-size: 2.5vw;
             }
+            textarea {
+                min-height: 9vw;
+            }
         </style>
     </head>
     <body>
@@ -74,10 +77,10 @@
             </div>
 
             <h3>QRCode width</h3>
-            <input id="inputWidth" class="row" type="number" placeholder="input some text or url here" value="200" />
+            <input id="inputWidth" class="row" type="number" placeholder="input some text or url here" value="300" />
 
             <h3>QRCode height</h3>
-            <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="200" />
+            <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="300" />
 
             <div id="qrcode" class="row text-center borderbox" style="padding: 10vw 0 10vw 0; display: flex; justify-content: center;"></div>
         </div>
@@ -103,12 +106,12 @@
                             qr.addData($inputText.value)
                             qr.make()
                             const svg = qr.createSvgTag()
-                            $qrcode.innerHTML = qr.createSvgTag()
+                            $qrcode.innerHTML = `<a href="${$inputText.value}">${svg}</a>`
                             const $svg = $qrcode.querySelector('svg')
                             $svg.setAttribute('width', $inputWidth.value)
                             $svg.setAttribute('height', $inputHeight.value)
                         }catch(e) {
-                            $qrcode.innerHTML = '<p style="color:red; font-size: 9vw">' + e + '</p>'
+                            $qrcode.innerHTML = `<p style="color:red; font-size: 9vw">${e}</p>`
                         }
                         
                     },
