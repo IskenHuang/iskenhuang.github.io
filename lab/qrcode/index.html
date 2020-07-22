@@ -71,16 +71,21 @@
                 </select>
             </div>
 
-            <h3>QRCode is square?</h3>
-            <div class="row">
-                <input id="inputIsSquare" class="" type="checkbox" checked /><span> is square?</span>
+            <h3>QRCode size</h3>
+            <input id="inputSize" class="row" type="number" placeholder="input some text or url here" value="300" />
+
+            <div style="display: none;">
+                <h3>QRCode is square?</h3>
+                <div class="row">
+                    <input id="inputIsSquare" class="" type="checkbox" checked /><span> is square?</span>
+                </div>
+
+                <h3>QRCode width</h3>
+                <input id="inputWidth" class="row" type="number" placeholder="input some text or url here" value="300" />
+
+                <h3>QRCode height</h3>
+                <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="300" />
             </div>
-
-            <h3>QRCode width</h3>
-            <input id="inputWidth" class="row" type="number" placeholder="input some text or url here" value="300" />
-
-            <h3>QRCode height</h3>
-            <input id="inputHeight" class="row" type="number" placeholder="input some text or url here" value="300" />
 
             <div id="qrcode" class="row text-center borderbox" style="padding: 10vw 0 10vw 0; display: flex; justify-content: center;"></div>
         </div>
@@ -93,6 +98,7 @@
         <script type="text/javascript">
             ;(function() {
                 let $inputText = document.querySelector('#inputText'),
+                    $inputSize = document.querySelector('#inputSize'),
                     $inputIsSquare = document.querySelector('#inputIsSquare'),
                     $inputWidth = document.querySelector('#inputWidth'),
                     $inputHeight = document.querySelector('#inputHeight'),
@@ -110,7 +116,7 @@
                             qr.addData($inputText.value)
                             qr.make()
                             const svg = qr.createSvgTag()
-                            $qrcode.innerHTML = `<a href="${$inputText.value}">${svg}</a>`
+                            $qrcode.innerHTML = `<a href="${$inputText.value}" target="_blank">${svg}</a>`
                             const $svg = $qrcode.querySelector('svg')
                             $svg.setAttribute('width', $inputWidth.value)
                             $svg.setAttribute('height', $inputHeight.value)
@@ -120,7 +126,8 @@
                         
                     },
                     makeSquare = function() {
-                        $inputHeight.value = $inputWidth.value
+                        $inputWidth.value = $inputSize.value
+                        $inputHeight.value = $inputSize.value
                         $inputHeight.setAttribute('disabled', true)
                     }
 
@@ -163,23 +170,8 @@
                 $inputText.addEventListener('change', function(e) {
                     refreshQRCode()
                 })
-                $inputIsSquare.addEventListener('change', function(e) {
-                    if(!!e.currentTarget.checked) {
-                        makeSquare()
-                    }else {
-                        $inputHeight.removeAttribute('disabled')
-                    }
-
-                    refreshQRCode()
-                })
-                $inputWidth.addEventListener('change', function(e) {
-                    if(!!$inputIsSquare.checked) {
-                        $inputHeight.value = e.currentTarget.value
-                    }
-
-                    refreshQRCode()
-                })
-                $inputHeight.addEventListener('change', function(e) {
+                $inputSize.addEventListener('change', function(e) {
+                    makeSquare()
                     refreshQRCode()
                 })
                 $errCorrectionLevel.addEventListener('change', function(e) {
