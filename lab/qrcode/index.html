@@ -41,38 +41,52 @@
             .button.yellow { background: #DEBE00; }
             .button.orange { background: #F59A01; }
 
-            td {
-                flex: 1;
-            }
-            tbody {
+            p {
                 font-size: 2.5vw;
             }
             textarea {
                 min-height: 9vw;
+            }
+
+            @media (min-width: 700px) {
+                .fig-large-screen {
+                    display: flex;
+                }
+                .fig-large-screen > * {
+                    flex: 1;
+                    box-sizing: border-box;
+                    padding: 0 0.5vw 0 0.5vw;
+                }
             }
         </style>
     </head>
     <body>
         <div class="row fd-col">
             <h1>QRCode Generator</h1>
-            <h4>qrcode library from <a href="//github.com/kazuhikoarase/qrcode-generator/">https://github.com/kazuhikoarase/qrcode-generator/</a></h4>
-            <h4>Quick generator: <a href="/lab/qrcode?text=balabala&size=300">https://isken.me/lab/qrcode?text=balabala&size=300</a></h4>
+            <p>qrcode library from <a href="//github.com/kazuhikoarase/qrcode-generator/">https://github.com/kazuhikoarase/qrcode-generator/</a></p>
+            <p>Quick generator: <a href="/lab/qrcode?text=balabala&size=300">https://isken.me/lab/qrcode?text=balabala&size=300</a></p>
 
             <h3>Text or Url</h3>
             <textarea id="inputText" class="row" type="text" placeholder="input some text or url here" value="https://isken.me" autofocus></textarea>
 
-            <h3>Error correction level</h3>
-            <div class="row">
-                <select id="errCorrectionLevel">
-                    <option value="L">Low(7%)</option>
-                    <option value="M" selected>Medium(15%)</option>
-                    <option value="Q">Q(25%)</option>
-                    <option value="H">High(30%)</option>
-                </select>
-            </div>
+            <div class="fig-large-screen">
+                <div>
+                    <h3>Error correction level</h3>
+                    <div class="row">
+                        <select id="errCorrectionLevel">
+                            <option value="L">Low(7%)</option>
+                            <option value="M" selected>Medium(15%)</option>
+                            <option value="Q">Q(25%)</option>
+                            <option value="H">High(30%)</option>
+                        </select>
+                    </div>
+                </div>
 
-            <h3>QRCode size</h3>
-            <input id="inputSize" class="row" type="number" placeholder="input some text or url here" value="300" />
+                <div>
+                    <h3>QRCode size</h3>
+                    <input id="inputSize" class="row" type="number" placeholder="input some text or url here" value="300" />
+                </div>
+            </div>
 
             <div style="display: none;">
                 <h3>QRCode is square?</h3>
