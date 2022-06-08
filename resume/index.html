@@ -46,18 +46,8 @@
                 display: block;
                 overflow: hidden;
             }
-            .floatLeft, .cell-2-1, .cell-4-1 {
+            .floatLeft {
                 float: left;
-            }
-            .cell-2-1, .cell-4-1 {
-                margin-bottom: 2rem;
-            }
-            .cell-2-1 {
-                width: 50%;
-            }
-            .cell-4-1 {
-                padding-left: 1rem;
-                width: 25%;
             }
             .cell-inner {
                 padding-left: 1rem;
@@ -120,24 +110,10 @@
             .career-section {
                 margin-top: 0.8rem;
             }
-            @media (max-width: 600px) {
-                .cell-2-1 {
-                    width: 100%;
-                }
-                .cell-4-1 {
-                    width: 50%;
-                }
-            }
             @media print {
                 .change-lang { display: none; }
                 html {
                     font-size: 80%;
-                }
-                .cell-2-1 {
-                    width: 50%;
-                }
-                .cell-4-1 {
-                    width: 25%;
                 }
             }
         </style>
