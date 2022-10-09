@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="EN-US" style="font-size: 62.5%; font-family: sans-serif; font-weight: lighter;">
+<html class="no-js" lang="EN-US">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -13,34 +13,8 @@
         <meta property="og:image"         content="https://isken.me/me.jpg" />
         <link rel="icon" href="/favicon.ico?v=1.1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
         <!-- Place favicon.ico in the root directory -->
-        <style>
-            /* common css */
-            html, body { font-family: sans-serif; font-weight: lighter; }
-            body { margin: 0; }
-            a { text-decoration: none; }
-            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
-            h1 { font-size: 9vw; margin: 4vw 0 0.5vw 0; }
-            h2 { font-size: 7vw; margin: 3vw 0 0.5vw 0; }
-            h3 { font-size: 5vw; margin: 2vw 0 0.5vw 0; }
-            h4 { font-size: 3vw; margin: 1vw 0 0.5vw 0; }
-            p { font-size: 3vw; color: #333; margin: 0; line-height: 1.3; }
-            input, select { font-size: 5vw; border: solid 0.25vw #ccc }
-            .row { width: 100%; display: flex; overflow: hidden; box-sizing: border-box; }
-            .fd-col { flex-direction: column; }
-            .fbox { display: flex; }
-            .f1 { flex: 1; } .f2 { flex: 2; } .f3 { flex: 3; }
-            .fcc { justify-content: center; align-items: center; }
-            .tab-1 { padding-left: 1.5vw; }
-            .tab-2 { padding-left: 3vw; }
-            .button { box-sizing: border-box; padding: 0.5vw 1vw; background: #666; color: #FFF; display: table; }
-            .button.full { display: block; }
-            .button.green { background: #32AB6B; }
-            .button.blue { background: #296DCC; }
-            .button.red { background: #BF0000; }
-            .button.yellow { background: #DEBE00; }
-            .button.orange { background: #F59A01; }
-        </style>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -49,41 +23,41 @@
         <div class="row fd-col">
             <h1>Url tools</h1>
 
-            <h3>URL input</h3>
+            <label>URL input</label>
             <input id="url" type="text" placeholder="input url here.." onkeyup="updateResult()" />
 
 
-            <h3>Encode:</h3>
+            <label>Encode:</label>
             <a id="encode" href=""></a>
 
-            <h3>Decode:</h3>
+            <label>Decode:</label>
             <a id="decode" href=""></a>
 
-            <h3>Protocol:</h3>
+            <label>Protocol:</label>
             <p id="protocol"></p>
 
-            <h3>Username:</h3>
+            <label>Username:</label>
             <p id="username"></p>
 
-            <h3>Password:</h3>
+            <label>Password:</label>
             <p id="password"></p>
 
-            <h3>Hostname:</h3>
+            <label>Hostname:</label>
             <p id="hostname"></p>
 
-            <h3>Port:</h3>
+            <label>Port:</label>
             <p id="port"></p>
 
-            <h3>Pathname:</h3>
+            <label>Pathname:</label>
             <p id="pathname"></p>
 
-            <h3>Search:</h3>
+            <label>Search:</label>
             <p id="search"></p>
 
-            <h3>Hash:</h3>
+            <label>Hash:</label>
             <p id="hash"></p>
 
-            <h3>Origin:</h3>
+            <label>Origin:</label>
             <p id="origin"></p>
         </div>
 

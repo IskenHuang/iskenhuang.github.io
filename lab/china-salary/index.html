@@ -21,94 +21,58 @@
         <meta property="og:description" content="計算中國薪資稅率">
         <meta property="og:site_name" content="計算中國薪資稅率">
         <meta property="og:type" content="product">
-        <style>
-            /* common css */
-            html, body { font-family: sans-serif; font-weight: lighter; }
-            body { margin: 0; }
-            a { text-decoration: none; }
-            h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
-            h1 { font-size: 9vw; margin: 4vw 0 0.5vw 0; }
-            h2 { font-size: 7vw; margin: 3vw 0 0.5vw 0; }
-            h3 { font-size: 5vw; margin: 2vw 0 0.5vw 0; }
-            h4 { font-size: 3vw; margin: 1vw 0 0.5vw 0; }
-            p { font-size: 3vw; color: #333; margin: 0; line-height: 1.3; }
-            input, select { font-size: 5vw; border: solid 0.25vw #ccc }
-            .row { width: 100%; display: flex; overflow: hidden; box-sizing: border-box; }
-            .fd-col { flex-direction: column; }
-            .fbox { display: flex; }
-            .f1 { flex: 1; } .f2 { flex: 2; } .f3 { flex: 3; }
-            .fcc { justify-content: center; align-items: center; }
-            .tab-1 { padding-left: 1.5vw; }
-            .tab-2 { padding-left: 3vw; }
-            .button { box-sizing: border-box; padding: 0.5vw 1vw; background: #666; color: #FFF; display: table; }
-            .button.full { display: block; }
-            .button.green { background: #32AB6B; }
-            .button.blue { background: #296DCC; }
-            .button.red { background: #BF0000; }
-            .button.yellow { background: #DEBE00; }
-            .button.orange { background: #F59A01; }
-
-            table {
-                font-size: 5vw;
-            }
-            .input-title {
-                padding-top: 1vw;
-            }
-            .mt-15 {
-                margin-top: 5vw;
-            }
-        </style>
+        <link rel="stylesheet" href="/common.min.css">
     </head>
     <body>
-        <div class="container">
-            <div class="row fd-col">
-                <h1 class="row">計算中國薪資稅率</h1>
-                <p class="row">Last update: 2020-04</p>
+        <div>
+            <div>
+                <h1>計算中國薪資稅率</h1>
+                <p>Last update: 2020-04</p>
             </div>
             <div>
-                <div class="row fd-col">
-                    <h3 class="">每月薪資(RMB 稅前)</h3>
-                    <input type="number" class="js-salary row" placeholder="10000" value="10000">
+                <div>
+                    <label>每月薪資(RMB 稅前)</label>
+                    <input type="number" class="js-salary" placeholder="10000" value="10000">
                 </div>
-                <div class="row fd-col">
-                    <h3 class="input-title">年薪幾個月</h3>
-                    <input type="number" class="js-month row" placeholder="12" value="12">
+                <div>
+                    <label>年薪幾個月</label>
+                    <input type="number" class="js-month" placeholder="12" value="12">
                 </div>
-                <div class="row fd-col">
-                    <h3 class="input-title">當前匯率</h3>
-                    <input type="number" class="js-rate row" value="4.3">
+                <div>
+                    <label>當前匯率</label>
+                    <input type="number" class="js-rate" value="4.3">
                 </div>
             </div>
-            <div class="row mt-15">
-                <table class="js-table row fd-col">
+            <div>
+                <table class="js-table fd-col">
                     <thead class="">
-                        <tr class="row js-currencies">
+                        <tr class="js-currencies">
                             <td class="f1" scope="col">&nbsp;</td>
                         </tr>
                     </thead>
                     <tbody class="">
-                        <tr class="row js-salary-withtax-month">
+                        <tr class="js-salary-withtax-month">
                             <td class="f1" scope="row">稅前（月）</td>
                         </tr>
-                        <tr class="row js-salary-withtax-year">
+                        <tr class="js-salary-withtax-year">
                             <td class="f1" scope="row">稅前（年）</td>
                         </tr>
-                        <tr class="row js-tax-month">
+                        <tr class="js-tax-month">
                             <td class="f1" scope="row">稅（月）</td>
                         </tr>
-                        <tr class="row js-tax-year">
+                        <tr class="js-tax-year">
                             <td class="f1" scope="row">稅（年）</td>
                         </tr>
-                        <tr class="row js-tax-rate">
+                        <tr class="js-tax-rate">
                             <td class="f1" scope="row">稅率</td>
                         </tr>
-                        <tr class="row js-tax-off">
+                        <tr class="js-tax-off">
                             <td class="f1" scope="row">稅減免</td>
                         </tr>
-                        <tr class="row js-salary-withouttax-month">
+                        <tr class="js-salary-withouttax-month">
                             <td class="f1" scope="row">稅後（月）</td>
                         </tr>
-                        <tr class="row js-salary-withouttax-year">
+                        <tr class="js-salary-withouttax-year">
                             <td class="f1" scope="row">稅後（年）</td>
                         </tr>
                     </tbody>
