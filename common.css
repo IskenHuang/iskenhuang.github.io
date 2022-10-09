@@ -1,29 +1,184 @@
-/* common css */
-html, body { font-family: sans-serif; font-weight: lighter; }
-body { margin: 0; }
-a { text-decoration: none; }
-h1, h2, h3, h4 { color: #353535; margin: 0; font-weight: lighter; }
-h1 { font-size: 9vw; margin: 4vw 0 0.5vw 0; }
-h2 { font-size: 7vw; margin: 3vw 0 0.5vw 0; }
-h3 { font-size: 5vw; margin: 2vw 0 0.5vw 0; }
-h4 { font-size: 3vw; margin: 1vw 0 0.5vw 0; }
-p { font-size: 3vw; color: #333; margin: 0; line-height: 1.3; }
-input, select { font-size: 5vw; border: solid 0.25vw #ccc }
-.row { width: 100%; display: flex; overflow: hidden; box-sizing: border-box; }
-.fd-col { flex-direction: column; }
-.fbox { display: flex; }
-.f1 { flex: 1; } .f2 { flex: 2; } .f3 { flex: 3; }
-.fcc { justify-content: center; align-items: center; }
-.tab-1 { padding-left: 1.5vw; }
-.tab-2 { padding-left: 3vw; }
-.button { box-sizing: border-box; padding: 0.5vw 1vw; background: #666; color: #FFF; display: table; }
-.button.full { display: block; }
-.button.green { background: #32AB6B; }
-.button.blue { background: #296DCC; }
-.button.red { background: #BF0000; }
-.button.yellow { background: #DEBE00; }
-.button.orange { background: #F59A01; }
+/* custom version of MVP.css v1.12 - https://github.com/andybrewer/mvp */
+
+:root {
+    --active-brightness: 0.85;
+    --border-radius: 5px;
+    --box-shadow: 2px 2px 10px;
+    --color-bg: #fff;
+    --color-bg-secondary: #e9e9e9;
+    --color-link: #118bee;
+    --color-text: #000;
+    --color-text-secondary: #999;
+    --font-family: sans-serif;
+    --hover-brightness: 1.2;
+    --line-height: 1.5;
+    --width-card: 285px;
+    --width-card-wide: 800px;
+}
+
 @media (prefers-color-scheme: dark) {
-    body { background: #333; }
-    h1, h2, h3, h4, p, a { color: #fafafa; }
+    :root[color-mode="user"] {
+        --color-bg: #333;
+        --color-bg-secondary: #555;
+        --color-link: #0097fc;
+        --color-text: #f7f7f7;
+        --color-text-secondary: #aaa;
+    }
+}
+
+/* Layout */
+html {
+    max-width: 70ch;
+    padding: 1em;
+    margin: auto;
+    line-height: 1.75;
+    font-size: 1.25em;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-weight: lighter;
+    line-height: var(--line-height);
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: var(--line-height);
+}
+
+
+ol li,
+ul li {
+    padding: 0.2rem 0;
+}
+
+p {
+    margin: 0.75rem 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Links */
+a {
+    color: var(--color-link);
+    display: inline-block;
+    text-decoration: none;
+}
+
+a:active {
+    filter: brightness(var(--active-brightness));
+    text-decoration: underline;
+}
+
+a:hover {
+    filter: brightness(var(--hover-brightness));
+    text-decoration: underline;
+}
+
+a strong,
+button,
+input[type="submit"] {
+    border-radius: var(--border-radius);
+    display: inline-block;
+    font-size: medium;
+    font-weight: bold;
+    line-height: var(--line-height);
+    margin: 0.5rem 0;
+    padding: 1rem 2rem;
+}
+
+button,
+input[type="submit"] {
+    font-family: var(--font-family);
+}
+
+button:active,
+input[type="submit"]:active {
+    filter: brightness(var(--active-brightness));
+}
+
+button:hover,
+input[type="submit"]:hover {
+    cursor: pointer;
+    filter: brightness(var(--hover-brightness));
+}
+
+a strong,
+button,
+input[type="submit"] {
+    background-color: var(--color-link);
+    border: 2px solid var(--color-link);
+    color: var(--color-bg);
+}
+
+/* Forms */
+button:disabled,
+input:disabled {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+}
+
+button[disabled]:hover,
+input[type="submit"][disabled]:hover {
+    filter: none;
+}
+
+input,
+label,
+select,
+textarea {
+    display: block;
+    font-size: inherit;
+    max-width: var(--width-card-wide);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    display: inline-block;
+}
+
+input[type="checkbox"]+label,
+input[type="radio"]+label {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+}
+
+input[type="range"] {
+    padding: 0.4rem 0;
+}
+
+input,
+select,
+textarea {
+    border: 1px solid var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.8rem;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 1.6rem);
+}
+
+input[readonly],
+textarea[readonly] {
+    background-color: var(--color-bg-secondary);
+}
+
+label {
+    margin-bottom: 0.2rem;
 }
