@@ -3,7 +3,7 @@ const liteTemplate = require('./lifeTemplate')
 const removeLineBreak = require('./removeLineBreak')
 
 const baseHtml = FS.readFileSync(`${__dirname}/template.html`).toString()
-const commonCss = removeLineBreak(FS.readFileSync(`${__dirname}/../common.css`).toString())
+const commonCss = removeLineBreak(FS.readFileSync(`${__dirname}/../common.min.css`).toString())
 
 module.exports = function (obj) {
     return liteTemplate(baseHtml, Object.assign({
