@@ -12,12 +12,12 @@ const labs = []
 const bodyPrefix = removeLineBreak(`
 <style>
     h3 {padding: 1.5vw 2vw; box-sizing: border-box; margin: 0; }
-    h3:nth-child(2n) { background-color: #eee; }
+    h3:nth-child(2n) { background-color: #f7f7f7; }
     @media (prefers-color-scheme: dark) {
         h3:nth-child(2n) { background-color: #666; }
     }
 </style>
-<div class="row fd-col">
+<div>
 `)
 let result = ''
 
