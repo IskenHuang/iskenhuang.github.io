@@ -156,11 +156,10 @@
                         // reset currency
                         for (let key in currencyList) {
                             const c = cache[key]
-                            if (c.rates) {
+                            if (c && c.rates) {
                                 currencyList[key].rates = c.rates
                                 currencyList[key].time = c.time
                             }
-                            
                         }
                     }
                     
