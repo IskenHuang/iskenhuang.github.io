@@ -61,9 +61,6 @@
                     }
 
                 window.changeValue = function (e) {
-                    updateUI(e.value)
-                }
-                window.clickValue = function(e) {
                     const selectCurrency = e.getAttribute('currency')
                     for (let i in currencyList) {
                         const c = currencyList[i]
@@ -75,6 +72,7 @@
                     }
                     getCurrencyFromStroage(selectCurrency).then( res => updateUI(e.value))
                 }
+                window.clickValue = function(e) {}
 
                 window.init = function init() {
                     getCurrencyFromStroage().then(() => {
@@ -101,7 +99,7 @@
                         <input
                             currency="${name}"
                             type="number"
-                            inputmode="numeric"
+                            inputmode="decimal"
                             class="js-currency"
                             placeholder="0.00"
                             value="${value}"
@@ -192,7 +190,7 @@
                     })
 
                     if (time) {
-                        $time.textContent = `at ${new Date(time)}`
+                        $time.textContent = ` at ${new Date(time)}`
                     }
                 }
             })();
