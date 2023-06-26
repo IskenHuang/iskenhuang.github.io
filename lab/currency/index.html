@@ -31,12 +31,14 @@
         <div>
             <h1 onclick="init()">Currency</h1>
             <div class="js-main"></div>
-            <span>Currency data from <a href="https://exchangerate.host" target="_blank">https://exchangerate.host</a></span>
+            <p>Currency data from <a href="https://exchangerate.host" target="_blank">https://exchangerate.host</a><span class="js-time"></span></p>
         </div>
 
         <script type="text/javascript">
             ;(function() {
                 const $main = document.querySelector('.js-main'),
+                    $time = document.querySelector('.js-time'),
+                    storageKey = 'currency',
                     currencyList = {
                         USD: {
                             isSelected: true
@@ -71,11 +73,11 @@
                             c.isSelected = false
                         }
                     }
-                    getCurrency(selectCurrency).then( res => updateUI(e.value))
+                    getCurrencyFromStroage(selectCurrency).then( res => updateUI(e.value))
                 }
 
                 window.init = function init() {
-                    getCurrency().then(() => {
+                    getCurrencyFromStroage().then(() => {
                         $main.innerHTML = ''
                         for (let i in currencyList) {
                             $main.innerHTML += generateCurrency({
@@ -115,7 +117,8 @@
                     other = Object.keys(currencyList)
 
                     const c = getCurrencySelected()
-                    if (c && c.rates) {
+                    const now = Date.now()
+                    if (c && c.rates && (now - c.time < 60 * 60 * 4 * 1000)) {
                         // console.log('c = ', c)
                         return Promise.resolve(c.rates)
                     }
@@ -129,18 +132,45 @@
                                     const item = currencyList[i]
                                     if (i === main) {
                                         currencyList[i].rates = res.rates
+                                        currencyList[i].time = Date.now()
                                     }
                                 }
+
+                                // save to storage
+                                localStorage.setItem(storageKey, JSON.stringify(currencyList))
+                                
                                 return res.rates
                             } else {
                                 return {}
                             }
-                            return res
                         })
                         .catch(e => {
                             console.log('err = ', e)
                             return {}
                         })
+                }
+
+                function getCurrencyFromStroage(main) {
+                    const cache = JSON.parse(localStorage.getItem(storageKey))
+                    if (cache) {
+                        // reset currency
+                        for (let key in currencyList) {
+                            const c = cache[key]
+                            if (c.rates) {
+                                currencyList[key].rates = c.rates
+                                currencyList[key].time = c.time
+                            }
+                            
+                        }
+                    }
+                    
+                    const selected = getCurrencySelected()
+                    if (selected.rates) {
+                        getCurrency(main, false)
+                        return Promise.resolve(selected.rates)
+                    } else {
+                        return getCurrency(main)
+                    }
                 }
 
                 function getCurrencySelected() {
@@ -155,12 +185,16 @@
 
                 function updateUI(newValue) {
                     const $inputs = $main.querySelectorAll('input')
-                    const { rates } = getCurrencySelected()
+                    const { rates, time } = getCurrencySelected()
 
                     $inputs.forEach((el, index) => {
                         const name = el.getAttribute('currency')
                         el.value = ((newValue) * (rates[name] || 0)).toFixed(2)
                     })
+
+                    if (time) {
+                        $time.textContent = `at ${new Date(time)}`
+                    }
                 }
             })();
         </script>
