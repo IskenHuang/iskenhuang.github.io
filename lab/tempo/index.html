@@ -1,0 +1,233 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Tempo</title>
+        <meta name="description" content="4/4 tempo utils">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+            :root {
+                --play-button-size: 10rem;
+                --select-button-size: 4rem;
+            }
+            #indicator {
+                list-style: none;
+                display: flex;
+                padding: 0;
+            }
+            li {
+                flex: 1;
+                
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                padding: 0 !important;
+            }
+            li.active > select {
+                filter: brightness(var(--hover-brightness));
+                background-color: var(--color-link);
+                color: var(--color-bg);
+            }
+            li > select {
+                border: 0;
+                margin-bottom: 0;
+                background: transparent;
+                border-radius: var(--select-button-size);
+                height: var(--select-button-size);
+                width: var(--select-button-size);
+                text-align: center;
+                text-align-last: center;
+                font-size: calc(var(--select-button-size)/2);
+                font-weight: lighter;
+                -webkit-appearance: none;
+            }
+            #play {
+                justify-content: center;
+                align-items: center;
+                display: flex;
+            }
+            #play > button {
+                border-radius: var(--play-button-size);
+                height: var(--play-button-size);
+                width: var(--play-button-size);
+                font-size: var(--play-button-size);
+                text-align: center;
+                line-height: var(--play-button-size);
+                border: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Tempo</h1>
+        <div id="main">
+            <ol id="indicator">
+                <li>D</li>
+                <li>A</li>
+                <li>A</li>
+                <li>A</li>
+            </ol>
+            <div>
+                <input id="speed" type="number" inputmode="decimal" value="180" />
+            </div>
+            <div id="play" onClick="togglePlayButton(this)"><button>⏵</button></div>
+        </div>
+        <script type="text/javascript">
+            const midiMap = {
+                '-': '0',
+                'C':'523.251130601197',
+                'D':'587.329535834815',
+                'E':'659.255113825739',
+                'F':'698.456462866007',
+                'G':'783.990871963498',
+                'A':'880',
+                'B':'987.766602512248',
+                'C2':'1046.502261202394',
+                'D2':'1174.659071669630',
+                'E2':'1318.510227651479',
+                'F2':'1396.912925732015',
+                'G2':'1567.98174392699',
+                'A2':'1760',
+                'B2':'1975.53320502449',
+                'C3':'2093.00452240478',
+            }
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)
+            const gainNode = audioCtx.createGain()
+            let audioArray = []
+            const $root = document.querySelector('#main')
+            const $indicatorRoot = document.querySelector('#indicator')
+            const $indicators = $indicatorRoot.querySelectorAll('li')
+            const $playBtton = document.querySelector('#play > button')
+            const $speed = document.querySelector('#speed')
+            const activeClassName = 'active'
+            let loopTimer = null
+
+            gainNode.connect(audioCtx.destination)
+            gainNode.gain.value = 0.33
+
+            function createOscillator(freq) {
+                const oscNode = audioCtx.createOscillator()
+                oscNode.type = 'triangle'
+                oscNode.frequency.value = freq
+                oscNode.connect(gainNode)
+                return oscNode
+            }
+
+            function noteon(freq, speed) {
+                speed = isNaN(speed) ? 80 : speed
+                return new Promise((resolve, reject) => {
+                    const oscNode = createOscillator(freq)
+                    oscNode.start(0)
+                    setTimeout(() => {
+                        if (oscNode) {
+                            oscNode.stop(0)
+                            resolve(oscNode)
+                        }
+                    }, speed)
+                })
+            }
+
+            function updateAudioArray() {
+                const res = []
+                $indicators.forEach(el => {
+                    const val = el.querySelector('select').value
+                    res.push(midiMap[val])
+                })
+                audioArray = res
+                return audioArray
+            }
+
+            function initSelector() {
+                const miniKeys = Object.keys(midiMap)
+                $indicators.forEach(el => {
+                    const origin = el.textContent
+                    let optionStr = ''
+                    const $select = document.createElement('select')
+                    for (let i = 0; i < miniKeys.length; i++) {
+                        const k = miniKeys[i]
+                        optionStr += `<option value="${k}" ${k === origin ? 'selected' : ''}>${k}</option>`
+                    }
+                    el.innerHTML = `<select onChange="updateAudioArray()">${optionStr}</select>`
+                })
+
+                updateAudioArray()
+            }
+
+            function getSpeed() {
+                const s = $speed.value || '180'
+                const sInt = parseInt(s, 10)
+                return 60000 / sInt
+            }
+
+            function getNowIndex() {
+                for (let i = 0; i < $indicators.length; i++) {
+                    const c = $indicators[i].getAttribute('class') || ''
+                    if (c.indexOf(activeClassName) >= 0) {
+                        return i
+                    }
+                }
+
+                const $el0 = $indicators[0]
+                $el0.setAttribute('class', activeClassName)
+                return 0
+            }
+
+            function startLoop() {
+                const currentSpeed = getSpeed()
+                loopTimer = setInterval(() => {
+                    const index = getNowIndex()
+
+                    noteon(audioArray[index], currentSpeed / 3).then(() => {
+                        const nextIndex = (index + 1) % $indicators.length
+                        $indicators[index].setAttribute('class', '')
+                        $indicators[nextIndex].setAttribute('class', activeClassName)
+                    })
+                }, currentSpeed)
+            }
+
+            function stopLoop() {
+                if (loopTimer) {
+                    clearInterval(loopTimer)
+                }
+                setTimeout(() => {
+                    $indicators.forEach(el => {
+                        el.setAttribute('class', '')
+                    })
+                }, 200)
+            }
+
+            function togglePlayButton() {
+                if ($playBtton.textContent.indexOf('⏵') >= 0) {
+                    startLoop()
+                    $playBtton.textContent = '⏸'
+                } else {
+                    stopLoop()
+                    $playBtton.textContent = '⏵'
+                }
+            }
+
+            /* init */
+            initSelector()
+        </script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-3392989-7','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
