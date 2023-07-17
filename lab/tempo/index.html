@@ -127,6 +127,7 @@
                 speed = isNaN(speed) ? 80 : speed
                 return new Promise((resolve, reject) => {
                     const oscNode = createOscillator(freq)
+                    if (oscNode.noteOn) oscNode.start = oscNode.noteOn
                     oscNode.start(0)
                     setTimeout(() => {
                         if (oscNode) {
