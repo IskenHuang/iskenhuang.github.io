@@ -14,6 +14,9 @@
         <link rel="icon" href="/favicon.ico?v=1.1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="stylesheet" href="/common.min.css">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3392989-7"></script>
+        <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-3392989-7");</script>
         <!-- Place favicon.ico in the root directory -->
     </head>
     <body>
@@ -68,15 +71,6 @@
         <script type="text/javascript">
             !function(){var t=function(){};t.prototype.lng=t.prototype.lang=function(){var t=document.querySelector("html").getAttribute("lang");return t?t.toUpperCase():"EN-US"},t.prototype.setLang=function(t){return t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.I18N.translateAll()),this},t.prototype.t=t.prototype.translate=function(t){if(!t)throw"Can not find key: "+t;var e=RegExp("^\\_\\_\\S*\\_\\_","i"),n=t.match(e),r="";r=n?t.replace(e,""):t;var o=document.querySelectorAll("[data-i18n="+t+"]"),a=window.i18n[r]||r;if(n){n=n[0].substr(2,n[0].length-4);for(var i=0;i<o.length;i++){var l=o[i];l.setAttribute(n,a)}}else for(var i=0;i<o.length;i++){var l=o[i];l.innerHTML=a}return this},t.prototype.translateAll=function(t){for(var e="string"==typeof t?document.querySelector(t)||document:document,n=e.querySelectorAll("[data-i18n]"),r=0;r<n.length;r++){var o=n[r],a=o.getAttribute("data-i18n");this.t(a)}return this},window.i18n=window.i18n||{},window.I18N=(new t).translateAll()}();
             !function(){var t=function(){};t.prototype.updateLang=function(t){t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.i18n=window.l10n[t]||{},window.I18N&&window.I18N.translateAll())},window.l10n=window.l10n||{},window.L10N=new t}();
-        </script>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='https://www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-3392989-7','auto');ga('send','pageview');
         </script>
     </body>
 </html>
