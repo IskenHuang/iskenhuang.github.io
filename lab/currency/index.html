@@ -134,13 +134,9 @@
                                     const newKey = key.replace(res.source, '')
                                     resQuotes[newKey] = res.quotes[key]
                                 })
-                                for (let i in currencyList) {
-                                    const item = currencyList[i]
-                                    if (i === main) {
-                                        res.quotes
-                                        currencyList[i].rates = resQuotes
-                                        currencyList[i].time = Date.now()
-                                    }
+                                if (res.source === currencyList[main]) {
+                                    currencyList[main].rates = resQuotes
+                                    currencyList[main].time = Date.now()
                                 }
 
                                 // save to storage
