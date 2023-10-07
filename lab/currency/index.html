@@ -135,12 +135,14 @@
                                     resQuotes[newKey] = res.quotes[key]
                                 })
                                 if (res.source === main) {
+                                    resQuotes[main] = 1
                                     currencyList[main].rates = resQuotes
                                     currencyList[main].time = Date.now()
-                                }
 
-                                // save to storage
-                                localStorage.setItem(storageKey, JSON.stringify(currencyList))
+                                    // save to storage
+                                    const expireTime = 7 * 60 * 60 * 1000
+                                    localStorage.setItem(storageKey, JSON.stringify(currencyList), expireTime)
+                                }
                                 
                                 return resQuotes
                             } else {
