@@ -134,7 +134,7 @@
                                     const newKey = key.replace(res.source, '')
                                     resQuotes[newKey] = res.quotes[key]
                                 })
-                                if (res.source === currencyList[main]) {
+                                if (res.source === main) {
                                     currencyList[main].rates = resQuotes
                                     currencyList[main].time = Date.now()
                                 }
