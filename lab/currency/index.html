@@ -129,10 +129,16 @@
                         .then(res => {
                             // console.log('res = ', res)
                             if (res.success) {
+                                const resQuotes = {}
+                                Object.keys(res.quotes).map(key => {
+                                    const newKey = key.replace(res.source, '')
+                                    resQuotes[newKey] = res.quotes[key]
+                                })
                                 for (let i in currencyList) {
                                     const item = currencyList[i]
                                     if (i === main) {
-                                        currencyList[i].rates = res.rates
+                                        res.quotes
+                                        currencyList[i].rates = resQuotes
                                         currencyList[i].time = Date.now()
                                     }
                                 }
@@ -140,7 +146,7 @@
                                 // save to storage
                                 localStorage.setItem(storageKey, JSON.stringify(currencyList))
                                 
-                                return res.rates
+                                return resQuotes
                             } else {
                                 return {}
                             }
