@@ -164,7 +164,7 @@
                                 currencyList[key].time = c.time
                             }
                         }
-                        return cache
+                        return Promise.resolve(cache)
                     }
                     
                     const selected = getCurrencySelected()
