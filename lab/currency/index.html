@@ -73,12 +73,12 @@
                             c.isSelected = false
                         }
                     }
-                    getCurrencyFromStroage(selectCurrency).then( res => updateUI(e.value))
+                    getCurrency(selectCurrency).then( res => updateUI(e.value))
                 }
                 window.clickValue = function(e) {}
 
                 window.init = function init() {
-                    getCurrencyFromStroage().then(() => {
+                    getCurrency().then(() => {
                         $main.innerHTML = ''
                         for (let i in currencyList) {
                             $main.innerHTML += generateCurrency({
@@ -117,6 +117,17 @@
                     main = main || 'USD'
                     other = Object.keys(currencyList)
 
+                    const cache = JSON.parse(localStorage.getItem(storageKey))
+                    if (cache) {
+                        // reset currency
+                        for (let key in currencyList) {
+                            const c = cache[key]
+                            if (c && c.rates) {
+                                currencyList[key].rates = c.rates
+                                currencyList[key].time = c.time
+                            }
+                        }
+                    }
                     const c = getCurrencySelected()
                     const now = Date.now()
                     if (c && c.rates && (now - c.time < 60 * 60 * 4 * 1000)) {
@@ -152,28 +163,6 @@
                             console.log('err = ', e)
                             return {}
                         })
-                }
-
-                function getCurrencyFromStroage(main) {
-                    const cache = JSON.parse(localStorage.getItem(storageKey))
-                    if (cache) {
-                        // reset currency
-                        for (let key in currencyList) {
-                            const c = cache[key]
-                            if (c && c.rates) {
-                                currencyList[key].rates = c.rates
-                                currencyList[key].time = c.time
-                            }
-                        }
-                    }
-                    
-                    const selected = getCurrencySelected()
-                    if (selected.rates) {
-                        getCurrency(main, false)
-                        return Promise.resolve(selected.rates)
-                    } else {
-                        return getCurrency(main)
-                    }
                 }
 
                 function getCurrencySelected() {
