@@ -34,7 +34,7 @@
         <div>
             <h1 onclick="init()">Currency</h1>
             <div class="js-main"></div>
-            <p>Currency data from <a href="https://exchangerate.host" target="_blank">https://exchangerate.host</a><span class="js-time"></span></p>
+            <p>Currency data <span class="js-time"></span></p>
         </div>
 
         <script type="text/javascript">
@@ -124,7 +124,7 @@
                         return Promise.resolve(c.rates)
                     }
 
-                    return fetch(`https://api.exchangerate.host/latest?base=${main}&symbols=${other.join(',')}`)
+                    return fetch(`https://isken.me/api/currency/live?source=${main}&currencies=${other.join(',')}`)
                         .then(res => res.json())
                         .then(res => {
                             // console.log('res = ', res)
