@@ -140,8 +140,7 @@
                                     currencyList[main].time = Date.now()
 
                                     // save to storage
-                                    const expireTime = 7 * 60 * 60 * 1000
-                                    localStorage.setItem(storageKey, JSON.stringify(currencyList), expireTime)
+                                    localStorage.setItem(storageKey, JSON.stringify(currencyList))
                                 }
                                 
                                 return resQuotes
@@ -166,7 +165,6 @@
                                 currencyList[key].time = c.time
                             }
                         }
-                        return Promise.resolve(cache)
                     }
                     
                     const selected = getCurrencySelected()
