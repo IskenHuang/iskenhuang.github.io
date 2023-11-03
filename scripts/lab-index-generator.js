@@ -39,4 +39,6 @@ result = htmlTemplate({
 
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
 
+// TODO - update sw.js version
+
 console.log('build success')
