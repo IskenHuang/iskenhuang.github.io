@@ -34,7 +34,7 @@ labFolder.map(function(item) {
 
 result = htmlTemplate({
     title: labName,
-    body: `${bodyPrefix}${labs.join('')}</div>`
+    body: `${bodyPrefix}${labs.join('')}</div><script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>`
 })
 
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
