@@ -27,7 +27,7 @@ labFolder.map(function(item) {
         console.log('item = ', item)
         const hasIndex = FS.readFileSync(_name)
         if(hasIndex) {
-            labs.push(`<h3><a href="/${labFolderName}/${item}">${item}</a></h3>`)
+            labs.push(`<h3><a href="/${labFolderName}/${item}/">${item}</a></h3>`)
         }
     }
 })
