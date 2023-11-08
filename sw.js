@@ -1,5 +1,5 @@
 var APP_PREFIX = 'iskenme_'
-var VERSION = '3'
+var VERSION = '4'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
