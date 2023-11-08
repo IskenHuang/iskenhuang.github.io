@@ -90,7 +90,6 @@
                     }).then( res => updateUI(100))
                 }
 
-
                 init()
 
                 function generateCurrency(obj) {
@@ -130,7 +129,7 @@
                     }
                     const c = getCurrencySelected()
                     const now = Date.now()
-                    if (c && c.rates && (now - c.time < 60 * 60 * 4 * 1000)) {
+                    if (c && c.rates && (now - c.time < 3 * 86400000)) {
                         // console.log('c = ', c)
                         return Promise.resolve(c.rates)
                     }
