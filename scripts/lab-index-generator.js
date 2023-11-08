@@ -40,5 +40,10 @@ result = htmlTemplate({
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
 
 // TODO - update sw.js version
+let sw = FS.readFileSync('./sw.js').toString()
+let ver = parseInt(sw.match(/var VERSION = '\d+'/)[0].slice(15, -1), 10)
+sw = sw.replace(/var VERSION = '\d+'/, `var VERSION = '${++ver}'`)
+FS.writeFileSync('./sw.js', sw)
+console.log('sw.js version to ', ver)
 
 console.log('build success')
