@@ -42,6 +42,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -53,6 +54,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -64,6 +66,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -75,6 +78,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -86,6 +90,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -97,6 +102,7 @@
                     class="js-currency"
                     placeholder="0.00"
                     value="100.00"
+                    onKeyup="changeValue(this)"
                     onChange="changeValue(this)"
                     onClick="clickValue(this)"
                     />
@@ -113,7 +119,7 @@
                     $time = document.querySelector('.js-time'),
                     storageKey = 'currency',
                     cacheTimeLimit = 3 * 86400000
-                let currencyCache = {}
+                let currencyCache = {"rates":{"USDTWD":32.256505,"USDCNY":7.281402,"USDJPY":150.882989,"USDHKD":7.80825,"USDSGD":1.35636,"USDUSD":1},"time":1699542087421}
 
                 window.changeValue = function (e) {
                     const selectCurrency = e.getAttribute('currency')
@@ -177,14 +183,18 @@
                         })
                 }
 
+                const exchangeCache = {}
                 function exchangeCurrency(base, rates) {
+                    if (exchangeCache[base]) {
+                        return exchangeCache[base]
+                    }
+
                     const result = {}
-                    // { a: 100, b: 10, c: 40, d: 1}
-                    // { a: 1, b: 0.1, c, 0.4, d: 0.01 }
                     const bc = rates[`${baseCurrencyName+base}`]
                     for (let key in rates) {
                         result[key] = rates[key]/bc
                     }
+                    exchangeCache[base] = result
                     return result
                 }
 
