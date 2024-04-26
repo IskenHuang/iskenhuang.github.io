@@ -170,6 +170,7 @@ textarea {
     padding: 0.4rem 0.8rem;
     width: calc(100% - 1.6rem);
 }
+select { width: 100%; }
 
 input[readonly],
 textarea[readonly] {
