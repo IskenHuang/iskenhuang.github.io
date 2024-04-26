@@ -1,0 +1,223 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Expenser</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3392989-7"></script>
+        <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-3392989-7");</script>
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+        </style>
+    </head>
+    <body>
+        <h1 onclick="showRecordsDialog(this)">Expenser</h1>
+        <div id="main">
+            <div>
+                <p>Category:</p>
+                <select class="category" onchange="changeCategory(this)">
+                    <option value="🍔/Food" selected>🍔/Food</option>
+                    <option value="🚘/Transport">🚘/Transport</option>
+                    <option value="🗺/Entertainment">🗺/Entertainment</option>
+                    <option value="🏨/Health">🏨/Health</option>
+                    <optgroup label="Home">
+                        <option value="🏠Home">🏠Home</option>
+                        <option value="🏠/Water">🏠/Water</option>
+                        <option value="🏠/Electricity">🏠/Electricity</option>
+                        <option value="🏠/Phone">🏠/Phone</option>
+                        <option value="🏠/Internet">🏠/Internet</option>
+                        <option value="🏠/Rent">🏠/Rent</option>
+                        <option value="🏠/Gas">🏠/Gas</option>
+                    </optgroup>
+                    <option value="🕹/3C">🕹/3C</option>
+                    <option value="🎁/Gift">🎁/Gift</option>
+                    <option value="💄/Style">💄/Style</option>
+                    <option value="📗/Education">📗/Education</option>
+                    <option value="💰/Financial">💰/Financial</option>
+                    <option value="❓/Other">❓/Other</option>
+                    <option value="💱/Exchange">💱/Exchange</option>
+                </select>
+                <div>
+                    <p>Currency & expense:</p>
+                    <select class="currency">
+                        <option value="CNY" selected>CNY</option>
+                        <option value="NTD">NTD</option>
+                        <option value="USD">USD</option>
+                        <option value="JPY">JPY</option>
+                        <option value="THB">THB</option>
+                        <option value="KRW">KRW</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                    <input class="pricing" type="number" inputmode="decimal" placeholder="0.00" value="" autofocus/>
+                </div>
+                <div class="exchange" style="display:none;">
+                    <p>Currency2 & expense2:</p>
+                    <select class="currency2">
+                        <option value="CNY">CNY</option>
+                        <option value="NTD">NTD</option>
+                        <option value="USD">USD</option>
+                        <option value="JPY">JPY</option>
+                        <option value="THB">THB</option>
+                        <option value="KRW">KRW</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                    <input class="pricing2" type="number" inputmode="decimal" placeholder="0.00" value=""/>
+                </div>
+            </div>
+            <div>
+                <p>Notes:</p>
+                <textarea class="note" placeholder="note here..."></textarea> 
+            </div>
+            <div><button class="submit" onclick="submitRecord(this)">Submit</button></div>
+        </div>
+        <dialog>
+            <h2 onclick="closeRecordsDialog(this)">Records</h2>
+            <div>
+                <input class="url" type="text" placeholder="https://xxxxx" value="" onchange="updateSettings(this)" />
+                <input class="token" type="text" placeholder="Token" value="" onchange="updateSettings(this)" />
+                <textarea class="localData" placeholder="Local data json" onchange="updateSettings(this)"></textarea>
+            </div>
+        </dialog>
+        <script>
+            const $main = document.querySelector('#main')
+            const $category = $main.querySelector('.category')
+            const $currency = $main.querySelector('.currency')
+            const $pricing = $main.querySelector('.pricing')
+            const $currency2 = $main.querySelector('.currency2')
+            const $pricing2 = $main.querySelector('.pricing2')
+            const $note = $main.querySelector('.note')
+            const $submit = $main.querySelector('.submit')
+            const $exchange = $main.querySelector('.exchange')
+            const $dialogRecords = document.querySelector('dialog')
+            const $url = $dialogRecords.querySelector('.url')
+            const $token = $dialogRecords.querySelector('.token')
+            const $localData = $dialogRecords.querySelector('.localData')
+
+            init()
+
+            window.submitRecord = async function (e) {
+                const isExchange = getCategoryIsExchange()
+                const p1 = parseFloat($pricing.value) || 0
+                const p2 = parseFloat($pricing2.value) || 0
+                
+                if (p1 <= 0  || (isExchange && p2 <= 0)) {
+                    alert('Missing pricing')
+                    return
+                }
+
+                $submit.setAttribute('disabled', 'true')
+                const record = {
+                    category: $category.value,
+                    currency: $currency.value,
+                    pricing: parseFloat($pricing.value) || 0,
+                    currency2: isExchange ? $currency2.value : '',
+                    pricing2: isExchange ? parseFloat($pricing2.value) : 0,
+                    note: $note.value,
+                }
+                const data = getData()
+                if (!data.records) {
+                    data.records = []
+                }
+                data.records.push(record)
+                data.lastCurrency = $currency.value
+                saveData(data)
+                await syncData()
+
+                reset()
+            }
+            window.showRecordsDialog = function () {
+                getData()
+                $dialogRecords.showModal()
+            }
+            window.closeRecordsDialog = function() {
+                $dialogRecords.close()
+            }
+            window.changeCategory = function(e) {
+                if (getCategoryIsExchange()) {
+                    $exchange.style.display = ''
+                } else {
+                    $exchange.style.display = 'none'
+                }
+            }
+            window.updateSettings = function(e) {
+                const data = getData()
+                data.url = $url.value
+                data.token = $token.value
+                $localData.value = JSON.stringify(data)
+                saveData(data)
+            }
+            function init() {
+                const data = getData()
+                if (data.lastCurrency) $currency.value = data.lastCurrency
+                if (data.url) $url.value = data.url
+                if (data.token) $token.value = data.token
+            }
+            function getCategoryIsExchange() {
+                return $category.value.indexOf('Exchange') >= 0
+            }
+            function getData() {
+                try {
+                    const data = localStorage.getItem(window.location.href) || '{}'
+                    $localData.value = data
+                    return JSON.parse(data)
+                }catch(e) {
+                    alert('getData error = ' + e.message)
+                    return {}
+                }
+            }
+            function saveData(v) {
+                // save to storage
+                try {
+                    localStorage.setItem(window.location.href, JSON.stringify(v))
+                    return v
+                }catch(e) {
+                    alert('saveData error = ' + e.message)
+                    return null
+                }
+            }
+            async function syncData() {
+                const data = getData()
+                if (!data.url || !data.token || !data.records) {
+                    alert('missing url or token or records')
+                    return null
+                }
+                try {
+                    const res = await fetch(data.url, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        redirect: 'follow',
+                    }).then(res => res.text())
+                    if (res === '') {
+                        data.records = []
+                        return saveData(data)
+                    } else {
+                        return null
+                    }
+                }catch(e) {
+                    return null
+                }
+            }
+            async function reset() {
+                $pricing.value = ''
+                $pricing2.value = ''
+                $note.value = ''
+                $submit.disabled = null
+            }
+        </script>
+    </body>
+</html>
