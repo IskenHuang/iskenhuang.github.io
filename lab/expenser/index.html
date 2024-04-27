@@ -19,10 +19,19 @@
         <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-3392989-7");</script>
         <!-- Place favicon.ico in the root directory -->
         <style>
+            [class^=currency], [class^=pricing] {
+                display: inline;
+            }
+            [class^=currency] {
+                width: 5em;
+            }
+            [class^=pricing] {
+                width: calc(100% - 7em);
+            }
         </style>
     </head>
     <body>
-        <h1 onclick="showRecordsDialog(this)">Expenser</h1>
+        <h1 onclick="showRecordsDialog(this)">Expenser<span class="status"></span></h1>
         <div id="main">
             <div>
                 <p>Category:</p>
@@ -32,7 +41,7 @@
                     <option value="🗺/Entertainment">🗺/Entertainment</option>
                     <option value="🏨/Health">🏨/Health</option>
                     <optgroup label="Home">
-                        <option value="🏠Home">🏠Home</option>
+                        <option value="🏠/Home">🏠/Home</option>
                         <option value="🏠/Water">🏠/Water</option>
                         <option value="🏠/Electricity">🏠/Electricity</option>
                         <option value="🏠/Phone">🏠/Phone</option>
@@ -86,11 +95,12 @@
             <div>
                 <input class="url" type="text" placeholder="https://xxxxx" value="" onchange="updateSettings(this)" />
                 <input class="token" type="text" placeholder="Token" value="" onchange="updateSettings(this)" />
-                <textarea class="localData" placeholder="Local data json" onchange="updateSettings(this)"></textarea>
+                <textarea class="localData" placeholder="Local data json" onchange="updateSettings(this)" disabled></textarea>
             </div>
         </dialog>
         <script>
             const $main = document.querySelector('#main')
+            const $status = document.querySelector('.status')
             const $category = $main.querySelector('.category')
             const $currency = $main.querySelector('.currency')
             const $pricing = $main.querySelector('.pricing')
@@ -154,7 +164,6 @@
                 const data = getData()
                 data.url = $url.value
                 data.token = $token.value
-                $localData.value = JSON.stringify(data)
                 saveData(data)
             }
             function init() {
@@ -162,6 +171,7 @@
                 if (data.lastCurrency) $currency.value = data.lastCurrency
                 if (data.url) $url.value = data.url
                 if (data.token) $token.value = data.token
+                $pricing.focus()
             }
             function getCategoryIsExchange() {
                 return $category.value.indexOf('Exchange') >= 0
@@ -192,6 +202,7 @@
                     alert('missing url or token or records')
                     return null
                 }
+                $status.textContent = '🔄'
                 try {
                     const res = await fetch(data.url, {
                         method: 'POST',
@@ -203,12 +214,14 @@
                         redirect: 'follow',
                     }).then(res => res.text())
                     if (res === '') {
+                        $status.textContent = ''
                         data.records = []
                         return saveData(data)
                     } else {
                         return null
                     }
                 }catch(e) {
+                    $status.textContent = '❌'
                     return null
                 }
             }
