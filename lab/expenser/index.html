@@ -172,6 +172,7 @@
                 if (data.lastCurrency) $currency.value = data.lastCurrency
                 if (data.url) $url.value = data.url
                 if (data.token) $token.value = data.token
+                if (data.records.length) syncData()
                 $pricing.focus()
             }
             function getCategoryIsExchange() {
