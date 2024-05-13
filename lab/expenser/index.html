@@ -100,6 +100,9 @@
             </div>
         </dialog>
         <script>
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('/sw.js')
+            }
             const $main = document.querySelector('#main')
             const $status = document.querySelector('.status')
             const $category = $main.querySelector('.category')
