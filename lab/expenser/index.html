@@ -100,9 +100,6 @@
             </div>
         </dialog>
         <script>
-            if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/sw.js')
-            }
             const $main = document.querySelector('#main')
             const $status = document.querySelector('.status')
             const $category = $main.querySelector('.category')
@@ -235,6 +232,10 @@
                 $pricing2.value = ''
                 $note.value = ''
                 $submit.disabled = null
+            }
+            
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('/sw.js')
             }
         </script>
     </body>
