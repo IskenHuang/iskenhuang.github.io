@@ -1,5 +1,5 @@
 var APP_PREFIX = 'iskenme_'
-var VERSION = '7'
+var VERSION = '8'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
@@ -10,6 +10,7 @@ var URLS = [
     '/lab/currency/',
     '/lab/dingtalk-url/',
     '/lab/editor/',
+    '/lab/expenser/',
     '/lab/google-calendar/',
     '/lab/house-loan/',
     '/lab/i18n/',
@@ -18,6 +19,7 @@ var URLS = [
     '/lab/shadowsocks/',
     '/lab/tempo/',
     '/lab/url/',
+    '/favicon.ico?v=1.1',
 ]
 
 // Respond with cached resources
