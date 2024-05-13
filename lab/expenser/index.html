@@ -173,7 +173,7 @@
                 if (data.url) $url.value = data.url
                 if (data.token) $token.value = data.token
                 if (data?.records?.length) syncData()
-                $pricing.focus()
+                $pricing && $pricing.click()
             }
             function getCategoryIsExchange() {
                 return $category.value.indexOf('Exchange') >= 0
