@@ -46,7 +46,8 @@ const cacheUrls = [
     '/',
     '/favicon.ico?v=1.1',
     '/common.min.css',
-    '/lab/'
+    '/resume/',
+    '/lab/',
 ].concat(labFolder.map(item => `/lab/${item}/`))
 
 const swConfigScript = `// GENERATE_LINE_START
