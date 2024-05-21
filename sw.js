@@ -1,11 +1,14 @@
+// GENERATE_LINE_START
 var APP_PREFIX = 'iskenme_'
-var VERSION = '8'
+var VERSION = '9'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
+    '/favicon.ico?v=1.1',
     '/common.min.css',
     '/resume/',
     '/lab/',
+    '/lab/aria2ng/',
     '/lab/china-salary/',
     '/lab/currency/',
     '/lab/dingtalk-url/',
@@ -15,12 +18,13 @@ var URLS = [
     '/lab/house-loan/',
     '/lab/i18n/',
     '/lab/qrcode/',
+    '/lab/qrcode-scan/',
     '/lab/qrcode-wifi-card/',
     '/lab/shadowsocks/',
     '/lab/tempo/',
-    '/lab/url/',
-    '/favicon.ico?v=1.1',
+    '/lab/url/'
 ]
+// GENERATE_LINE_END
 
 // Respond with cached resources
 self.addEventListener('fetch', function (e) {
