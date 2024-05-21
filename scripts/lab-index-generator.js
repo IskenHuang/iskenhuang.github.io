@@ -1,6 +1,6 @@
 const FS = require('fs')
 const htmlTemplate = require('./htmlTemplate')
-const removeLineBreak = require('./removeLineBreak')
+const { removeLineBreak } = require('./utils')
 
 
 // create lab index
