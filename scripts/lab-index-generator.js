@@ -7,7 +7,7 @@ const removeLineBreak = require('./removeLineBreak')
 const labFolderName = 'lab'
 const labName = 'Lab index'
 const indexName = 'index.html'
-const labFolder = FS.readdirSync(labFolderName)
+const labFolder = FS.readdirSync(labFolderName).filter(item => item.indexOf('.') < 0 && !item.match(/^_/))
 const labs = []
 const bodyPrefix = removeLineBreak(`
 <style>
@@ -21,20 +21,19 @@ const bodyPrefix = removeLineBreak(`
 `)
 let result = ''
 
+// console.log('labFolder = ', labFolder)
 labFolder.map(function(item) {
-    if(item.indexOf('.') < 0 && !item.match(/^_/)) {
-        const _name = [labFolderName, item, indexName].join('/')
-        console.log('item = ', item)
-        const hasIndex = FS.readFileSync(_name)
-        if(hasIndex) {
-            labs.push(`<h3><a href="/${labFolderName}/${item}/">${item}</a></h3>`)
-        }
+    const _name = [labFolderName, item, indexName].join('/')
+    console.log('item = ', item)
+    const hasIndex = FS.readFileSync(_name)
+    if(hasIndex) {
+        labs.push(`<h3><a href="/${labFolderName}/${item}/">${item}</a></h3>`)
     }
 })
 
 result = htmlTemplate({
     title: labName,
-    body: `${bodyPrefix}${labs.join('')}</div><script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>`
+    body: `${bodyPrefix}${labs.join('')}</div>`
 })
 
 FS.writeFileSync([labFolderName, indexName].join('/'), result)
@@ -42,7 +41,23 @@ FS.writeFileSync([labFolderName, indexName].join('/'), result)
 // TODO - update sw.js version
 let sw = FS.readFileSync('./sw.js').toString()
 let ver = parseInt(sw.match(/var VERSION = '\d+'/)[0].slice(15, -1), 10)
-sw = sw.replace(/var VERSION = '\d+'/, `var VERSION = '${++ver}'`)
+const swSplitLine = '// GENERATE_LINE_END'
+const cacheUrls = [
+    '/',
+    '/favicon.ico?v=1.1',
+    '/common.min.css',
+    '/lab/'
+].concat(labFolder.map(item => `/lab/${item}/`))
+
+const swConfigScript = `// GENERATE_LINE_START
+var APP_PREFIX = 'iskenme_'
+var VERSION = '${++ver}'
+var CACHE_NAME = APP_PREFIX + VERSION
+var URLS = ${JSON.stringify(cacheUrls, null, 4).replace(/"/g, '\'')}
+${swSplitLine}`
+
+sw = swConfigScript + sw.split(swSplitLine)[1]
+// console.log('sw = ', sw)
 FS.writeFileSync('./sw.js', sw)
 console.log('sw.js version to ', ver)
 
