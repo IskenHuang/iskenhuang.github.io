@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Random String</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1>Random String</h1>
+        <label>Seed</label>
+        <textarea class="seed">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_</textarea>
+        <label>Length</label>
+        <input class="length" type="number" inputmode="decimal" placeholder="20" value="20" />
+        <label>Result</label>
+        <p class="result"></p>
+        <button class="submit" onclick="getNewString()">Random</button>
+        <script>
+            const $seed = document.querySelector('.seed')
+            const $length = document.querySelector('.length')
+            const $result = document.querySelector('.result')
+            const $submit = document.querySelector('.submit')
+
+            window.getNewString = () =>{
+                const _seed = $seed.value.trim() || ''
+                const _length = parseInt($length.value, 10) || 20
+                $result.textContent = randomString(_length, _seed)
+            }
+
+            function randomString(len, seed) {
+                len = len || 20
+                var result = ''
+                var chars = seed || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+                for (var i = 0; i < len; i++)
+                    result += chars.charAt(Math.floor(Math.random() * chars.length))
+                return result
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
