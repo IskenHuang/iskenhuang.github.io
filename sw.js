@@ -1,6 +1,6 @@
 // GENERATE_LINE_START
 var APP_PREFIX = 'iskenme_'
-var VERSION = '9'
+var VERSION = '10'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
@@ -14,6 +14,7 @@ var URLS = [
     '/lab/dingtalk-url/',
     '/lab/editor/',
     '/lab/expenser/',
+    '/lab/file-transfer/',
     '/lab/google-calendar/',
     '/lab/house-loan/',
     '/lab/i18n/',
