@@ -32,21 +32,22 @@
                 padding: 25px 10px;
                 box-sizing: border-box;
             }
-            .file-title {
+            [class^=file-card-] {
                 font-weight: bold;
                 clear: both;
                 display: inline-block;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-                font-size: 1.5em;
                 line-height: 1em;
             }
-            .file-desc {
+            .file-card-title {
+                font-size: 1.5em;
+
+            }
+            .file-card-desc {
                 font-weight: lighter;
-                font-size: .8em;
-                line-height: 1em;
-                color: var(--color-text);
+                font-size: .7em;
             }
          </style>
     </head>
@@ -329,7 +330,7 @@
                     const { name, size, type } = receivedFile
                     $fileReceive.href = URL.createObjectURL(blob)
                     $fileReceive.download = name
-                    $fileReceive.innerHTML = `<p class="file-title">${name}</p><p class="file-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>`
+                    $fileReceive.innerHTML = `<p class="file-card-title">${name}</p><p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>`
                 } else {
                     $fileReceive.href = ''
                     $fileReceive.download = ''
