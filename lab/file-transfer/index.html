@@ -83,12 +83,9 @@
             const urlParamRemotePeer = urlObj.searchParams.get(remotePeerKey) || ''
             let localPeer = new RTCPeerConnection({
                 iceServers: [
-                    // { urls: 'stun:freestun.net:3479' },
-                    // {
-                    //     urls: 'turn:freestun.net:3479',
-                    //     username: 'free',
-                    //     credential: 'free',
-                    // },
+                    { urls: 'stun:stun.syncthing.net' },
+                    { urls: 'stun:stun.miwifi.com' },
+                    { urls: 'stun:stun.l.google.com:19302'},
                 ],
             })
             let dataChannel
@@ -110,7 +107,7 @@
                 const localPeerDescriptionStr = JSON.stringify(localPeer.localDescription)
                 const url = `${urlObj.origin}${urlObj.pathname}?${localPeerKey}=${encodeURIComponent(localPeerDescriptionStr)}`
                 console.log('local url = ', url)
-                updateClipboard(url)
+                // TODO - copy to clipboard
                 const svg = await createQRCode(url)
                 $localQRcode.innerHTML = svg
 
@@ -125,7 +122,11 @@
                         const res = await fetch(apiUrl).then(res => res.json())
                         if (res.ok && res.data[remotePeerKey]) {
                             waitTime = 0
-                            localPeer.setRemoteDescription(JSON.parse(res.data[remotePeerKey])).catch(e => {
+                            localPeer.setRemoteDescription(JSON.parse(res.data[remotePeerKey]))
+                            .then(res => {
+                                updateConnectStatus('Got the answer!')
+                            }).catch(e => {
+                                updateConnectStatus('Get answer error. Refresh the page!')
                                 console.log('setRemoteDescription error = ', e)
                             })
                         } else {
@@ -141,7 +142,7 @@
 
             async function initRemote() {
                 hiddenQRCode()
-                updateConnectStatus('Got offer then ready to answer.')
+                updateConnectStatus('Got offer and ready to answer.')
                 localPeer.ondatachannel = (e) => {
                     dataChannel = e.channel
                     dataChannel.binaryType = 'arraybuffer'
@@ -164,8 +165,8 @@
                     })
                 }
                 localPeer.onicecandidate = (e) => {
-                    // console.log('e.candidate = ', e.candidate)
-                    // console.log('localPeer.iceGatheringState = ', localPeer.iceGatheringState)
+                    console.log('e.candidate = ', e.candidate)
+                    console.log('localPeer.iceGatheringState = ', localPeer.iceGatheringState)
                     if (!e.candidate) {
                         apiUrlObj.searchParams.set(localPeerKey, decodeURIComponent(urlParamLocalPeer))
                         apiUrlObj.searchParams.set(remotePeerKey, JSON.stringify(localPeer.localDescription))
@@ -218,8 +219,16 @@
                         console.log('Connection closed!')
                     }
 
-                    localPeer.onicecandidate = (o) => {
+                    localPeer.onicecandidate = (e) => {
                         resolve(localPeer)
+                    }
+
+                    localPeer.oniceconnectionstatechange = (e) => {
+                        console.log('oniceconnectionstatechange = ', e)
+                    }
+
+                    localPeer.onconnectionstatechange = (e) => {
+                        console.log('onconnectionstatechange = ', e)
                     }
 
                     const localOffer = await localPeer.createOffer()
@@ -344,9 +353,9 @@
                 })
             }
 
-            function updateClipboard(v) {
-                return navigator.clipboard.writeText(v)
-            }
+            // function updateClipboard(v) {
+            //     return navigator.clipboard.writeText(v)
+            // }
         </script>
         <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
     </body>
