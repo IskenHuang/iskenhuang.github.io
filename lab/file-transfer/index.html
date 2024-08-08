@@ -126,7 +126,7 @@
                             .then(res => {
                                 updateConnectStatus('Got the answer!')
                             }).catch(e => {
-                                updateConnectStatus('Get answer error. Refresh the page!')
+                                updateConnectStatus('Get answer error. Refresh the page.')
                                 console.log('setRemoteDescription error = ', e)
                             })
                         } else {
@@ -138,6 +138,8 @@
                         await sleep(onceTime)
                     }
                 }
+                updateConnectStatus('Connection expired. Refresh page try again.')
+                console.log('Connection expired. Refresh page try again.')
             }
 
             async function initRemote() {
