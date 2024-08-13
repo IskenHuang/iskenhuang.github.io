@@ -78,7 +78,7 @@
                                 const name = item?.metadata?.name
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
-                                return `<a class="file-card" url="${apiBase + '&name=' + item.name}" download="${name}" onclick="downloadFile(this)">
+                                return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}">
                                     <p class="file-card-title">${name}</p>
                                     <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}M</p>
                                 </a>`
@@ -135,21 +135,6 @@
                     console.log('end to upload file error = ', e)
                     e.disabled = false
                 })
-
-            }
-
-            window.downloadFile = async function(e) {
-                debugger
-                try {
-                    if (!e.href) {
-                        const blob = await fetch(e.link).then(async res => res.blob())
-                        e.href = URL.createObjectURL(blob)
-                        e.click()
-                    }
-                }catch(e){
-                    console.log('downloadFile error = ', e)
-                    alert('downloadFile error')
-                }
 
             }
 
