@@ -111,17 +111,16 @@
 
                 console.log('start to upload file', file.name)
                 updateUploadStatus('Uploading...')
+
+                const formData = new FormData()
+                formData.append('blob', file)
+                formData.append('name', file.name)
+                formData.append('type', file.type)
+
                 e.disabled = true
                 fetch(apiBase, {
                     method: 'POST',
-                    headers: {
-                        'content-type': 'application/json;charset=UTF-8'
-                    },
-                    body: JSON.stringify({
-                        name: file.name,
-                        type: file.type,
-                        blob: await file.arrayBuffer()
-                    })
+                    body: formData,
                 }).then(res.json()).then(res => {
                     if (res.ok) {
                         updateUploadStatus('upload success!')
