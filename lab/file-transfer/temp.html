@@ -119,7 +119,7 @@
                 fetch(apiBase, {
                     method: 'POST',
                     body: formData,
-                }).then(res.json()).then(res => {
+                }).then(res => res.json()).then(res => {
                     if (res.ok) {
                         updateUploadStatus('upload success!')
                         console.log('end to upload file success')
