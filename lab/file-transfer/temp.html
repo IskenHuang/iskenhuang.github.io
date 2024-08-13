@@ -1,0 +1,153 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>File transfer temp</title>
+        <meta name="description" content="File transfer temp">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+         <style>
+            :root {
+                --upload-height: 100px;
+            }
+            .upload-area {
+                border-top: 1px solid var(--color-text);
+                position: fixed;
+                bottom: 0;
+                width: calc(100% - 40px);
+                height: var(--upload-height);
+                background-color: var(--color-bg);
+            }
+            .file-list {
+                padding-bottom: calc(var(--upload-height) + 10px);
+            }
+            .file-card {
+                width: 100%;
+            }
+            [class^=file-card-] {
+                font-weight: bold;
+                clear: both;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                line-height: 1em;
+            }
+            .file-card-title {
+                font-size: 1.5em;
+
+            }
+            .file-card-desc {
+                font-weight: lighter;
+                font-size: .7em;
+            }
+         </style>
+    </head>
+    <body>
+        <h1 onclick="updateFileList(this)">File transfer temp</h1>
+        <p>All file only cache 300s</p>
+        <div class="file-list">
+            Fetching file list from server
+        </div>
+        <div class="upload-area">
+            <p>Choose file to upload<span class="upload-status"></span></p>
+            <input type="file" class="file-input" onchange="handleFileSend(this)" />
+        </div>
+        <script>
+            const $fileList = document.querySelector('.file-list')
+            const $uploadArea = document.querySelector('.upload-area')
+            const $uploadStatus = $uploadArea.querySelector('.upload-status')
+            const apiBase = '/api/file-transfer?temp=true'
+
+            window.updateFileList = async function() {
+                updateFileListStatus('Fetching file list from server')
+                try {
+                    const res = await fetch(apiBase).then(res => res.json())
+                    if (res.ok) {
+                        if (res.data.length) {
+                            const template = res.data.map(item => {
+                                const name = item?.metadata?.name
+                                const type = item?.metadata?.type
+                                const size = item?.metadata?.size || 0
+                                return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}">
+                                    <p class="file-card-title">${name}</p>
+                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>
+                                </a>`
+                            }).join('')
+                            $fileList.innerHTML = template
+                        } else {
+                            updateFileListStatus('Server is empty.')
+                        }
+
+                    } else {
+                        throw new Error(res.msg)
+                    }
+                } catch(e) {
+                    console.log('updateFileList error = ', e)
+                    updateFileListStatus('Get file list error. Refresh page.')
+                }
+
+            }
+
+            updateFileList()
+
+            window.handleFileSend = async function(e) {
+                const file = e.files[0]
+                // updateFileStatus(`Start transfer file. Name: ${file.name} Size: ${file.size} Type: ${file.type}`)
+                // max is 10mb
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size should be <10MB')
+                    return
+                }
+
+                console.log('start to upload file', file.name)
+                updateUploadStatus('Uploading...')
+                e.disabled = true
+                fetch(apiBase, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify({
+                        name: file.name,
+                        type: file.type,
+                        blob: await file.arrayBuffer()
+                    })
+                }).then(res.json()).then(res => {
+                    if (res.ok) {
+                        updateUploadStatus('upload success!')
+                        console.log('end to upload file success')
+                        updateFileList()
+                    } else {
+                        updateUploadStatus('upload server fail!')
+                        console.log('end to upload file server error = ', e)
+                    }
+
+                    e.disabled = false
+                }).catch(e => {
+                    updateUploadStatus('upload fail!')
+                    console.log('end to upload file error = ', e)
+                    e.disabled = false
+                })
+
+            }
+
+            function updateUploadStatus(v) {
+                $uploadStatus.textContent = v ? '- ' + v : ''
+            }
+            function updateFileListStatus(v) {
+                $fileList.textContent = v
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
