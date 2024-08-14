@@ -129,15 +129,19 @@
                         console.log('end to upload file server error = ', e)
                     }
 
-                    e.disabled = false
+                    clearInput(e)
                 }).catch(e => {
+                    clearInput(e)
                     updateUploadStatus('upload fail!')
                     console.log('end to upload file error = ', e)
-                    e.disabled = false
-                })
 
+                })
             }
 
+            function clearInput(e) {
+                e.disabled = false
+                e.value = ''
+            }
             function updateUploadStatus(v) {
                 $uploadStatus.textContent = v ? '- ' + v : ''
             }
