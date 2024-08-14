@@ -24,8 +24,10 @@
                 position: fixed;
                 bottom: 0;
                 width: calc(100% - 40px);
+                max-width: 70ch;
                 height: var(--upload-height);
                 background-color: var(--color-bg);
+
             }
             .file-list {
                 padding-bottom: calc(var(--upload-height) + 10px);
@@ -78,9 +80,9 @@
                                 const name = item?.metadata?.name
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
-                                return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}">
+                                return `<a class="file-card" src="${apiBase + '&name=' + item.name}" download="${name}" onclick="downloadFile(this)" target="_blank">
                                     <p class="file-card-title">${name}</p>
-                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}M</p>
+                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>
                                 </a>`
                             }).join('')
                             $fileList.innerHTML = template
@@ -140,12 +142,25 @@
                 })
             }
 
+            window.downloadFile = async function(e) {
+                try {
+                    if (!e.href) {
+                        const blob = await fetch(e.src).then(res => res.blob())
+                        e.href = URL.createObjectURL(blob)
+                        e.click()
+                    }
+                } catch(e) {
+                    console.log('downloadFile error', e)
+                    alert('downloadFile error')
+                }
+            }
+
             function clearInput(e) {
                 e.disabled = false
                 e.value = ''
             }
             function updateUploadStatus(v) {
-                $uploadStatus.textContent = v ? '- ' + v : ''
+                $uploadStatus.textContent = v ? ' - ' + v : ''
             }
             function updateFileListStatus(v) {
                 $fileList.textContent = v
