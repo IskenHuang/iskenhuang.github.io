@@ -81,7 +81,11 @@
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
                                 const expireDate = new Date((item?.expiration || 0) * 1000)
-                                const expireStr = `${expireDate.getHours()}:${expireDate.getMinutes()}:${expireDate.getSeconds()}`
+                                const expireStr = [
+                                    fillZero(expireDate.getHours()),
+                                    fillZero(expireDate.getMinutes()),
+                                    fillZero(expireDate.getSeconds()),
+                                ].join(':')
                                 return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}" target="_blank">
                                     <p class="file-card-title">${name}</p>
                                     <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB | Expire at ${expireStr}</p>
@@ -153,6 +157,9 @@
             }
             function updateFileListStatus(v) {
                 $fileList.textContent = v
+            }
+            function fillZero(v) {
+                return ('0' + v).slice(-2)
             }
         </script>
         <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
