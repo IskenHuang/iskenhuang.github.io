@@ -80,7 +80,7 @@
                                 const name = item?.metadata?.name
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
-                                return `<a class="file-card" src="${apiBase + '&name=' + item.name}" download="${name}" onclick="downloadFile(this)" target="_blank">
+                                return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}" target="_blank">
                                     <p class="file-card-title">${name}</p>
                                     <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>
                                 </a>`
