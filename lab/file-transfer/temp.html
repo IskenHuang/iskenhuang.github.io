@@ -68,7 +68,9 @@
             const $fileList = document.querySelector('.file-list')
             const $uploadArea = document.querySelector('.upload-area')
             const $uploadStatus = $uploadArea.querySelector('.upload-status')
-            const apiBase = '/api/file-transfer?temp=true'
+            const urlObj = new URL(window.location.href)
+            const prefix = urlObj.searchParams.get('prefix')
+            const apiBase = '/api/file-transfer?temp=true' + prefix ? `&prefix=${prefix}` : ''
             let updateListlock = false
 
             window.updateFileList = async function() {
