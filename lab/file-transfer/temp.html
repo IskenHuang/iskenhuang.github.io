@@ -123,7 +123,9 @@
                     if (res.ok) {
                         updateUploadStatus('upload success!')
                         console.log('end to upload file success')
-                        updateFileList()
+
+                        // cloudflare data sync issue
+                        setTimeout(updateFileList, 3000)
                     } else {
                         updateUploadStatus('upload server fail!')
                         console.log('end to upload file server error = ', e)
