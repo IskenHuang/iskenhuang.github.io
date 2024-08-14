@@ -69,9 +69,15 @@
             const $uploadArea = document.querySelector('.upload-area')
             const $uploadStatus = $uploadArea.querySelector('.upload-status')
             const apiBase = '/api/file-transfer?temp=true'
+            let updateListlock = false
 
             window.updateFileList = async function() {
+                if (updateListlock) {
+                    console.log('updateFileList on going!')
+                    return
+                }
                 updateFileListStatus('Fetching file list from server')
+                updateListlock = true
                 try {
                     const res = await fetch(apiBase).then(res => res.json())
                     if (res.ok) {
@@ -95,13 +101,14 @@
                         } else {
                             updateFileListStatus('Server is empty.')
                         }
-
+                        updateListlock = false
                     } else {
                         throw new Error(res.msg)
                     }
                 } catch(e) {
                     console.log('updateFileList error = ', e)
                     updateFileListStatus('Get file list error. Refresh page.')
+                    updateListlock = false
                 }
 
             }
