@@ -80,9 +80,11 @@
                                 const name = item?.metadata?.name
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
+                                const expireDate = new Date((item?.expiration || 0) * 1000)
+                                const expireStr = `${expireDate.getHours()}:${expireDate.getMinutes()}:${expireDate.getSeconds()}`
                                 return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}" target="_blank">
                                     <p class="file-card-title">${name}</p>
-                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB</p>
+                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB | Expire at ${expireStr}</p>
                                 </a>`
                             }).join('')
                             $fileList.innerHTML = template
@@ -140,19 +142,6 @@
                     console.log('end to upload file error = ', e)
 
                 })
-            }
-
-            window.downloadFile = async function(e) {
-                try {
-                    if (!e.href) {
-                        const blob = await fetch(e.getAttribute('src')).then(res => res.blob())
-                        e.href = URL.createObjectURL(blob)
-                        e.click()
-                    }
-                } catch(e) {
-                    console.log('downloadFile error', e)
-                    alert('downloadFile error')
-                }
             }
 
             function clearInput(e) {
