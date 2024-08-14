@@ -145,7 +145,7 @@
             window.downloadFile = async function(e) {
                 try {
                     if (!e.href) {
-                        const blob = await fetch(e.src).then(res => res.blob())
+                        const blob = await fetch(e.getAttribute('src')).then(res => res.blob())
                         e.href = URL.createObjectURL(blob)
                         e.click()
                     }
