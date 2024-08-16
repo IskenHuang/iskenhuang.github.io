@@ -17,7 +17,7 @@
         <!-- Place favicon.ico in the root directory -->
          <style>
             :root {
-                --upload-height: 100px;
+                --upload-height: 140px;
             }
             .upload-area {
                 border-top: 1px solid var(--color-text);
@@ -27,13 +27,26 @@
                 max-width: 70ch;
                 height: var(--upload-height);
                 background-color: var(--color-bg);
-
+            }
+            .upload-area > p {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .upload-area > .isOneTimeDownload {
+                width: auto;
+                margin-right: 8px;
             }
             .file-list {
                 padding-bottom: calc(var(--upload-height) + 10px);
             }
             .file-card {
                 width: 100%;
+                border: solid 1px var(--color-link);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                padding: 5px 10px;
+                box-sizing: border-box;
+                overflow: hidden;
             }
             [class^=file-card-] {
                 font-weight: bold;
@@ -52,6 +65,11 @@
                 font-weight: lighter;
                 font-size: .7em;
             }
+            .file-delete {
+                margin: 0 5px 0 0;
+                box-sizing: border-box;
+                padding: 5px 20px;
+            }
          </style>
     </head>
     <body>
@@ -61,13 +79,15 @@
             Fetching file list from server
         </div>
         <div class="upload-area">
-            <p>Choose file to upload<span class="upload-status"></span></p>
+            <p>Choose file to upload<span class="upload-status"> - upload server fail!</span></p>
+            <input type="checkbox" class="isOneTimeDownload" /><label onclick="toggleOneTimeDownload(this)">One time download</label>
             <input type="file" class="file-input" onchange="handleFileSend(this)" />
         </div>
         <script>
             const $fileList = document.querySelector('.file-list')
             const $uploadArea = document.querySelector('.upload-area')
             const $uploadStatus = $uploadArea.querySelector('.upload-status')
+            const $isOneTimeDownload = $uploadArea.querySelector('.isOneTimeDownload')
             const urlObj = new URL(window.location.href)
             const prefix = urlObj.searchParams.get('prefix')
             const apiBase = '/api/file-transfer?temp=true' + (prefix ? `&prefix=${prefix}` : '')
@@ -88,16 +108,20 @@
                                 const name = item?.metadata?.name
                                 const type = item?.metadata?.type
                                 const size = item?.metadata?.size || 0
+                                const href = apiBase + '&name=' + item.name
                                 const expireDate = new Date((item?.expiration || 0) * 1000)
                                 const expireStr = [
                                     fillZero(expireDate.getHours()),
                                     fillZero(expireDate.getMinutes()),
                                     fillZero(expireDate.getSeconds()),
                                 ].join(':')
-                                return `<a class="file-card" href="${apiBase + '&name=' + item.name}" download="${name}" target="_blank">
-                                    <p class="file-card-title">${name}</p>
-                                    <p class="file-card-desc">${type} | ${(size / 1024 / 1024).toFixed(1)}MB | Expire at ${expireStr}</p>
-                                </a>`
+                                return `<div class="file-card">
+                                    <a href="${href}" download="${name}" target="_blank">
+                                        <p class="file-card-title">${name}</p>
+                                    </a>
+                                    <p class="file-card-desc"><button class="file-delete" href="${href + '&delete=1'}" onclick="fileDelete(this)">Delete</button>${type} | ${(size / 1024 / 1024).toFixed(1)}MB | Expire at ${expireStr}</p>
+
+                                </div>`
                             }).join('')
                             $fileList.innerHTML = template
                         } else {
@@ -129,11 +153,12 @@
                 console.log('start to upload file', file.name)
                 updateUploadStatus('Uploading...')
 
+                const postUrl = apiBase + ($isOneTimeDownload.checked ? '&times=1' : '')
                 const formData = new FormData()
                 formData.append('blob', file)
 
                 e.disabled = true
-                fetch(apiBase, {
+                fetch(postUrl, {
                     method: 'POST',
                     body: formData,
                 }).then(res => res.json()).then(res => {
@@ -155,6 +180,25 @@
                     console.log('end to upload file error = ', e)
 
                 })
+            }
+
+            window.fileDelete = function (e) {
+                const url = e.getAttribute('href')
+                fetch(url).then(res => res.json()).then(res => {
+                    if (res.ok) {
+                        console.log('delete success')
+                        updateFileList()
+                    } else {
+                        throw new Error(res.msg)
+                    }
+                }).catch(e => {
+                    console.log('delete fail = ', e)
+                })
+                return
+            }
+
+            window.toggleOneTimeDownload = function () {
+                $isOneTimeDownload.checked = !$isOneTimeDownload.checked
             }
 
             function clearInput(e) {
