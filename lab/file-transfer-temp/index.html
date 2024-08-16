@@ -187,7 +187,7 @@
                 fetch(url).then(res => res.json()).then(res => {
                     if (res.ok) {
                         console.log('delete success')
-                        updateFileList()
+                        setTimeout(updateFileList, 2000)
                     } else {
                         throw new Error(res.msg)
                     }
