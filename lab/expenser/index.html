@@ -84,7 +84,7 @@
             </div>
             <div>
                 <p>Notes:</p>
-                <textarea class="note" placeholder="note here..."></textarea> 
+                <textarea class="note" placeholder="note here..."></textarea>
             </div>
             <div><button class="submit" onclick="submitRecord(this)">Submit</button></div>
         </div>
@@ -111,6 +111,7 @@
             const $url = $dialogRecords.querySelector('.url')
             const $token = $dialogRecords.querySelector('.token')
             const $localData = $dialogRecords.querySelector('.localData')
+            const urlObj = new URL(window.location.href)
 
             init()
 
@@ -118,7 +119,7 @@
                 const isExchange = getCategoryIsExchange()
                 const p1 = parseFloat($pricing.value) || 0
                 const p2 = parseFloat($pricing2.value) || 0
-                
+
                 if (p1 <= 0  || (isExchange && p2 <= 0)) {
                     alert('Missing pricing')
                     return
@@ -165,12 +166,23 @@
                 saveData(data)
             }
             function init() {
+                const currency = urlObj.searchParams.get('currency')
+                validSelectOptionAndSet($currency, currency)
+
+                const category = urlObj.searchParams.get('category')
+                validSelectOptionAndSet($category, category)
+
+                const note = urlObj.searchParams.get('note')
+                validSelectOptionAndSet($note, note)
+
                 const data = getData()
                 if (data.lastCurrency) $currency.value = data.lastCurrency
                 if (data.url) $url.value = data.url
                 if (data.token) $token.value = data.token
                 if (data?.records?.length) syncData()
-                $pricing && $pricing.click()
+                $pricing && setTimeout(() => {
+                    $pricing.click()
+                }, 500)
             }
             function getCategoryIsExchange() {
                 return $category.value.indexOf('Exchange') >= 0
@@ -230,7 +242,27 @@
                 $note.value = ''
                 $submit.disabled = null
             }
-            
+            function isInSelectOption(dom, value) {
+                for (let i = 0; i < dom.options.length; i++) {
+                    const el = dom.options[i]
+                    if (el.value && el.value.toUpperCase().includes(value)) {
+                        return el.value
+                    }
+                }
+                return false
+            }
+            function validSelectOptionAndSet(dom, value) {
+                if (value) {
+                    const val = isInSelectOption(dom, value)
+                    if (val) {
+                        dom.value = val
+                        return true
+                    }
+                }
+
+                return false
+            }
+
             if (navigator.serviceWorker) {
                 navigator.serviceWorker.register('/sw.js')
             }
