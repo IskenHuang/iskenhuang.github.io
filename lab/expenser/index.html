@@ -224,7 +224,7 @@
                         body: JSON.stringify(data),
                         redirect: 'follow',
                     }).then(res => res.text())
-                    if (res === '') {
+                    if (res === '' || res.includes('"ok":true')) {
                         $status.textContent = ''
                         data.records = []
                         return saveData(data)

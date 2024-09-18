@@ -1,6 +1,6 @@
 // GENERATE_LINE_START
 var APP_PREFIX = 'iskenme_'
-var VERSION = '11'
+var VERSION = '12'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
