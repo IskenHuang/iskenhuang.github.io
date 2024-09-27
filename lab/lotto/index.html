@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Lotto</title>
+        <meta name="description" content="Lotto">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1 onclick="clearInput()">Lotto</h1>
+        <textarea class="inputContent" placeholder="Input the items each lines"></textarea>
+        <button onclick="startLotto()">Go!</button>
+        <h3>Result</h3>
+        <h3 class="j-result">-</h3>
+        <script>
+            const $inputContent = document.querySelector('.inputContent')
+            const $result = document.querySelector('.j-result')
+
+            window.startLotto = function() {
+                const s = $inputContent.value.trim()
+                if (s) {
+                    $result.textContent = lotto(s.split('\n'))
+                } else {
+                    alert('No content')
+                    $result.textContent = '-'
+                }
+            }
+            window.clearInput = function() {
+                $inputContent.value = ''
+            }
+            function lotto(target, num) {
+                num = num || 1
+                const _target = target.slice(0)
+                const result = []
+                while(result.length < num) {
+                    const randomNumber = Math.floor(Math.random() * Math.floor(_target.length))
+                    const [item] = _target.splice(randomNumber, 1)
+                    result.push(item)
+                }
+                return result
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
