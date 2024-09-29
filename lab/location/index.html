@@ -32,7 +32,7 @@
                     for (let key in res) {
                         result.push(`${key}: ${res[key]}`)
                     }
-                    return result.join('<br/>')
+                    return result.join('\n')
                 } catch(e) {
                     console.log('err = ', e)
                     return 'Get data error!'
