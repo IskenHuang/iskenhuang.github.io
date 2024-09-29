@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Location</title>
+        <meta name="description" content="Location">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1>Location</h1>
+        <p class="result"></p>
+        <script>
+            const $result = document.querySelector('.result')
+            getDataAndPrint().then(res => {
+                $result.textContent = res
+            })
+
+            async function getDataAndPrint() {
+                try {
+                    const res = await getData()
+                    const result = []
+                    for (let key in res) {
+                        result.push(`${key}: ${res[key]}`)
+                    }
+                    return result.join('<br/>')
+                } catch(e) {
+                    console.log('err = ', e)
+                    return 'Get data error!'
+                }
+            }
+            async function getData() {
+                return await fetch('https://isken.me/api/location').then(res => res.json())
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
