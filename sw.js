@@ -1,6 +1,6 @@
 // GENERATE_LINE_START
 var APP_PREFIX = 'iskenme_'
-var VERSION = '13'
+var VERSION = '14'
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [
     '/',
@@ -19,6 +19,7 @@ var URLS = [
     '/lab/google-calendar/',
     '/lab/house-loan/',
     '/lab/i18n/',
+    '/lab/location/',
     '/lab/lotto/',
     '/lab/qrcode/',
     '/lab/qrcode-scan/',
