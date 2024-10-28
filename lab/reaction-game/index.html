@@ -1,0 +1,229 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Reaction game</title>
+        <meta name="description" content="Reaction game">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+            #game {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 1rem;
+            }
+            #grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
+                grid-auto-rows: minmax(100px, auto);
+                grid-auto-columns: minmax(100px, auto);
+            }
+            .cell {
+                background-color: #999;
+                border-radius: 5px;
+            }
+            .cell.on {
+                background-color: #8b8;
+            }
+            .billboard {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="game">
+            <div class="billboard" onclick="resetGame(this)">
+                <p>Level: <span id="level"></span></p>
+                <p>Score: <span id="score"></span></p>
+            </div>
+            <div id="grid"></div>
+        </div>
+        <script>
+            const $grid = document.querySelector('#grid')
+            const $score = document.querySelector('#score')
+            const $level = document.querySelector('#level')
+            const { getScore, hit, resetScore } = scoreManager()
+            const { getLevel, nextLevel, resetLevel } = levelManager()
+            const { startTimer, clearTimer, getCellTime } = globalTimerManager()
+
+            const LEVEL_TIME = 12000 // unit is microsecond
+            const CELL_AVAILABLE_TIME = 1000 // unit is microsecond
+            const CELL_SPEED = 0.9
+            const FLAG_ON = 'on'
+
+            resetGame()
+
+            window.resetGame = resetGame
+            window.clickCell = clickCell
+
+            function resetGame() {
+                updateGrid(4, 4)
+                resetScore()
+                resetLevel()
+                startTimer()
+            }
+
+            function getAvailableCell() {
+                const $cells = $grid.querySelectorAll('.cell')
+                const randomNumber = Math.round(Math.random() * Math.floor($cells.length))
+                const $cell = $cells[randomNumber]
+                if ($cell) {
+                    const isOn = $cell.classList.contains(FLAG_ON)
+                    if (isOn) {
+                        const $onCells = $grid.querySelectorAll('.cell.on')
+                        if ($onCells.length === $cells.length) {
+                            console.log('full')
+                            return null
+                        } else {
+                            return getAvailableCell()
+                        }
+                    } else {
+                        return $cell
+                    }
+                } else {
+                    return getAvailableCell()
+                }
+            }
+            function setCellOn($el) {
+                if ($el) {
+                    $el.classList.add(FLAG_ON)
+                    setTimeout(() => {
+                        if ($el.classList.contains(FLAG_ON)) {
+                            setCellOff($el)
+                        }
+                    }, getCellTime())
+                }
+            }
+            function setCellOff($el) {
+                if ($el) {
+                    $el.classList.remove(FLAG_ON)
+                }
+            }
+            function scoreManager() {
+                let score = 0
+                function getScore() {
+                    return score
+                }
+                function setScore(v) {
+                    score = v
+                    $score.textContent = score
+                    return score
+                }
+                function hit() {
+                    return setScore(getScore() + 1)
+                }
+                function resetScore() {
+                    return setScore(0)
+                }
+                return { getScore, setScore, hit, resetScore }
+            }
+            function levelManager() {
+                let level = 1
+                function getLevel() {
+                    return level
+                }
+                function setLevel(v) {
+                    level = v
+                    $level.textContent = level
+                    return level
+                }
+                function prevLevel(v) {
+                    level--
+                    if (level < 1) {
+                        level = 1
+                    }
+                    return setLevel(level)
+                }
+                function nextLevel(v) {
+                    level++
+                    $level.textContent = level
+                    return setLevel(level)
+                }
+                function resetLevel() {
+                    return setLevel(1)
+                }
+                return { getLevel, setLevel, prevLevel, nextLevel, resetLevel }
+            }
+            function globalTimerManager() {
+                let globalTimer = null
+                let globalTimestamp = Date.now()
+                function startTimer() {
+                    const time = getCellTime()
+                    clearTimer()
+                    globalTimestamp = Date.now()
+                    globalTimer = setInterval(() => {
+                        const usingTime = Date.now() - globalTimestamp
+                        if (LEVEL_TIME > usingTime) {
+                            const $cell = getAvailableCell()
+                            if ($cell) {
+                                setCellOn($cell)
+                            }
+                        } else {
+                            // level stop
+                            clearTimer()
+
+                            // TODO - when not hit 75% score stay current level
+                            if (time > 10) {
+                                alert('Next level!')
+                                nextLevel()
+                                startTimer()
+                            } else {
+                                alert('Game over!')
+                            }
+                        }
+                    }, time)
+                }
+                function clearTimer() {
+                    if (globalTimer) {
+                        clearInterval(globalTimer)
+                        globalTimer = null
+                    }
+                }
+                function getCellTime() {
+                    return getLevel() === 1 ? 1000 : CELL_AVAILABLE_TIME * Math.pow(CELL_SPEED, getLevel() - 1)
+                }
+                return { startTimer, clearTimer, getCellTime }
+            }
+            function clickCell($el) {
+                setCellOff($el)
+                hit()
+            }
+
+            /**
+             * @param {Number} columns
+             * @param {Number} rows
+             * @returns {String}
+             */
+            function generateCell(x,y){
+                const count = x * y
+                let result = new Array(count).fill(`<div class="cell" onclick="clickCell(this)"></div>`)
+                return result.join('')
+            }
+
+            /**
+             * @param {Number} columns
+             * @param {Number} rows
+             */
+            function updateGrid(columns, rows) {
+                const gridStyle = $grid.style.gridTemplateColumns
+                $grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`
+                $grid.innerHTML = generateCell(columns, rows)
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
