@@ -2,6 +2,7 @@
   "name": "iskenhuang.github.io",
   "version": "1.0.0",
   "description": "Isken's lab",
+  "type": "module",
   "scripts": {
     "build": "node ./scripts/build.js",
     "git": "git config user.name \"Isken Huang\" && git config user.email \"iskenhuang@gmail.com\""
@@ -16,5 +17,8 @@
   ],
   "author": "Isken Huang",
   "license": "ISC",
-  "homepage": "https://isken.me"
+  "homepage": "https://isken.me",
+  "dependencies": {
+    "showdown": "^2.1.0"
+  }
 }
