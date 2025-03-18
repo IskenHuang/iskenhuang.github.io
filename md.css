@@ -1,0 +1,31 @@
+:root {
+    --md-code-bg: #555;
+    --md-code-text: #eee;
+}
+@media (prefers-color-scheme: dark) {
+    :root[color-mode="user"] {
+        --md-code-bg: #f7f7f7;
+        --md-code-text: #555;
+    }
+}
+pre {
+    margin-left: 2ch;
+}
+pre > code {
+    padding: 1ch 2.5ch;
+}
+code {
+    background-color: var(--md-code-bg);
+    color: var(--md-code-text);
+    font-family: monospace;
+    white-space: pre-wrap;
+    display: inline-block;
+    padding: 0.2ch 0.5ch;
+    border-radius: 0.3em;
+}
+del {
+    text-decoration: line-through;
+}
+.task-list-item > input[type="checkbox"] {
+    width: auto;
+}
