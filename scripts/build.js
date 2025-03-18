@@ -1,13 +1,12 @@
-const FS = require('fs')
-const htmlTemplate = require('./htmlTemplate')
-const { removeLineBreak } = require('./utils')
+import fs from 'node:fs'
+import { removeLineBreak, getTemplateHtml } from './utils.js'
 
 
 // create lab index
 const labFolderName = 'lab'
 const labName = 'Lab index'
 const indexName = 'index.html'
-const labFolder = FS.readdirSync(labFolderName).filter(item => item.indexOf('.') < 0 && !item.match(/^_/))
+const labFolder = fs.readdirSync(labFolderName).filter(item => item.indexOf('.') < 0 && !item.match(/^_/))
 const labs = []
 const bodyPrefix = removeLineBreak(`
 <style>
@@ -25,21 +24,21 @@ let result = ''
 labFolder.map(function(item) {
     const _name = [labFolderName, item, indexName].join('/')
     console.log('item = ', item)
-    const hasIndex = FS.readFileSync(_name)
+    const hasIndex = fs.readFileSync(_name)
     if(hasIndex) {
         labs.push(`<h3><a href="/${labFolderName}/${item}/">${item}</a></h3>`)
     }
 })
 
-result = htmlTemplate({
+result = getTemplateHtml({
     title: labName,
     body: `${bodyPrefix}${labs.join('')}</div>`
 })
 
-FS.writeFileSync([labFolderName, indexName].join('/'), result)
+fs.writeFileSync([labFolderName, indexName].join('/'), result)
 
 // TODO - update sw.js version
-let sw = FS.readFileSync('./sw.js').toString()
+let sw = fs.readFileSync('./sw.js').toString()
 let ver = parseInt(sw.match(/var VERSION = '\d+'/)[0].slice(15, -1), 10)
 const swSplitLine = '// GENERATE_LINE_END'
 const cacheUrls = [
@@ -59,7 +58,7 @@ ${swSplitLine}`
 
 sw = swConfigScript + sw.split(swSplitLine)[1]
 // console.log('sw = ', sw)
-FS.writeFileSync('./sw.js', sw)
+fs.writeFileSync('./sw.js', sw)
 console.log('sw.js version to ', ver)
 
 console.log('build success')
