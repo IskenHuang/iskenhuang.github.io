@@ -16,7 +16,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    :root[color-mode="user"] {
+    :root {
         --color-bg: #333;
         --color-bg-secondary: #555;
         --color-link: #0097fc;
