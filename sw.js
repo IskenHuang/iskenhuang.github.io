@@ -1,8 +1,8 @@
 // GENERATE_LINE_START
-var APP_PREFIX = 'iskenme_'
-var VERSION = '14'
-var CACHE_NAME = APP_PREFIX + VERSION
-var URLS = [
+    var APP_PREFIX = 'iskenme_'
+    var VERSION = '15'
+    var CACHE_NAME = APP_PREFIX + VERSION
+    var URLS = [
     '/',
     '/favicon.ico?v=1.1',
     '/common.min.css',
@@ -25,11 +25,12 @@ var URLS = [
     '/lab/qrcode-scan/',
     '/lab/qrcode-wifi-card/',
     '/lab/random-string/',
+    '/lab/reaction-game/',
     '/lab/shadowsocks/',
     '/lab/tempo/',
     '/lab/url/'
 ]
-// GENERATE_LINE_END
+    // GENERATE_LINE_END
 
 // Respond with cached resources
 self.addEventListener('fetch', function (e) {
