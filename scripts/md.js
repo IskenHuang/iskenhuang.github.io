@@ -50,7 +50,8 @@ function md2html(file) {
     return html
 }
 
-
-console.log('blog md to html process start')
-await findMd(path.join(__dirProjectHome(), '/blog'))
-console.log(`blog md to html DONE. Total ${TOTAL_BLOG_COUNT}`)
+export default async () => {
+    console.log('blog md to html process start')
+    await findMd(path.join(__dirProjectHome(), '/blog'))
+    console.log(`blog md to html DONE. Total ${TOTAL_BLOG_COUNT}`)
+}
