@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { removeLineBreak, getTemplateHtml } from './utils.js'
+import md from './md.js'
 
 
 // create lab index
@@ -60,5 +61,7 @@ sw = swConfigScript + sw.split(swSplitLine)[1]
 // console.log('sw = ', sw)
 fs.writeFileSync('./sw.js', sw)
 console.log('sw.js version to ', ver)
+
+await md()
 
 console.log('build success')
