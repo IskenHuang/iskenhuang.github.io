@@ -17,13 +17,14 @@
 
         <style>
             html {
-                max-width: 100ch;
+                max-width: 90ch;
                 margin: auto;
                 font-family: Helvetica, Arial, sans-serif;
                 font-weight: 300;
             }
             body {
                 margin: 0;
+                padding: 0 1rem;
             }
             h1, h2, h3 {
                 color: #353535;
@@ -57,11 +58,6 @@
             .floatLeft {
                 float: left;
             }
-            .cell-inner {
-                padding-left: 1rem;
-                padding-right: 1rem;
-                box-sizing: border-box;
-            }
             .icon-wrapper {
                 margin-top: 0.2rem;
             }
@@ -80,11 +76,6 @@
                 width: 20px;
                 padding-top: 0.1rem;
             }
-            .wrpper {
-                max-width: 70rem;
-                margin: 0 auto;
-                padding-bottom: 3rem;
-            }
             .change-lang {
                 position: relative;
                 margin-top: 1rem;
@@ -92,10 +83,6 @@
                 float: right;
                 height: 1.5rem;
                 line-height: 1.5rem;
-            }
-            .firstScreen {
-                width: 100%;
-                height: 8rem;
             }
             .nameGrid {
                 width: 18rem;
@@ -118,9 +105,9 @@
             @media print {
                 .change-lang, .icon-wrapper { display: none; }
                 .nameGrid { margin-top: 0rem; width: 16rem; }
-                .firstScreen { height: 3rem; }
                 .avatar { width: 3rem; }
                 .career-section { margin-top: 0.4rem; }
+                body { padding: 1rem; }
                 h2 { margin-top: 0.4rem; margin-bottom: 0; }
                 html {
                     font-size: 80%;
@@ -129,78 +116,55 @@
         </style>
     </head>
     <body>
-        <div class="wrpper">
-            <div class="firstScreen row">
-                <div class="change-lang">
-                    <a href="javascript:window.L10N.updateLang('EN-US')" data-i18n="lang-en-us"></a>
-                    <a href="javascript:window.L10N.updateLang('ZH-TW')" data-i18n="lang-zh-tw"></a>
-                    <a href="javascript:window.L10N.updateLang('ZH-CN')" data-i18n="lang-zh-cn"></a>
-                </div>
-                <div class="nameGrid row">
-                    <img class="avatar floatLeft" src="data:image/jpeg;base64,/9j/4QD0RXhpZgAATU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAAAeAAAAcgITAAMAAAABAAEAAIdpAAQAAAABAAAAkAAAAAAAAABIAAAAAQAAAEgAAAABQWRvYmUgUGhvdG9zaG9wIENTNiBNYWNpbnRvc2gAAAeQAAAHAAAABDAyMjGRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAABACgAwAEAAAAAQAABACkBgADAAAAAQAAAAAAAAAAAAD/2wCEAAEBAQEBAQIBAQIDAgICAwQDAwMDBAUEBAQEBAUGBQUFBQUFBgYGBgYGBgYHBwcHBwcICAgICAkJCQkJCQkJCQkBAQEBAgICBAICBAkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCf/dAAQACv/AABEIAKAAoAMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Q/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9H+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0v70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/T/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9T+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/1f70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/W/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9f+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0P70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z" width="5rem" height="auto" data-i18n="__alt__name" />
-                    <div class="floatLeft">
-                        <h3 data-i18n="name"></h3>
-                        <p data-i18n="title"></p>
-                        <div class="icon-wrapper">
-                            <a class="icon-social" href="mailto:resume@isken.me">
-                                <img class="email" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAABblBMVEUAAABycnLX19c6OjozMzMyMjKIiIg+Pj4AAACpqam2trY8PDw7OztFRUXAwMAAAACWlpampqb9/f0AAAAAAABAQEBOTk6KiooRERE5OTmfn59VVVVgYGAzMzNBQUEfHx9paWmXl5eEhIQzMzOtra1KSko1NTWTk5NZWVmrq6uwsLC1tbX///9XV1dISEhAQECKiopGRkY3NzcyMjJGRkaamppycnKSkpKUlJR+fn6EhISLi4tFRUU7OzupqalPT09HR0dRUVGKior///////8LCwtOTk5NTU0yMjJ4eHgqKio7Ozt5eXmNjY1wcHBZWVmQkJB1dXV5eXmhoaFgYGCYmJiSkpKIiIhISEh8fHxnZ2e1tbVra2toaGhmZmZQUFC+vr61tbXU1NSjo6PR0dFbW1sAAABOTk5EREQGBgYUFBQwMDAlJSUaGhoWFhY0NDQtLS0gICApKSkNDQ1ISEg6OjodHR0cHBw+Pj44ODjtHWl4AAAAZnRSTlMAJgUE/v4E5fcMB+jk6Av1Li4J+v3+5SL+5ZGRkIyLB9TTs5ORkZGQii0bEA726+vo5+Xl39fT0srGwpWSkpGQi4owHRT39fXn5uHf19XT08rKxsXFwZ2alZSUkZF9fX1uazsnHA6jQQrJAAACJElEQVQ4y+3U91MTQRQH8Ofd5VhiZDWXhgkgTTAgRUGQIkXsvfeuj1xPD/73vk0xXonA73xnMpO5/cze293bByfxJn3qSEkLG00V3YjiKv+J60bcYioq8BVM4GEhcrWJ+zCj2w/uz5/ukfm7qd8JA2NtnNDw+k2Y6Q/PL3hd03QcbGPL1HA0Dr0ypWjYxXfGbIbLe6AGnCzJMFVjuHC5VYbUh8n85wjHUQiJsLzy/HsVY1ILF3YhZ3EcBzloz9c4PoT0fhefBZi2WOWiX5NNcrw2C+c8eASmSzxD2mcPyNLSL3mwKsNOnRmbBLzz6o/jEPVjGtp2mLEBctfeoBouxEFVfWWoYnDYYY3JjiZb4LqwIAWx0MicLZBbdiLJsGkhOLMAtEpWzwpNtsAazyT6E4rpN/sKGbNyQPlQZbfwqQRSOKasZpirs2IWYGKfWWWGj3qVIcMQcmf9BXK8t1Bm+st1k+MK6SAWtsJK7yG+bCcQNXwyAO+KHFfDymhunJ0Vhb9JVg+qa3E61Y9ljkMg+zANbNvcEZtMz/Jfv/2A5styJVYh7TtB2GkwZ6Ozxd1DzJaYMQyemXfFFN2PTpVltaMnDW5s/YuT+U9m6Ocs9GaGlb/8bGO6VrfFtVoRVQZCCx9HDcfoWh3twr4ta6aFg75WMBCS/pmRvTXUEn+xodtLsbnFM6FZnOtbquvUZI7fvlJFxYwokd6hQVOhxnislnsST/4AfTWjvf0Kr3AAAAAASUVORK5CYII=" width="22px" height="auto" data-i18n="__title__email"/>
-                            </a>
-                            <a class="icon-social" href="//github.com/iskenhuang">
-                                <img class="github" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAkFBMVEUAAAAHBQUXFRYWFRYXFRYWExUdHR0XFRYXFRYXFRYXFRYXFRYXFRYWFBYWFBYXFRUWFRYVFRUYFRgXFRYXFRYXFhYXFRUWFhYcFhgXFRYXFRUYExgWFhYWFRYWFRUXFRcXFBQUFBQXFRYWFRYWFRYWFRYYFRYXFRUXFBYXFBYXFBUWFBQXFhYWFhYWFhYXFRYZ+Pe2AAAAL3RSTlMABP37+RsI7fby6Mmoi4h3XC8q3a6kjxYS0Tw1IoBpQiYM4rag18O8lmRLMXRTUMoJomgAAAKZSURBVDjLfZWJmqowDIVjyqaiILIo4K6zz/T93+6etmG8gkzk84PkNz0kbaT/bDLB16lJd2/X69subU7ie2YTkGl81pqtaX2OU/CT5+hmd9ZglGdNaTycdxvBe+x+xgAVazHGg+bZHsE+67+yBtgzBv7qC/3L1iEjz9CwFoe10MJ+aO3pEUPgw9LCHuAyLzaUgRc19AGQsMcIDraV6GnQxo1gdARm2cnWsnFy8RBQSkAFp3dJYktvgVl4yYZVLdGxtAWJptPIlqI8ErXK0LwEiGvlFlwHprWrePndtFXVNt/LeGXaHayduBWZ5DkesNAckcedII45gkByoPSpYQLjejAigY19ElHJnpURSqMGrQ2tDI9LIpH0NywvRbVUX6fCDugUQWs1JaLihUbtRXQklLNb5J2CpyTc704H57SVFmc0eoAyaf2WQqc43NCobUKnOiTl4Nlf8MzBirSzaTUOV1OByJPS/aWZ5RSQW0Lpn3H4RysnleZSxMU4vJBWzOlq7xjNHOsgNgTbfFfas3JV3FPwvCd77Qjem63Pdj5MMwqGsyegLBLJ2P4iGnt21iAIE07um1kXn8OXIKs6T/FT3lWDEu8YrFOR4NmfoiV+FntYKrymK7+bEP7nexF2LIPpKrM9+kssZZQtuglRGgQpJDH8+KD1mGf+6mJmABIIbJb0VMeazTNxR0FFXAQfc4buQsotx/4XTrscBWOm+P5hURRvtcBWXwd7kkPmV6RfiVb+oT06VCaVsHob3HNUa9AvjWB3WAm7rhwrL3MzSm55cUv6Mtjjm/84zU8Xdjuq7MEo5+XU/5+gBI1E6ZZ3eMkRaE5suEdnueaHzCXDkWfC9vE6DvnrDn9xGNeCDmh420NwdwSH1nk7+wcvJG6JRk6NDgAAAABJRU5ErkJggg==" width="22px" height="auto" data-i18n="__title__github"/>
-                            </a>
-                        </div>
+        <div class="row">
+            <div class="change-lang">
+                <a href="javascript:window.L10N.updateLang('EN-US')">English</a>
+                <a href="javascript:window.L10N.updateLang('ZH-TW')">正體中文</a>
+                <a href="javascript:window.L10N.updateLang('ZH-CN')">简体中文</a>
+            </div>
+            <div class="nameGrid row">
+                <img class="avatar floatLeft" src="data:image/jpeg;base64,/9j/4QD0RXhpZgAATU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAAAeAAAAcgITAAMAAAABAAEAAIdpAAQAAAABAAAAkAAAAAAAAABIAAAAAQAAAEgAAAABQWRvYmUgUGhvdG9zaG9wIENTNiBNYWNpbnRvc2gAAAeQAAAHAAAABDAyMjGRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAABACgAwAEAAAAAQAABACkBgADAAAAAQAAAAAAAAAAAAD/2wCEAAEBAQEBAQIBAQIDAgICAwQDAwMDBAUEBAQEBAUGBQUFBQUFBgYGBgYGBgYHBwcHBwcICAgICAkJCQkJCQkJCQkBAQEBAgICBAICBAkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCf/dAAQACv/AABEIAKAAoAMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Q/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9H+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0v70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/T/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9T+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/1f70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/W/vQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9f+9CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0P70KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z" width="5rem" height="auto" alt="avatar" />
+                <div class="floatLeft">
+                    <h3 data-i18n="name">Tai Cheng Huang</h3>
+                    <p data-i18n="title">Engineer / Designer / PM</p>
+                    <div class="icon-wrapper">
+                        <a class="icon-social" href="mailto:resume@isken.me">
+                            <img class="email" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAABblBMVEUAAABycnLX19c6OjozMzMyMjKIiIg+Pj4AAACpqam2trY8PDw7OztFRUXAwMAAAACWlpampqb9/f0AAAAAAABAQEBOTk6KiooRERE5OTmfn59VVVVgYGAzMzNBQUEfHx9paWmXl5eEhIQzMzOtra1KSko1NTWTk5NZWVmrq6uwsLC1tbX///9XV1dISEhAQECKiopGRkY3NzcyMjJGRkaamppycnKSkpKUlJR+fn6EhISLi4tFRUU7OzupqalPT09HR0dRUVGKior///////8LCwtOTk5NTU0yMjJ4eHgqKio7Ozt5eXmNjY1wcHBZWVmQkJB1dXV5eXmhoaFgYGCYmJiSkpKIiIhISEh8fHxnZ2e1tbVra2toaGhmZmZQUFC+vr61tbXU1NSjo6PR0dFbW1sAAABOTk5EREQGBgYUFBQwMDAlJSUaGhoWFhY0NDQtLS0gICApKSkNDQ1ISEg6OjodHR0cHBw+Pj44ODjtHWl4AAAAZnRSTlMAJgUE/v4E5fcMB+jk6Av1Li4J+v3+5SL+5ZGRkIyLB9TTs5ORkZGQii0bEA726+vo5+Xl39fT0srGwpWSkpGQi4owHRT39fXn5uHf19XT08rKxsXFwZ2alZSUkZF9fX1uazsnHA6jQQrJAAACJElEQVQ4y+3U91MTQRQH8Ofd5VhiZDWXhgkgTTAgRUGQIkXsvfeuj1xPD/73vk0xXonA73xnMpO5/cze293bByfxJn3qSEkLG00V3YjiKv+J60bcYioq8BVM4GEhcrWJ+zCj2w/uz5/ukfm7qd8JA2NtnNDw+k2Y6Q/PL3hd03QcbGPL1HA0Dr0ypWjYxXfGbIbLe6AGnCzJMFVjuHC5VYbUh8n85wjHUQiJsLzy/HsVY1ILF3YhZ3EcBzloz9c4PoT0fhefBZi2WOWiX5NNcrw2C+c8eASmSzxD2mcPyNLSL3mwKsNOnRmbBLzz6o/jEPVjGtp2mLEBctfeoBouxEFVfWWoYnDYYY3JjiZb4LqwIAWx0MicLZBbdiLJsGkhOLMAtEpWzwpNtsAazyT6E4rpN/sKGbNyQPlQZbfwqQRSOKasZpirs2IWYGKfWWWGj3qVIcMQcmf9BXK8t1Bm+st1k+MK6SAWtsJK7yG+bCcQNXwyAO+KHFfDymhunJ0Vhb9JVg+qa3E61Y9ljkMg+zANbNvcEZtMz/Jfv/2A5styJVYh7TtB2GkwZ6Ozxd1DzJaYMQyemXfFFN2PTpVltaMnDW5s/YuT+U9m6Ocs9GaGlb/8bGO6VrfFtVoRVQZCCx9HDcfoWh3twr4ta6aFg75WMBCS/pmRvTXUEn+xodtLsbnFM6FZnOtbquvUZI7fvlJFxYwokd6hQVOhxnislnsST/4AfTWjvf0Kr3AAAAAASUVORK5CYII=" width="22px" height="auto" alt="email"/>
+                        </a>
+                        <a class="icon-social" href="//github.com/iskenhuang">
+                            <img class="github" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAkFBMVEUAAAAHBQUXFRYWFRYXFRYWExUdHR0XFRYXFRYXFRYXFRYXFRYXFRYWFBYWFBYXFRUWFRYVFRUYFRgXFRYXFRYXFhYXFRUWFhYcFhgXFRYXFRUYExgWFhYWFRYWFRUXFRcXFBQUFBQXFRYWFRYWFRYWFRYYFRYXFRUXFBYXFBYXFBUWFBQXFhYWFhYWFhYXFRYZ+Pe2AAAAL3RSTlMABP37+RsI7fby6Mmoi4h3XC8q3a6kjxYS0Tw1IoBpQiYM4rag18O8lmRLMXRTUMoJomgAAAKZSURBVDjLfZWJmqowDIVjyqaiILIo4K6zz/T93+6etmG8gkzk84PkNz0kbaT/bDLB16lJd2/X69subU7ie2YTkGl81pqtaX2OU/CT5+hmd9ZglGdNaTycdxvBe+x+xgAVazHGg+bZHsE+67+yBtgzBv7qC/3L1iEjz9CwFoe10MJ+aO3pEUPgw9LCHuAyLzaUgRc19AGQsMcIDraV6GnQxo1gdARm2cnWsnFy8RBQSkAFp3dJYktvgVl4yYZVLdGxtAWJptPIlqI8ErXK0LwEiGvlFlwHprWrePndtFXVNt/LeGXaHayduBWZ5DkesNAckcedII45gkByoPSpYQLjejAigY19ElHJnpURSqMGrQ2tDI9LIpH0NywvRbVUX6fCDugUQWs1JaLihUbtRXQklLNb5J2CpyTc704H57SVFmc0eoAyaf2WQqc43NCobUKnOiTl4Nlf8MzBirSzaTUOV1OByJPS/aWZ5RSQW0Lpn3H4RysnleZSxMU4vJBWzOlq7xjNHOsgNgTbfFfas3JV3FPwvCd77Qjem63Pdj5MMwqGsyegLBLJ2P4iGnt21iAIE07um1kXn8OXIKs6T/FT3lWDEu8YrFOR4NmfoiV+FntYKrymK7+bEP7nexF2LIPpKrM9+kssZZQtuglRGgQpJDH8+KD1mGf+6mJmABIIbJb0VMeazTNxR0FFXAQfc4buQsotx/4XTrscBWOm+P5hURRvtcBWXwd7kkPmV6RfiVb+oT06VCaVsHob3HNUa9AvjWB3WAm7rhwrL3MzSm55cUv6Mtjjm/84zU8Xdjuq7MEo5+XU/5+gBI1E6ZZ3eMkRaE5suEdnueaHzCXDkWfC9vE6DvnrDn9xGNeCDmh420NwdwSH1nk7+wcvJG6JRk6NDgAAAABJRU5ErkJggg==" width="22px" height="auto" alt="github"/>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="cell-inner">
-                <h2 data-i18n="about"></h2>
-                <p class="tab" data-i18n="aboutDescription"></p>
-                <h2 data-i18n="career"></h2>
-                <div class="career-section">
-                    <h3 data-i18n="job-bytedance-company"></h3>
-                    <p class="tab" data-i18n="job-bytedance-description"></p>
-                </div>
-                <div class="career-section">
-                    <h3 data-i18n="job-alibaba-company"></h3>
-                    <p class="tab" data-i18n="job-alibaba-description"></p>
-                </div>
-                <div class="career-section">
-                    <h3 data-i18n="job-trendmicro-company"></h3>
-                    <p class="tab" data-i18n="job-trendmicro-description"></p>
-                </div>
-                <div class="career-section">
-                    <h3 data-i18n="job-coevo-company"></h3>
-                    <p class="tab" data-i18n="job-coevo-description"></p>
-                </div>
-                <h2 data-i18n="education"></h2>
-                <p class="tab" data-i18n="lastEducationTitle"></p>
-                <p class="tab" data-i18n="lastEducationSubtitle"></p>
-            </div>
         </div>
-        <script id="script-lib">
+        <div>
+            <h2 data-i18n="about">Profile</h2>
+            <p class="tab" data-i18n="aboutDescription">15 years of experience in the internet industry. 12 years of management experience. Expertise in e-commerce, marketing, advertising, security, community, and internationalization. Experience ranging from technical infrastructure and mid-platform to business development. Managed teams of 80+ people, including front-end, back-end, client-side, design, and product. Particularly passionate about breakthrough innovation.</p>
+            <h2 data-i18n="career">Experience</h2>
+            <div class="career-section">
+                <h3 data-i18n="job-bytedance-company">Bytedance | Manager 2022~</h3>
+                <p class="tab" data-i18n="job-bytedance-description">+ China User Growth - Advertising and marketing creativity.<br/>+ Technical community.</p>
+            </div>
+            <div class="career-section">
+                <h3 data-i18n="job-alibaba-company">Alibaba Group - Tmall/Taobao Tech | Staff Engineer 2014~2022</h3>
+                <p class="tab" data-i18n="job-alibaba-description">+ Responsible for Taobao content (live broadcast, short videos, ugc), Taobao interaction, Tmall App, marketing activities, etc. Management scope 40+, including front-end, client, back-end. 8 years of Double 11 experience, served as Double 11 front-end PM.<br/>+ Responsible for the group\'s page builder product. The world\'s first cross-end architecture, providing data delivery and page building services, serving dozens of business lines of the group; combining design and algorithms to create smart interfaces, increasing click-through rate by 5-20%; supporting international business, improving the experience of Lazada homepage, marketing activities, etc.<br/>+ One of the founders of Weex, head of Web rendering architecture PHA, breaking the boundaries of front-end, client, and back-end, breaking through the second opening rate, stability, and experience, allowing the Double 11 homgpage to reach a 98% launch page in one second.<br/>+ Served as the Interaction Manager of the Group’s Front-end Committee in 2021; built the EVA interactive technology system, supporting complex interactive scenarios such as 2/3D, including data delivery, engineering, editor, assets, and engine sections, supporting tens of millions of DAU businesses such as Double 11 Xinxiumao, Baba Farm, Taobao Coins, and Taobao Life.</p>
+            </div>
+            <div class="career-section">
+                <h3 data-i18n="job-trendmicro-company">Trend Micro | iOS/Web Engineer - 2012~2014</h3>
+                <p class="tab" data-i18n="job-trendmicro-description">+ LiveAll - Startup team. Responsibility for iOS/Backend. Build up 2 products LiveAll(http://www.liveall.com) and SharedAlbum(https://youtu.be/AKIm9Dc_De4).<br/>+ Direct pass - TrendMicro password management for consumer product. Build up the product portal with full function web app. Build the product style guide, dev environment and shared to all teams of BU.</p>
+            </div>
+            <div class="career-section">
+                <h3 data-i18n="job-coevo-company">COEVO Technology Inc | Manager - 2010~2012</h3>
+                <p class="tab" data-i18n="job-coevo-description">+ Startup team. Custom system integration and e-marketing solution. Build the development team. Includes 12 people frontend, native(iOS/Android), backend, design team. Build 10+ iOS/Android/Web for customers.</p>
+            </div>
+            <h2 data-i18n="education">Education</h2>
+            <p class="tab" data-i18n="lastEducationTitle">Bachelor of Digital media design. 2009</p>
+            <p class="tab" data-i18n="lastEducationSubtitle">Taiwan National Yunlin University of Science and Technology</p>
+        </div>
+        <script>
             /* L10N Language */
             window.l10n = {
-                'EN-US': {
-                    name: 'Tai Cheng Huang',
-                    title: 'Engineer / Designer / PM',
-                    about: 'Profile',
-                    aboutDescription: '15 years of experience in the internet industry. 12 years of management experience. Expertise in e-commerce, marketing, advertising, security, community, and internationalization. Experience ranging from technical infrastructure and mid-platform to business development. Managed teams of 80+ people, including front-end, back-end, client-side, design, and product. Particularly passionate about breakthrough innovation.',
-                    education: 'Education',
-                    lastEducationTitle: 'Bachelor of Digital media design. 2009',
-                    lastEducationSubtitle: 'Taiwan National Yunlin University of Science and Technology',
-                    career: 'Experience',
-                    'lang-en-us': 'English',
-                    'lang-zh-tw': '正體中文',
-                    'lang-zh-cn': '简体中文',
-                    'job-bytedance-company': 'Bytedance | Manager 2022~',
-                    'job-bytedance-description': '+ China User Growth - Advertising and marketing creativity.<br/>+ Technical community.',
-                    'job-alibaba-company': 'Alibaba Group - Tmall/Taobao Tech | Staff Engineer 2014~2022',
-                    'job-alibaba-description': '+ Responsible for Taobao content (live broadcast, short videos, ugc), Taobao interaction, Tmall App, marketing activities, etc. Management scope 40+, including front-end, client, back-end. 8 years of Double 11 experience, served as Double 11 front-end PM.<br/>+ Responsible for the group\'s page builder product. The world\'s first cross-end architecture, providing data delivery and page building services, serving dozens of business lines of the group; combining design and algorithms to create smart interfaces, increasing click-through rate by 5-20%; supporting international business, improving the experience of Lazada homepage, marketing activities, etc.<br/>+ One of the founders of Weex, head of Web rendering architecture PHA, breaking the boundaries of front-end, client, and back-end, breaking through the second opening rate, stability, and experience, allowing the Double 11 homgpage to reach a 98% launch page in one second.<br/>+ Served as the Interaction Manager of the Group’s Front-end Committee in 2021; built the EVA interactive technology system, supporting complex interactive scenarios such as 2/3D, including data delivery, engineering, editor, assets, and engine sections, supporting tens of millions of DAU businesses such as Double 11 Xinxiumao, Baba Farm, Taobao Coins, and Taobao Life.',
-                    'job-trendmicro-company': 'Trend Micro | iOS/Web Engineer - 2012~2014',
-                    'job-trendmicro-description': '+ LiveAll - Startup team. Responsibility for iOS/Backend. Build up 2 products LiveAll(http://www.liveall.com) and SharedAlbum(https://youtu.be/AKIm9Dc_De4).<br/>+ Direct pass - TrendMicro password management for consumer product. Build up the product portal with full function web app. Build the product style guide, dev environment and shared to all teams of BU.',
-                    'job-coevo-company': 'COEVO Technology Inc | Manager - 2010~2012',
-                    'job-coevo-description': '+ Startup team. Custom system integration and e-marketing solution. Build the development team. Includes 12 people frontend, native(iOS/Android), backend, design team. Build 10+ iOS/Android/Web for customers.',
-                },
                 'ZH-TW': {
                     name: 'Tai Cheng Huang',
                     title: '工程師 / 設計師 / 產品經理',
@@ -210,9 +174,6 @@
                     lastEducationTitle: '數位媒體設計系 學士 2005-2009',
                     lastEducationSubtitle: '國立雲林科技大學',
                     career: '工作經歷',
-                    'lang-en-us': 'English',
-                    'lang-zh-tw': '正體中文',
-                    'lang-zh-cn': '简体中文',
                     'job-bytedance-company': '字節跳動 | 經理 2022~',
                     'job-bytedance-description': '+ 中國區用戶增長 - 营销平台廣告創意技術負責人。<br />+ 技術社群技術負責人。',
                     'job-alibaba-company': '阿里巴巴集團 - 天猫/淘系/淘宝技术部 | 高级技术专家 2014~',
@@ -231,9 +192,6 @@
                     lastEducationTitle: '数位媒体设计系 本科 2005-2009',
                     lastEducationSubtitle: '台湾 国立云林科技大学',
                     career: '工作经历',
-                    'lang-en-us': 'English',
-                    'lang-zh-tw': '正體中文',
-                    'lang-zh-cn': '简体中文',
                     'job-bytedance-company': '字节跳动 | 经理 2022~',
                     'job-bytedance-description': '+ 中国区用户增长 - 营销中台广告创意技术负责人。<br />+ 技术社区技术负责人。',
                     'job-alibaba-company': '阿里巴巴集团 天猫/淘系/淘宝技术部 | 高级技术专家 2014~2022',
@@ -245,9 +203,16 @@
                 }
             }
 
+            var defaultLang = document.querySelector('html').getAttribute('lang')
+            window.l10n[defaultLang] = {}
+            var i18nKey = 'data-i18n'
+            document.querySelectorAll('[' + i18nKey + ']').forEach(el => {
+                window.l10n[defaultLang][el.getAttribute(i18nKey)] = el.innerHTML
+            })
+
             var urlObj = new URL(window.location.href)
             var lang = (urlObj.searchParams.get('lang') || '').replace('_', '-').toUpperCase()
-            window.i18n = l10n[lang] || l10n['EN-US']
+            window.i18n = l10n[lang] || l10n[defaultLang]
 
             /* i18n */
             !function(){var t=function(){};t.prototype.lng=t.prototype.lang=function(){var t=document.querySelector("html").getAttribute("lang");return t?t.toUpperCase():"EN-US"},t.prototype.setLang=function(t){return t&&"string"==typeof t&&t.match(/^[a-zA-Z]{2}\-[a-zA-Z]{2}$/)&&(document.querySelector("html").setAttribute("lang",t.toUpperCase()),window.I18N.translateAll()),this},t.prototype.t=t.prototype.translate=function(t){if(!t)throw"Can not find key: "+t;var e=RegExp("^\\_\\_\\S*\\_\\_","i"),n=t.match(e),r="";r=n?t.replace(e,""):t;var o=document.querySelectorAll("[data-i18n="+t+"]"),a=window.i18n[r]||r;if(n){n=n[0].substr(2,n[0].length-4);for(var i=0;i<o.length;i++){var l=o[i];l.setAttribute(n,a)}}else for(var i=0;i<o.length;i++){var l=o[i];l.innerHTML=a}return this},t.prototype.translateAll=function(t){for(var e="string"==typeof t?document.querySelector(t)||document:document,n=e.querySelectorAll("[data-i18n]"),r=0;r<n.length;r++){var o=n[r],a=o.getAttribute("data-i18n");this.t(a)}return this},window.i18n=window.i18n||{},window.I18N=(new t).translateAll()}();
