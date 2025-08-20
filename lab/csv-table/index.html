@@ -15,10 +15,17 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="stylesheet" href="/common.min.css">
         <!-- Place favicon.ico in the root directory -->
+        <style>
+            thead {
+                position: sticky;
+                top: 0;
+                background-color: var(--color-bg);
+            }
+        </style>
     </head>
     <body>
         <h1>CSV table tool</h1>
-        <div><input type="file" onchange="changeFile(this)"/></div>
+        <div><input type="file" onchange="changeFile(this)"/><input type="text" onkeyup="searchRow(this)" placeholder="Search rows" /></div>
         <table></table>
         <script>
             /* cav parser */
@@ -53,7 +60,7 @@
                 $thead.append($theadTr)
                 $table.append($thead)
                 
-                const $tbody = document.createElement('thead')
+                const $tbody = document.createElement('tbody')
                 csvData.slice(1).forEach(row => {
                     const $tr = document.createElement('tr')
                     row.forEach(v => {
@@ -91,6 +98,20 @@
                     el.setAttribute('init', true)
                 }
                 
+            }
+
+            window.searchRow = (el) => {
+                const val = el.value || ''
+                const regex = new RegExp(val, 'i')
+                $table.querySelectorAll('tbody > tr').forEach($el => {
+                    const isMatch = $el.textContent.match(regex)
+                    if (isMatch) {
+                        $el.style.display = ''
+                    } else {
+                        $el.style.display = 'none'
+                    }
+                })
+                debugger
             }
 
             function createTd(v) {
