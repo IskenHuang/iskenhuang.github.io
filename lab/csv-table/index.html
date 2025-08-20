@@ -24,6 +24,17 @@
             /* cav parser */
             function parseToArray(e,n){n=n||",";const r=new RegExp("(\\"+n+'|\\r?\\n|\\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^"\\'+n+"\\r\\n]*))","gi"),t=[[]];let l=null;for(;l=r.exec(e);){const e=l[1];let r;e.length&&e!==n&&t.push([]),r=l[2]?l[2].replace(new RegExp('""',"g"),'"'):l[3],t[t.length-1].push(r)}return t}
 
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        initCell(entry.target)
+                        observer.unobserve(entry.target)
+                    } else {
+                        // Element is no longer visible
+                    }
+                })
+            })
+            
             const $table = document.querySelector('table')
             window.changeFile = async (e) => {
                 console.log('e = ', e)
@@ -37,6 +48,7 @@
                 csvData[0].forEach(v => {
                     const $td = createTd(v)
                     $theadTr.append($td)
+                    observer.observe($td)
                 })
                 $thead.append($theadTr)
                 $table.append($thead)
@@ -47,6 +59,7 @@
                     row.forEach(v => {
                         const $td = createTd(v)
                         $tr.append($td)
+                        observer.observe($td)
                     })
                     $tbody.append($tr)
                 })
