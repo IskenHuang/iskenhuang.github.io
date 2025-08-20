@@ -44,7 +44,6 @@
             
             const $table = document.querySelector('table')
             window.changeFile = async (e) => {
-                console.log('e = ', e)
                 const file = e.files[0]
                 const fileStr = await file.text()
                 const csvData = parseToArray(fileStr)
@@ -92,6 +91,8 @@
                             $img.setAttribute('width', '300px')
                             $img.setAttribute('height', '300px')
                             $a.append($img)
+                        } else {
+                            $a.textContent = v
                         }
                         el.innerHTML = $a.outerHTML
                     } catch(e) {}
