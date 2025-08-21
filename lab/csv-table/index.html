@@ -52,7 +52,7 @@
                 const $thead = document.createElement('thead')
                 const $theadTr = document.createElement('tr')
                 csvData[0].forEach(v => {
-                    const $td = createTd(v)
+                    const $td = createTd(v, 'th')
                     $theadTr.append($td)
                     observer.observe($td)
                 })
@@ -114,8 +114,9 @@
                 })
             }
 
-            function createTd(v) {
-                const $td = document.createElement('td')
+            function createTd(v, tagName) {
+                tagName = tagName || 'td'
+                const $td = document.createElement(tagName)
                 $td.textContent = v
                 $td.setAttribute('init', false)
                 return $td
