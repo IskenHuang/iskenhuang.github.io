@@ -17,16 +17,27 @@ async function findMd(rootPath) {
                 const mdRegex = /\.md$/
                 if (file.match(mdRegex)) {
                     // console.log('md file = ', file, fullPath)
-                    const mdStr = fs.readFileSync(fullPath)?.toString()
+                    const stat = fs.statSync(fullPath)
+                    // console.log('md file2 = ', stat)
+                    const mdStr = fs.readFileSync(fullPath)?.toString().replace(/---/, () => {
+                        return `create at ${(new Date(stat.birthtimeMs)).toISOString()}\n\n---`
+                    })
                     if (mdStr) {
                         const html = md2html(mdStr)
                         // console.log('html = ', html.length)
+                        const title = file.replace(mdRegex, '')
                         const newFile = getTemplateHtml({
-                            title: file.replace(mdRegex, ''),
+                            title,
                             style: `<link rel="stylesheet" href="/md.min.css">`,
                             body: html,
                         })
-                        fs.writeFileSync(`${rootPath}/index.html`, newFile)
+
+                        const writeFolderPath = `${rootPath}/${encodeURIComponent(title)}`
+                        if (!fs.existsSync(writeFolderPath)) {
+                            fs.mkdirSync(writeFolderPath, { recursive: true });
+                        }
+
+                        fs.writeFileSync(`${writeFolderPath}/index.html`, newFile)
                         TOTAL_BLOG_COUNT++
                     }
                 }
