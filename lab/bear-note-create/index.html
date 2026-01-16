@@ -1,0 +1,33 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Bear create note</title>
+        <meta name="description" content="demo, testing and blog">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1>Bear create note</h1>
+        <textarea onblur="updateContent(this)" placeholder="Note content here..."></textarea>
+        <p id="output">Output is here :)</p>
+        <script>
+            const $output = document.querySelector('#output')
+            window.updateContent = function (el) {
+                const note = el.value || ''
+                const result = `bear://x-callback-url/create?text=${encodeURIComponent(note)}`
+                $output.textContent = result
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
