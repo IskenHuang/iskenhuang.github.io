@@ -1,0 +1,32 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>UUID Generator</title>
+        <meta name="description" content="demo, testing and blog">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1>UUID Generator</h1>
+        <h3 onclick="window.navigation.reload()">-</h3>
+        <script>
+            const $h3 = document.querySelector('h3')
+            try {
+                $h3.textContent = crypto.randomUUID()
+            } catch(e) {
+                $h3.textContent = 'generate error!'
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>

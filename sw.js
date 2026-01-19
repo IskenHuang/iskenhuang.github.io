@@ -1,6 +1,6 @@
 // GENERATE_LINE_START
     var APP_PREFIX = 'iskenme_'
-    var VERSION = '20'
+    var VERSION = '21'
     var CACHE_NAME = APP_PREFIX + VERSION
     var URLS = [
     '/',
@@ -9,6 +9,7 @@
     '/resume/',
     '/lab/',
     '/lab/aria2ng/',
+    '/lab/bear-note-create/',
     '/lab/bookmarklet/',
     '/lab/china-salary/',
     '/lab/css-minify/',
@@ -30,8 +31,10 @@
     '/lab/random-string/',
     '/lab/reaction-game/',
     '/lab/shadowsocks/',
+    '/lab/stfu/',
     '/lab/tempo/',
-    '/lab/url/'
+    '/lab/url/',
+    '/lab/uuid/'
 ]
     // GENERATE_LINE_END
 
