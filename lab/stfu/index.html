@@ -1,0 +1,65 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>STFU</title>
+        <meta name="description" content="demo, testing and blog">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+    </head>
+    <body>
+        <h1>STFU</h1>
+        <p>Inspired from https://github.com/Pankajtanwarbanna/stfu</p>
+        <button onclick="toggle(this)">🤐</button>
+        <script>
+            let state = false
+            let audioContext = null
+            let mediaStream = null
+            window.toggle = async function (el) {
+                if (state) {
+                    await micStop()
+                    el.textContent = '🤐'
+                } else {
+                    await micPlay()
+                    el.textContent = '😜'
+                }
+                state = !state
+            }
+
+            async function micPlay (delayTime) {
+                delayTime = delayTime || 2
+                audioContext = new AudioContext()
+                mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+                const source = audioContext.createMediaStreamSource(mediaStream)
+                const delayNode = audioContext.createDelay(5)
+                const gainNode = audioContext.createGain()
+                delayNode.delayTime.value = delayTime
+                gainNode.gain.value = 0.8
+                source.connect(delayNode)
+                delayNode.connect(gainNode)
+                gainNode.connect(audioContext.destination)
+            }
+
+            async function micStop() {
+                if (audioContext) {
+                    await audioContext.close()
+                    audioContext = null
+                }
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(au => au.stop())
+                    mediaStream = null
+                }
+            }
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
