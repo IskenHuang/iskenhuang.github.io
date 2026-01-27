@@ -1,0 +1,314 @@
+<!doctype html>
+<html class="no-js" lang="EN-US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Sudoku</title>
+        <meta name="description" content="demo, testing and blog">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="https://isken.me" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Isken Huang's Lab" />
+        <meta property="og:description"   content="demo, testing and blog" />
+        <meta property="og:image"         content="https://isken.me/me.jpg" />
+        <link rel="icon" href="/favicon.ico?v=1.1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="/common.min.css">
+        <!-- Place favicon.ico in the root directory -->
+        <style>
+            :root {
+                --bg-color: #f4f4f9;
+                --board-bg: #fff;
+                --border-color: #bdc3c7;
+                --border-thick: #2c3e50;
+                --highlight: #e8f0fe;
+                --error: #fadbd8;
+                --text-color: #2c3e50;
+                --fixed-text: #000;
+                --user-text: #2980b9;
+            }
+
+            * { box-sizing: border-box; }
+
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                height: 100vh;
+            }
+
+            .sudoku-board {
+                aspect-ratio: 1 / 1;
+
+                display: grid;
+                grid-template-columns: repeat(var(--dim), 1fr);
+                grid-template-rows: repeat(var(--dim), 1fr);
+
+                background-color: var(--border-thick);
+                gap: 1px;
+                border: 2px solid var(--border-thick);
+            }
+
+            .cell {
+                background-color: var(--board-bg);
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
+
+            .cell.border-right {
+                border-right: 2px solid var(--border-thick);
+                margin-right: -1px;
+            }
+            .cell.border-bottom {
+                border-bottom: 2px solid var(--border-thick);
+                margin-bottom: -1px;
+            }
+
+            .cell-select {
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: transparent;
+                text-align: center;
+                text-align-last: center;
+                font-size: calc(min(95vw, 95vh) / var(--dim) * 0.5);
+                font-weight: bold;
+                color: var(--user-text);
+                appearance: none;
+                -webkit-appearance: none;
+                cursor: pointer;
+                outline: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .cell-select:focus {
+                background-color: var(--highlight);
+            }
+
+            .cell.error .cell-select {
+                background-color: var(--error);
+                color: #c0392b;
+            }
+
+            .cell.fixed {
+                background-color: #eee;
+            }
+            .cell.fixed span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                color: var(--fixed-text);
+                font-size: calc(min(95vw, 95vh) / var(--dim) * 0.5);
+            }
+        </style>
+    </head>
+    <body>
+        <h1 onclick="initGame()">Sudoku</h1>
+        <select id="sizeSelect" onchange="initGame()">
+            <option value="4">4x4(2x2)</option>
+            <option value="5">5x5</option>
+            <option value="6">6x6</option>
+            <option value="7">7x7</option>
+            <option value="8">8x8</option>
+            <option value="9">9x9(3x3)</option>
+        </select>
+        <select id="puzzleSelect" onchange="initGame()">
+            <option value="0.4">Puzzle - Easy</option>
+            <option value="0.5" selected>Puzzle - Medium</option>
+            <option value="0.6">Puzzle - Hard</option>
+            <option value="0.8">Puzzle - Very Hard</option>
+        </select>
+        <div class="game-area">
+            <div id="board" class="sudoku-board"></div>
+        </div>
+        <script>
+            let solution = []
+            let boardState = []
+            let fixedMask = []
+
+            const winWording = 'You Win!'
+            const $board = document.querySelector('#board')
+            const $sizeSelect = document.querySelector('#sizeSelect')
+            const $puzzleSelect = document.querySelector('#puzzleSelect')
+
+            function getBoxConfig(n) {
+                const root = Math.sqrt(~~n)
+                if (Number.isInteger(root)) {
+                    return { boxW: root, boxH: root, hasBox: true };
+                } else {
+                    return { boxW: n, boxH: 1, hasBox: false };
+                }
+            }
+
+            function initGame() {
+                const currentSize = ~~$sizeSelect.value
+                const currentPuzzle = Number($puzzleSelect.value)
+                const { boxW, boxH, hasBox } = getBoxConfig(currentSize)
+
+                $board.style.setProperty('--dim', $sizeSelect.value)
+                solution = generateSolvedBoard(currentSize, boxW, boxH)
+                createPuzzle(currentPuzzle)
+                renderBoard(boxW, boxH, hasBox)
+            }
+
+            function renderBoard(boxW, boxH, hasBox) {
+                $board.innerHTML = ''
+                const currentSize = ~~$sizeSelect.value
+
+                for (let r = 0; r < currentSize; r++) {
+                    for (let c = 0; c < currentSize; c++) {
+                        const cell = document.createElement('div')
+                        cell.className = 'cell'
+
+                        if (hasBox) {
+                            if (c < currentSize - 1 && (c + 1) % boxW === 0) cell.classList.add('border-right')
+                            if (r < currentSize - 1 && (r + 1) % boxH === 0) cell.classList.add('border-bottom')
+                        }
+
+                        if (fixedMask[r][c]) {
+                            cell.classList.add('fixed')
+                            const span = document.createElement('span')
+                            span.textContent = boardState[r][c]
+                            cell.appendChild(span);
+                        } else {
+                            const select = document.createElement('select')
+                            select.className = 'cell-select'
+
+                            const emptyOpt = document.createElement('option')
+                            emptyOpt.value = 0
+                            emptyOpt.textContent = '  '
+                            select.appendChild(emptyOpt)
+
+                            // 添加 1-N 选项
+                            for (let n = 1; n <= currentSize; n++) {
+                                const opt = document.createElement('option')
+                                opt.value = n
+                                opt.textContent = n
+                                select.appendChild(opt)
+                            }
+
+                            select.value = boardState[r][c] === 0 ? 0 : boardState[r][c]
+                            select.addEventListener('change', (e) => {
+                                handleInput(r, c, parseInt(e.target.value), cell)
+                                e.target.blur()
+                            });
+
+                            cell.appendChild(select)
+                        }
+
+                        $board.appendChild(cell)
+                    }
+                }
+            }
+
+            function handleInput(r, c, val, cellEl) {
+                boardState[r][c] = val
+
+                if (val !== 0) {
+                    if (val !== solution[r][c]) {
+                        cellEl.classList.add('error')
+                    } else {
+                        cellEl.classList.remove('error')
+                        checkWin();
+                    }
+                } else {
+                    cellEl.classList.remove('error')
+                }
+            }
+
+            function checkWin() {
+                const currentSize = ~~$sizeSelect.value
+                for(let r=0; r<currentSize; r++) {
+                    for(let c=0; c<currentSize; c++) {
+                        if (boardState[r][c] !== solution[r][c]) return
+                    }
+                }
+
+                setTimeout(() => alert(winWording), 100)
+            }
+
+            //
+            function generateSolvedBoard(size, boxW, boxH) {
+                const board = Array.from({ length: size }, () => Array(size).fill(0))
+                solve(board, size, boxW, boxH)
+                return board
+            }
+
+            function solve(board, size, boxW, boxH) {
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (board[r][c] === 0) {
+                            const nums = shuffle(Array.from({length: size}, (_, i) => i + 1))
+                            for (let num of nums) {
+                                if (isValid(board, r, c, num, size, boxW, boxH)) {
+                                    board[r][c] = num
+                                    if (solve(board, size, boxW, boxH)) return true
+                                    board[r][c] = 0
+                                }
+                            }
+                            return false
+                        }
+                    }
+                }
+                return true
+            }
+
+            function isValid(board, r, c, num, size, boxW, boxH) {
+                for (let i = 0; i < size; i++) {
+                    if (board[r][i] === num) return false
+                    if (board[i][c] === num) return false
+                }
+
+                const startR = Math.floor(r / boxH) * boxH
+                const startC = Math.floor(c / boxW) * boxW
+
+                for (let i = 0; i < boxH; i++) {
+                    for (let j = 0; j < boxW; j++) {
+                        if (board[startR + i][startC + j] === num) return false
+                    }
+                }
+                return true
+            }
+
+            function createPuzzle(difficulty) {
+                const currentSize = ~~$sizeSelect.value
+                boardState = solution.map(row => [...row])
+                fixedMask = Array.from({ length: currentSize }, () => Array(currentSize).fill(false))
+
+                const total = currentSize * currentSize
+                let attempts = Math.floor(total * difficulty)
+
+                while (attempts > 0) {
+                    const r = Math.floor(Math.random() * currentSize)
+                    const c = Math.floor(Math.random() * currentSize)
+                    if (boardState[r][c] !== 0) {
+                        boardState[r][c] = 0
+                        attempts--
+                    }
+                }
+
+                for (let r = 0; r < currentSize; r++) {
+                    for (let c = 0; c < currentSize; c++) {
+                        if (boardState[r][c] !== 0) fixedMask[r][c] = true
+                    }
+                }
+            }
+
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]]
+                }
+                return arr
+            }
+
+            initGame()
+        </script>
+        <script>if (navigator.serviceWorker) { navigator.serviceWorker.register('/sw.js') }</script>
+    </body>
+</html>
