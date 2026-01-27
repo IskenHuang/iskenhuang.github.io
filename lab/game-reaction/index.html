@@ -56,7 +56,7 @@
             const $grid = document.querySelector('#grid')
             const $score = document.querySelector('#score')
             const $level = document.querySelector('#level')
-            const { getScore, hit, resetScore } = scoreManager()
+            const { getScore, getCurrentScore, setCurrentScore, hit, resetScore } = scoreManager()
             const { getLevel, nextLevel, resetLevel } = levelManager()
             const { startTimer, clearTimer, getCellTime } = globalTimerManager()
 
@@ -115,21 +115,32 @@
             }
             function scoreManager() {
                 let score = 0
+                let currentScore = 0
                 function getScore() {
                     return score
+                }
+                function getCurrentScore() {
+                    return currentScore
                 }
                 function setScore(v) {
                     score = v
                     $score.textContent = score
                     return score
                 }
+                function setCurrentScore(v) {
+                    currentScore = v
+                    return currentScore
+                }
                 function hit() {
+                    setCurrentScore(getCurrentScore() + 1)
                     return setScore(getScore() + 1)
                 }
                 function resetScore() {
-                    return setScore(0)
+                    setScore(0)
+                    setCurrentScore(0)
+                    return 0
                 }
-                return { getScore, setScore, hit, resetScore }
+                return { getScore, setScore, getCurrentScore, setCurrentScore, hit, resetScore }
             }
             function levelManager() {
                 let level = 1
@@ -167,18 +178,18 @@
                     globalTimestamp = Date.now()
                     globalTimer = setInterval(() => {
                         const usingTime = Date.now() - globalTimestamp
-                        if (LEVEL_TIME > usingTime) {
+                        if (LEVEL_TIME >= usingTime) {
                             const $cell = getAvailableCell()
                             if ($cell) {
                                 setCellOn($cell)
-                            }
+                            } else {alert($cell + usingTime)}
                         } else {
                             // level stop
                             clearTimer()
 
-                            // TODO - when not hit 75% score stay current level
-                            if (time > 10) {
+                            if (getCurrentScore() >= 8) {
                                 alert('Next level!')
+                                setCurrentScore(0)
                                 nextLevel()
                                 startTimer()
                             } else {
@@ -199,8 +210,11 @@
                 return { startTimer, clearTimer, getCellTime }
             }
             function clickCell($el) {
-                setCellOff($el)
-                hit()
+                const isMatch = $el.classList.contains(FLAG_ON)
+                if (isMatch) {
+                    hit()
+                    setCellOff($el)
+                }
             }
 
             /**
